@@ -1,0 +1,28 @@
+<h1>Всички коли</h1>
+
+<section xmlns:th="http://www.w3.org/1999/xhtml">
+    <div>
+        <table>
+
+            <tr>
+                <th>Изтинска Снимка</th>
+                <th>Име</th>
+                <th>Цена На Ден</th>
+                <th>Поръчай</th>
+            </tr>
+
+            <th:block th:each="car : ${cars}">
+            <tr>
+                <td>
+                    <img class="medium-size" th:src="${car.imgURL}"/>
+                </td>
+                <td th:text="${car.name}"></td>
+                <td th:text="${car.price}"></td>
+                <td>
+                    <button th:onclick="'location.href = \'' + @{/order/{id}(id=${car.id})} + '\''" class="order centered">Поръчайте</button>
+                </td>
+            </tr>
+            </th:block>
+        </table>
+    </div>
+</section>
