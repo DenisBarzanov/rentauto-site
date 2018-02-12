@@ -2,7 +2,7 @@ body {
     font-family: Lato, sans-serif;
     font-size: 24px;
     /*background: linear-gradient(to right, #780206, #061161);*/
-    background: linear-gradient(to right, #000000, #E5DE44);
+    background: linear-gradient(to right, #000000, #8FAFC4);
     color: #FFF;
 }
 h1, h2 {
@@ -80,14 +80,14 @@ th {
     color: #000000;
 }
 .delete {
-    background: #f83600;
+    background: #753625;
 }
 .accept {
     background: #b6fbff;
     color: #000000;
 }
 .cancel {
-    background: #f83600;
+    background: #753625/*#f83600*/;
 }
 
 .add-new {
