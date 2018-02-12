@@ -6,12 +6,10 @@
  *  com.rentautosofia.rentacar.repository.CarRepository
  *  org.springframework.data.jpa.repository.JpaRepository
  */
-package com.rentautosofia.rentacar.repository;
+package com.rentautosofia.rentacar.repository
 
-import com.rentautosofia.rentacar.entity.Car;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.rentautosofia.rentacar.entity.Car
+import org.springframework.data.jpa.repository.JpaRepository
 
-public interface CarRepository
-extends JpaRepository<Car, Integer> {
-}
+interface CarRepository : JpaRepository<Car, Int>
 

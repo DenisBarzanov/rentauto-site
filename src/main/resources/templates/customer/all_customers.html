@@ -1,0 +1,27 @@
+<h1 xmlns:th="http://www.w3.org/1999/xhtml">Всички Клиенти</h1>
+
+<div>
+    <button type="button" th:onclick="'location.href = \'' + @{/create_customer} + '\''" class="centered-text create">Създай</button>
+</div>
+
+<section xmlns:th="http://www.w3.org/1999/xhtml">
+    <div>
+        <table>
+            <tr>
+                <th>Име</th>
+                <th>Телефон</th>
+                <th>Опция</th>
+            </tr>
+
+            <th:block th:each="customer : ${customers}">
+            <tr>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.phoneNumber}"></td>
+                <td>
+                    <button th:onclick="'location.href = \'' + @{/delete_customer/{id}(id=${customer.id})} + '\''" class="delete centered-text">Изтрий</button>
+                </td>
+            </tr>
+            </th:block>
+        </table>
+    </div>
+</section>

@@ -5,9 +5,9 @@
         <table>
 
             <tr>
-                <th>Изтинска Снимка</th>
+                <th>Истинска Снимка</th>
                 <th>Име</th>
-                <th>Цена На Ден</th>
+                <th>Цена На Ден (лев)</th>
                 <th>Поръчай</th>
             </tr>
 
@@ -19,7 +19,7 @@
                 <td th:text="${car.name}"></td>
                 <td th:text="${car.price}"></td>
                 <td>
-                    <button th:onclick="'location.href = \'' + @{/order/{id}(id=${car.id})} + '\''" class="order centered">Поръчайте</button>
+                    <button th:onclick="'location.href = \'' + @{/order/{id}(id=${car.id})} + '\''" class="order centered-text">Поръчайте</button>
                 </td>
             </tr>
             </th:block>

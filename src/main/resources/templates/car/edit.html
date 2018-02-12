@@ -11,7 +11,7 @@
             <label for="imgURL">URL на картинка</label>
             <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}"/>
 
-            <div class="centered">
+            <div class="centered-text">
                 <button class="accept" type="submit">Редактирай</button>
                 <button type="button" th:onclick="'location.href = \'' + @{/} + '\''" class="cancel">Отказ</button>
             </div>

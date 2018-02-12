@@ -1,6 +1,6 @@
 <h1>Създай Кола</h1>
 <section>
-    <form th:action="@{/create}" method="POST">
+    <form th:action="@{/create_car}" method="POST">
         <div>
             <label for="name">Име</label>
             <input type="text" id="name" name="name" th:value="${car.name}" />
@@ -11,7 +11,7 @@
             <label for="imgURL">URL на картинка</label>
             <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}"/>
 
-            <div class="centered">
+            <div class="centered-text">
                 <button class="accept" type="submit">Създай</button>
                 <button type="button" th:onclick="'location.href = \'' + @{/} + '\''" class="cancel">Отказ</button>
             </div>

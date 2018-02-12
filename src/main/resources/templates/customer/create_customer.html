@@ -1,0 +1,17 @@
+<h1>Създай Клиент</h1>
+<section>
+    <form th:action="@{/create_customer}" method="POST">
+        <div>
+            <label for="name">Име</label>
+            <input type="text" id="name" name="name" th:value="${customer.name}" />
+
+            <label for="phoneNumber">Телефон</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" />
+
+           <div class="centered-text">
+                <button class="accept" type="submit">Създай</button>
+                <button type="button" th:onclick="'location.href = \'' + @{/all_customers} + '\''" class="cancel">Отказ</button>
+            </div>
+        </div>
+    </form>
+</section>

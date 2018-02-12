@@ -1,0 +1,19 @@
+<h1>Изтрий Клиент</h1>
+<section>
+    <form th:action="@{/delete_customer/{id}(id=${customer.id})}" method="POST">
+        <div>
+
+            <label for="name">Име</label>
+            <input type="text" id="name" name="name" th:value="${customer.name}" disabled="disabled" />
+
+            <label for="phoneNumber">Телефон</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" disabled="disabled" />
+
+
+            <div class="centered-text">
+                <button class="accept" type="submit">Изтрий</button>
+                <button type="button" th:onclick="'location.href = \'' + @{/} + '\''" class="cancel">Отказ</button>
+            </div>
+        </div>
+    </form>
+</section>
