@@ -1,0 +1,18 @@
+<h1>От кога до кога ще наемате кола</h1>
+<section>
+    <form th:action="@{/}">
+        <div>
+            <label for="startDate">Начална дата</label>
+            <input type="date" id="startDate" name="StartDate" required="required"/>
+
+            <label for="endDate">Крайна дата</label>
+            <input type="date" id="endDate" name="endDate" required="required"/>
+
+            <div class="centered-text">
+                <button class="accept" type="button" onclick="searchCars('startDate', 'endDate');">Потърси</button>
+            </div>
+        </div>
+    </form>
+</section>
+
+<script th:src="@{/js/searchCars.js}"></script>

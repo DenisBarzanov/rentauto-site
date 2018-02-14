@@ -1,0 +1,28 @@
+<h1>Налични коли по това време</h1>
+
+<section>
+    <div>
+        <table>
+
+            <tr>
+                <th>Истинска<br/>Снимка</th>
+                <th>Име</th>
+                <th>Цена На<br/>Ден (€)</th>
+                <th>Наеми</th>
+            </tr>
+
+            <th:block th:each="car : ${availableCars}">
+                <tr>
+                    <td>
+                        <img class="medium-size" th:src="${car.imgURL}"/>
+                    </td>
+                    <td th:text="${car.name}"></td>
+                    <td th:text="${car.price}"></td>
+                    <td>
+                        <button th:onclick="'location.href = \'' + @{/car/book/{id}(id=${car.id})} + '\''" class="order centered-text">Наемете</button>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+</section>

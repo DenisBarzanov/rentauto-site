@@ -1,6 +1,6 @@
 <h1>Изтрий Клиент</h1>
 <section>
-    <form th:action="@{/delete_customer/{id}(id=${customer.id})}" method="POST">
+    <form th:action="@{/admin/customer/delete/{id}(id=${customer.id})}" method="POST">
         <div>
 
             <label for="name">Име</label>

@@ -1,6 +1,6 @@
 <h1>Създай Кола</h1>
 <section>
-    <form th:action="@{/create_car}" method="POST">
+    <form th:action="@{/admin/car/create}" method="POST">
         <div>
             <label for="name">Име</label>
             <input type="text" id="name" name="name" th:value="${car.name}" />

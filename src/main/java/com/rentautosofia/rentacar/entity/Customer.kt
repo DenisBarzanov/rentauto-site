@@ -12,19 +12,16 @@
  */
 package com.rentautosofia.rentacar.entity
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "customers")
-data class Customer(@Column var phoneNumber: String,
-                    @Column var name: String) {
+data class Customer(@Column var phoneNumber: String = "",
+                    @Column var name: String = "") {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
-    constructor() : this("", "")
+
+    @ManyToMany(mappedBy = "customers")
+    lateinit var bookedCars: Set<Car>
 }

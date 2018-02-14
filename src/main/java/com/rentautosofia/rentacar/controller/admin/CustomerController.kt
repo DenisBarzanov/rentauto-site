@@ -1,4 +1,4 @@
-package com.rentautosofia.rentacar.controller
+package com.rentautosofia.rentacar.controller.admin
 
 import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
 import com.rentautosofia.rentacar.entity.Customer
@@ -10,53 +10,58 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import javax.validation.Valid
 
+
+const val PATH_ADMIN_CUSTOMER = "/admin/customer"
+
+@RequestMapping(PATH_ADMIN_CUSTOMER)
 @Controller
 class CustomerController @Autowired
 constructor(private val customerRepository: CustomerRepository) {
 
-    @GetMapping("/all_customers")
+    @GetMapping("/all")
     fun showAllCustomers(model: Model) : String {
         val customers = this.customerRepository.findAll()
         model.addAttribute("customers", customers)
-        model.addAttribute("view", "customer/all_customers")
+        model.addAttribute("view", "customer/all")
         return "base-layout"
     }
 
-    @GetMapping("/create_customer")
+    @GetMapping("/create")
     fun createCustomer(model: Model): String {
         model.addAttribute("customer", CustomerBindingModel())
-        model.addAttribute("view", "customer/create_customer")
+        model.addAttribute("view", "customer/create")
         return "base-layout"
     }
 
-    @PostMapping("/create_customer")
+    @PostMapping("/create")
     fun createCustomerProcess(model: Model, @Valid customerBindingModel: CustomerBindingModel, bindingResult: BindingResult): String {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("view", "customer/create_customer")
+            model.addAttribute("view", "customer/create")
             model.addAttribute("message", "Invalid data.")
             model.addAttribute("car", customerBindingModel)
             return "base-layout"
         }
         val customer = Customer(customerBindingModel.phoneNumber, customerBindingModel.name)
         this.customerRepository.saveAndFlush(customer)
-        return "redirect:/all_customers"
+        return "redirect:/$PATH_ADMIN_CUSTOMER/all"
     }
 
-    @GetMapping("/delete_customer/{id}")
+    @GetMapping("/delete/{id}")
     fun delete(model: Model, @PathVariable id: Int): String {
-        val customer = this.customerRepository.findOne(id) ?: return "redirect:/show_all_customers"
+        val customer = this.customerRepository.findOne(id) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
         model.addAttribute("customer", customer)
-        model.addAttribute("view", "customer/delete_customer")
+        model.addAttribute("view", "customer/delete")
         return "base-layout"
     }
 
-    @PostMapping("/delete_customer/{id}")
+    @PostMapping("/delete/{id}")
     fun deleteProcess(@PathVariable id: Int): String {
-        val customer = this.customerRepository.findOne(id) ?: return "redirect:/show_all_customers"
+        val customer = this.customerRepository.findOne(id) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
         this.customerRepository.delete(customer)
         this.customerRepository.flush()
-        return "redirect:/all_customers"
+        return "redirect:/$PATH_ADMIN_CUSTOMER/all"
     }
 }

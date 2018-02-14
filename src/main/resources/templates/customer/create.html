@@ -1,6 +1,6 @@
 <h1>Създай Клиент</h1>
 <section>
-    <form th:action="@{/create_customer}" method="POST">
+    <form th:action="@{/admin/customer/create}" method="POST">
         <div>
             <label for="name">Име</label>
             <input type="text" id="name" name="name" th:value="${customer.name}" />

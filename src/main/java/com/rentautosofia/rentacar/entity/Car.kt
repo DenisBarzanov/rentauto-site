@@ -12,22 +12,30 @@
  */
 package com.rentautosofia.rentacar.entity
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "cars")
-data class Car(@Column
-               var name: String, @Column
-               var price: Int, @Column(length = 1000)
-               var imgURL: String) {
+data class Car(@Column var name: String = "",
+               @Column var price: Int = 0,
+               @Column(length = 1000) var imgURL: String = "") {
+
+    fun getPriceForPeriodPerDay(days: Int) = when (days) {
+        in 1..3 -> this.price
+        in 3..8 -> this.price - 7
+        in 8..15 -> this.price - 15
+        in 15..Int.MAX_VALUE -> this.price - 20
+        else -> 0
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
-    constructor() : this("", 0, "")
+
+    @ManyToMany(cascade = [CascadeType.ALL])
+    @JoinTable(name = "booked_cars",
+            joinColumns = [(JoinColumn(name = "car_id", referencedColumnName = "id"))],
+            inverseJoinColumns = [JoinColumn(name = "customer_id", referencedColumnName = "id")])
+    lateinit var customers: Set<Customer>
 }
 
