@@ -2,8 +2,8 @@ body {
     font-family: Lato, sans-serif;
     font-size: 24px;
     /*background: linear-gradient(to right, #780206, #061161);*/
-    background: linear-gradient(to right, #000000, #8FAFC4);
-    color: #FFF;
+    background: linear-gradient(to right, #FFF, #926290);
+    /*color: #FFF;*/
 }
 h1, h2 {
     text-align: center;
@@ -18,17 +18,17 @@ section {
 section div {
     /*max-width: 60%;*/
 }
-input {
-    display: block;
-    padding: 15px 90px 15px 10px;
-    background: rgba(96,108,136, 0.5);
-    border: none;
-    border-radius: 5px;
-    outline: none;
-    margin: 4px 0 10px 0;
-    color: #FFF;
-    text-align: left;
-}
+/*input {*/
+    /*display: block;*/
+    /*padding: 15px 90px 15px 10px;*/
+    /*background: rgba(96,108,136, 0.5);*/
+    /*border: none;*/
+    /*border-radius: 5px;*/
+    /*outline: none;*/
+    /*margin: 4px 0 10px 0;*/
+    /*color: #FFF;*/
+    /*text-align: left;*/
+/*}*/
 label {
     display: block;
 }
@@ -40,7 +40,6 @@ label {
 button {
     padding: 10px;
     margin: 5px auto;
-    background: #b3ffab;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -49,7 +48,7 @@ button {
     display: inline-block;
 }
 
-table {
+section table {
     border-collapse: collapse;
     overflow-x: auto;
     width: 100%;
@@ -57,7 +56,7 @@ table {
     table-layout: auto;
 }
 
-th, td {
+section th, section td {
     text-align: center;
     padding: 15px 20px;
 }
@@ -65,37 +64,27 @@ th, td {
 /*tr:first-child {*/
     /*background-color: #F0810E !important;*/
 /*}*/
-tr:nth-child(odd) {
-    background-color: #001A27 !important;
+section tr:nth-child(odd) {
+    background-color: #F9EFE9;
 }
-tr:nth-child(even) {
-    background-color: #053752 !important;
+section tr:nth-child(even) {
+    background-color: #F3DFCD;
 }
 
-th {
-    background-color: #F0810E !important;
+/*.button-cancel {*/
+    /**/
+/*}*/
+button, section th {
+    background-color: #4A2748;
 }
-.edit {
-    background:#b6fbff;
-    color: #000000;
-}
-.delete {
-    background: #753625;
-}
-.accept {
-    background: #b6fbff;
-    color: #000000;
-}
-.cancel {
-    background: #753625/*#f83600*/;
-}
+
 
 .add-new {
     padding: 15px 0;
     text-decoration: none;
     color: #000000;
     width: 200px;
-    background: #b3ffab;
+    /*background: #b3ffab;*/
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -103,20 +92,14 @@ th {
     margin: 0 auto;
     display: block;
 }
-.order {
-    background:#b6fbff;
-    color: #000000;
-}
+
 .tick {
     height: 30px;
 }
 .centered-text {
     text-align: center;
 }
-.create {
-    background: lightblue;
-    color: #000000;
-}
+
 
 
 
@@ -179,4 +162,14 @@ th {
     position: fixed !important;
     min-height: 100%;
     width: 100%;
+}
+
+input:invalid+span:after {
+    content: '✖';
+    padding-left: 5px;
+}
+
+input:valid+span:after {
+    content: '✓';
+    padding-left: 5px;
 }

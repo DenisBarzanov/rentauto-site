@@ -38,7 +38,7 @@ constructor(private val carRepository: CarRepository,
     @GetMapping("/car/available")
     fun getAvailableCars(model: Model, @RequestParam("startDate", required = true) startDateString: String,
                          @RequestParam("endDate", required = true) endDateString: String): String {
-        val format = SimpleDateFormat("MM-dd-yyyy")
+        val format = SimpleDateFormat("dd-MM-yyyy")
         val startDate = format.parse(startDateString)
         val endDate = format.parse(endDateString)
         println(startDate)

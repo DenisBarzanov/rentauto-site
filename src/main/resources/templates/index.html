@@ -2,14 +2,11 @@
 <section>
     <form th:action="@{/}">
         <div>
-            <label for="startDate">Начална дата</label>
-            <input type="date" id="startDate" name="StartDate" required="required"/>
-
-            <label for="endDate">Крайна дата</label>
-            <input type="date" id="endDate" name="endDate" required="required"/>
+            <label for="daterange">Период</label>
+            <input type="text" id="daterange" name="daterange" required="required"/>
 
             <div class="centered-text">
-                <button class="accept" type="button" onclick="searchCars('startDate', 'endDate');">Потърси</button>
+                <button class="accept" type="button" onclick="searchCars('daterange')">Потърси</button>
             </div>
         </div>
     </form>
