@@ -3,26 +3,37 @@
 <section>
     <div>
         <table>
-
             <tr>
-                <th>Истинска<br/>Снимка</th>
-                <th>Име</th>
-                <th>Цена На<br/>Ден (€)</th>
+                <!-- Rows 2 and 3 -->
+                <th:block th:include="fragments/whatIncludes"></th:block>
+                <th:block th:include="fragments/takingAddress"></th:block>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th:block th:include="@{fragments/tableHeadCommon}"></th:block>
                 <th>Наеми</th>
             </tr>
 
             <th:block th:each="car : ${availableCars}">
                 <tr>
                     <td>
-                        <img class="medium-size" th:src="${car.imgURL}"/>
+                        <img th:src="${car.imgURL}"/>
                     </td>
                     <td th:text="${car.name}"></td>
                     <td th:text="${car.price}"></td>
                     <td>
-                        <button th:onclick="'location.href = \'' + @{/car/book/{id}(id=${car.id})} + '\''" class="order centered-text">Наемете</button>
+                        <button th:onclick="'location.href = \'' + @{/car/book/{id}(id=${car.id})} + @{?startDate={startDate}(startDate=${param.startDate[0]})} + @{&amp;endDate={endDate}(endDate=${param.endDate[0]})} + @{&amp;pricePerDay={pricePerDay}(pricePerDay=${car.price})} + '\''">Наемете</button>
                     </td>
                 </tr>
             </th:block>
         </table>
     </div>
 </section>
+
+<script th:src="@{/js/popUp.js}"></script>
+
+
+<!--+-->
+<!--@{&amp;startDate={startDate}(startDate=${param.startDate[0]})} +-->
+<!--@{&amp;endDate={endDate}(endDate=${param.endDate[0]})}'-->

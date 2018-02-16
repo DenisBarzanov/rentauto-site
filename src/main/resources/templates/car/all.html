@@ -14,7 +14,7 @@
             <th:block th:each="car : ${cars}">
             <tr>
                 <td>
-                    <img class="medium-size" th:src="${car.imgURL}"/>
+                    <img th:src="${car.imgURL}"/>
                 </td>
                 <td th:text="${car.name}"></td>
                 <td th:text="${car.price}"></td>

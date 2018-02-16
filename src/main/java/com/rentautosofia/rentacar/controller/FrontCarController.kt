@@ -1,21 +1,22 @@
 package com.rentautosofia.rentacar.controller
 
+import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
+import com.rentautosofia.rentacar.entity.BookedCar
 import com.rentautosofia.rentacar.entity.Car
+import com.rentautosofia.rentacar.entity.Customer
 import com.rentautosofia.rentacar.repository.BookedCarRepository
 import com.rentautosofia.rentacar.repository.CarRepository
+import com.rentautosofia.rentacar.util.InformManager
+import com.rentautosofia.rentacar.util.findAllIdsOfBookedCarsBetween
+import com.rentautosofia.rentacar.util.getDateFromString
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.propertyeditors.CustomDateEditor
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
-import java.text.SimpleDateFormat
-import java.util.*
-import java.util.concurrent.TimeUnit
-import java.util.Locale
-import java.text.DateFormat
-
-
+import com.rentautosofia.rentacar.util.getDifferenceInDaysTill
+import org.springframework.validation.BindingResult
+import java.util.stream.Collectors.toList
+import javax.validation.Valid
 
 
 @Controller
@@ -23,11 +24,8 @@ class FrontCarController @Autowired
 constructor(private val carRepository: CarRepository,
             private val bookedCarRepository: BookedCarRepository) {
 
-    private fun Date.getDifferenceInDaysTill(otherDate: Date): Int {
-        val difference = if (this.time >= otherDate.time)
-            otherDate.time - this.time else this.time - otherDate.time
-        return TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS).toInt()
-    }
+    @Autowired
+    private lateinit var managerInformer: InformManager
 
     @GetMapping("/")
     fun searchCars(model: Model): String {
@@ -38,25 +36,22 @@ constructor(private val carRepository: CarRepository,
     @GetMapping("/car/available")
     fun getAvailableCars(model: Model, @RequestParam("startDate", required = true) startDateString: String,
                          @RequestParam("endDate", required = true) endDateString: String): String {
-        val format = SimpleDateFormat("dd-MM-yyyy")
-        val startDate = format.parse(startDateString)
-        val endDate = format.parse(endDateString)
-        println(startDate)
-        println(endDate)
+        val startDate = getDateFromString(startDateString)
+        val endDate = getDateFromString(endDateString)
         model.addAttribute("view", "car/available")
         val allCars = this.carRepository.findAll()
-//        val availableCars : List<Car> = allCars.stream().filter {
-//            it.id in this.bookedCarRepository.findAllIds().stream().filter {
-//                this.bookedCarRepository.findOne(it).isBusyAt(startDate, endDate)
-//            }.collect(toList())
-//            //ids that are this.bookedCarRepository.findAll() //that fit between a date
-//            }.collect(toList())
-//
-//        availableCars.forEach {
-//                    it.price = it.getPriceForPeriodPerDay(startDate.getDifferenceInDaysTill(endDate))
-//                }
 
-        model.addAttribute("availableCars", allCars/*availableCars*/)
+        val days = startDate.getDifferenceInDaysTill(endDate)
+
+        val availableCars : MutableList<Car> = allCars.stream().filter {
+            it.id !in this.bookedCarRepository.findAllIdsOfBookedCarsBetween(startDate, endDate)
+        }.collect(toList())
+
+        for(car in availableCars) {
+            car.price = car.getPriceForPeriodPerDay(days)
+        }
+
+        model.addAttribute("availableCars", availableCars)
         return "base-layout"
     }
 
@@ -64,14 +59,43 @@ constructor(private val carRepository: CarRepository,
     fun order(model: Model, @PathVariable id: Int): String {
         val car = this.carRepository.findOne(id) ?: return "redirect:/"
         model.addAttribute("car", car)
+        model.addAttribute("customer", CustomerBindingModel())
         model.addAttribute("view", "car/book")
+        model.addAttribute("startDate", "")
         return "base-layout"
     }
+    @PostMapping("/car/book/{id}")
+    fun orderProcess(model: Model,
+                     @PathVariable id: Int,
+                     @RequestBody requestParams: String,
+                     @Valid customerBindingModel: CustomerBindingModel,
+                     bindingResult: BindingResult) : String {
 
-    @InitBinder
-    fun initBinder(binder: WebDataBinder) {
-        val sdf = SimpleDateFormat("MM-dd-yyyy")
-        sdf.isLenient = true
-        binder.registerCustomEditor(Date::class.java, CustomDateEditor(sdf, true))
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("view", "index")
+            model.addAttribute("message", "Invalid data.")
+            return "base-layout"
+        }
+
+        val args = requestParams.split("&")
+        val phoneNumber = args[0].split("=")[1]
+        val startDateString = args[1].split("=")[1]
+        val endDateString = args[2].split("=")[1]
+        val price = args[3].split("=")[1].toInt()
+
+        val customer = Customer(customerBindingModel.phoneNumber, "")
+        val startDate = getDateFromString(startDateString)
+        val endDate = getDateFromString(endDateString)
+        val car = this.carRepository.findOne(id)
+        val bookedCar = BookedCar(car.id,customer.id, startDate, endDate)
+        this.managerInformer.informManagerWith(customer, bookedCar, 22, phoneNumber)
+//        this.bookedCarRepository.saveAndFlush(bookedCar)
+        return "redirect:/"//todo not there
+    }
+
+    @GetMapping("/car/inclusions")
+    fun showCarInclusion(model: Model) : String {
+        model.addAttribute("view", "/car/inclusions")
+        return "base-layout"
     }
 }

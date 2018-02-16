@@ -12,8 +12,4 @@ class BookedCar(@Column(name = "car_id") var carId: Int = 0,
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
-
-//    fun isBusyAt(startDate: Date, endDate: Date) : Boolean {
-//        return true
-//    }
 }

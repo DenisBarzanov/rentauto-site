@@ -5,9 +5,11 @@
 
 <body>
 
-<header class="centered-text" th:if="${message}" th:text="${message}"></header>
+<header th:if="${message}" th:text="${message}"></header>
 
 <main th:include="${view}"></main>
+
+<footer th:include="fragments/footer"></footer>
 
 </body>
 </html>

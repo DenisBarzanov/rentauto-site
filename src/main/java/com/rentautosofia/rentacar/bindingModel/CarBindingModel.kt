@@ -16,6 +16,5 @@ class CarBindingModel(@Size(min = 1)
                       var price: Int,
                       @Size(min = 1)
                       var imgURL: String) {
-    constructor() : this("", 0, "") {}
+    constructor() : this("", 0, "")
 }
-

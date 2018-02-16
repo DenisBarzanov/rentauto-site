@@ -2,113 +2,31 @@
     <div>
         <table>
 
-            <tr>
-                <th>Истинска<br/>Снимка</th>
-                <th>Име</th>
-                <th>Цена На<br/>Ден (€)</th>
-            </tr>
+            <tr th:include="fragments/tableHeadCommon"></tr>
 
             <tr>
                 <td>
-                    <img class="medium-size" th:src="${car.imgURL}"/>
+                    <img th:src="${car.imgURL}"/>
                 </td>
                 <td th:text="${car.name}"></td>
-                <td th:text="${car.price}"></td>
+                <td th:text="${param.pricePerDay[0]}"></td>
             </tr>
-            <!--Horisontal line-->
-            <tr>
-                <td colspan="100%"></td>
-            </tr>
-
-
-            <tr>
-                <td colspan="2">
-                    Без лимит на километрите
-                </td>
-                <td>
-                    <img src="https://mxpez29397.i.lithium.com/html/images/emoticons/2705.png" alt="tick" class="tick"/>
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="2">
-                    Включва  всички застраховки
-                </td>
-                <td>
-                    <img src="https://mxpez29397.i.lithium.com/html/images/emoticons/2705.png" alt="tick" class="tick"/>
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="2">
-                    Без скрити такси и комисионни
-                </td>
-                <td>
-                    <img src="https://mxpez29397.i.lithium.com/html/images/emoticons/2705.png" alt="tick" class="tick"/>
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="2">
-                    Гъвкави условия
-                </td>
-                <td>
-                    <img src="https://mxpez29397.i.lithium.com/html/images/emoticons/2705.png" alt="tick" class="tick"/>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td colspan="2">
-                    <a>Тук са пълните условия</a>
-                </td>
-                <td>
-                    <button class="centered-text"><a href="https://drive.google.com/uc?export=download&amp;id=1VqlTGN6csN1KcLiStmg10v5IvlQJRP-Z">Свали</a></button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    Адресът на взимане на колата е
-                </td>
-                <td>
-                    <div class="popup" onclick="popUp()">
-                        <button class="centered-text">
-                            Покажи
-                            <span class="popuptext" id="myPopUp">
-                                България, София, ж.к. Надежда, улица "Подпоручик Футеков 1",<br/>
-                                кръстовището на улица Бели Дунав и пътя на <br/>
-                                Ломско Шосе, блока срещу Била, <br/>
-                                офис 6 - етаж 2 (до автошкола "Василеви")
-                            </span>
-                        </button>
-                    </div>
-                </td>
-                <td>
-                    <button th:onclick="'location.href = \'' + @{/taking_place} + '\''" class="centered-text">Виж на картата</button>
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="3">
-                    За да е лесно - ако искате да поръчате кола<br/> - просто се обадете на <b>+359 899 588830</b>
-                </td>
-            </tr>
-
         </table>
-
-
-        <div class="centered-text">
-            <button type="button"><a style="text-decoration: none" href="tel:+359899588830">Обадете ни се</a></button>
-            <button type="button" th:onclick="'location.href = \'' + @{/} + '\''" class="cancel">Отказ
-            </button>
-        </div>
     </div>
-    <script>
-        // When the user clicks on div, open the popup
-        function popUp() {
-            let popup = document.getElementById("myPopUp");
-            popup.classList.toggle("show");
-        }
-    </script>
+</section>
+<section>
+    <div>
+        <form th:action="@{/car/book/{id}(id=${car.id})}" method="POST">
+            <div>
+                <label for="phoneNumber">Телефон</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" required="required"/>
+                <input class="invisible" type="text" id="startDate" name="startDate" th:value="${param.startDate[0]}"/>
+                <input class="invisible" type="text" id="endDate" name="endDate" th:value="${param.endDate[0]}"/>
+                <input class="invisible" type="text" id="price" name="price" th:value="${param.pricePerDay[0]}"/>
+                <div>
+                    <button type="submit">Поръчай!</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </section>
