@@ -14,7 +14,7 @@
         </table>
         <form th:action="@{/car/book/{id}(id=${car.id})}" method="POST">
             <div>
-                <label for="phoneNumber">Телефон</label>
+                <label for="phoneNumber">Въведете телефона си</label>
                 <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" required="required"/>
                 <input class="invisible" type="text" id="startDate" name="startDate" th:value="${param.startDate[0]}"/>
                 <input class="invisible" type="text" id="endDate" name="endDate" th:value="${param.endDate[0]}"/>

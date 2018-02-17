@@ -101,12 +101,12 @@ constructor(private val carRepository: CarRepository,
 
     @GetMapping("/car/inclusions")
     fun showCarInclusion(model: Model) : String {
-        model.addAttribute("view", "/car/inclusions")
+        model.addAttribute("view", "car/inclusions")
         return "base-layout"
     }
     @GetMapping("/car/priceDependency")
     fun showPriceDependency(model: Model): String {
-        model.addAttribute("view", "/car/priceDependency")
+        model.addAttribute("view", "car/priceDependency")
         return "base-layout"
     }
 }
