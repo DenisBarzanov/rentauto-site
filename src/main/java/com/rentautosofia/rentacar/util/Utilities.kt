@@ -3,6 +3,7 @@ package com.rentautosofia.rentacar.util
 import com.rentautosofia.rentacar.entity.BookedCar
 import com.rentautosofia.rentacar.entity.Customer
 import com.rentautosofia.rentacar.repository.BookedCarRepository
+import com.rentautosofia.rentacar.repository.CustomerRepository
 import org.springframework.mail.SimpleMailMessage
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,4 +36,7 @@ fun getDateFromString(dateString: String) : Date{
     val format = SimpleDateFormat("dd-MM-yyyy")
     return format.parse(dateString)
 }
-
+fun CustomerRepository.findOneByPhoneNumber(phoneNumber: String): Customer? {
+    val customers = this.findAll()
+    return customers.firstOrNull { it.phoneNumber == phoneNumber }
+}

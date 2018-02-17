@@ -1,7 +1,6 @@
 <section>
     <div>
         <table>
-
             <tr th:include="fragments/tableHeadCommon"></tr>
 
             <tr>
@@ -11,11 +10,8 @@
                 <td th:text="${car.name}"></td>
                 <td th:text="${param.pricePerDay[0]}"></td>
             </tr>
+            <th:block th:include="fragments/paramShowDates"></th:block>
         </table>
-    </div>
-</section>
-<section>
-    <div>
         <form th:action="@{/car/book/{id}(id=${car.id})}" method="POST">
             <div>
                 <label for="phoneNumber">Телефон</label>

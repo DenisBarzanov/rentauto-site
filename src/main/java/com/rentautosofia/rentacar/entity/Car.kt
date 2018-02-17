@@ -18,7 +18,7 @@ import javax.persistence.*
 @Table(name = "cars")
 
 data class Car(@Column var name: String = "",
-               @Column open var price: Int = 0,
+               @Column var price: Int = 0,
                @Column(length = 1000) var imgURL: String = "") {
 
     fun getPriceForPeriodPerDay(days: Int) = when (days) {
@@ -26,12 +26,12 @@ data class Car(@Column var name: String = "",
         in 3..8 -> this.price - 7
         in 8..15 -> this.price - 15
         in 15..Int.MAX_VALUE -> this.price - 20
-        else -> 0
+        else -> this.price
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    open var id: Int = 0
+    var id: Int = 0
 
     @ManyToMany(cascade = [CascadeType.ALL])
     @JoinTable(name = "booked_cars",

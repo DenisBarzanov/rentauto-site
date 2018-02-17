@@ -1,16 +1,18 @@
 <h1>Създай Клиент</h1>
 <section>
-    <form th:action="@{/admin/customer/create}" method="POST">
-        <div>
+    <div>
+        <form th:action="@{/admin/customer/create}" method="POST">
+            <div>
             <label for="name">Име</label>
-            <input type="text" id="name" name="name" th:value="${customer.name}" />
+                <input type="text" id="name" name="name" th:value="${customer.name}" />
 
-            <label for="phoneNumber">Телефон</label>
-            <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" />
+                <label for="phoneNumber">Телефон</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" />
 
-           <div>
-                <button class="accept" type="submit">Създай</button>
-           </div>
-        </div>
-    </form>
+               <div>
+                    <button class="accept" type="submit">Създай</button>
+               </div>
+            </div>
+        </form>
+    </div>
 </section>

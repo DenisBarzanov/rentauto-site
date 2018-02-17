@@ -1,19 +1,21 @@
 <h1>Редактирай Кола</h1>
 <section>
-    <form th:action="@{/admin/car/edit/{id}(id=${car.id})}" method="POST">
-        <div>
-            <label for="name">Име</label>
-            <input type="text" id="name" name="name" th:value="${car.name}" />
-
-            <label for="price">Цена</label>
-            <input type="text" id="price" name="price" th:value="${car.price}"/>
-
-            <label for="imgURL">URL на картинка</label>
-            <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}"/>
-
+    <div>
+        <form th:action="@{/admin/car/edit/{id}(id=${car.id})}" method="POST">
             <div>
-                <button class="accept" type="submit">Редактирай</button>
+                <label for="name">Име</label>
+                <input type="text" id="name" name="name" th:value="${car.name}" />
+
+                <label for="price">Цена</label>
+                <input type="text" id="price" name="price" th:value="${car.price}"/>
+
+                <label for="imgURL">URL на картинка</label>
+                <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}"/>
+
+                <div>
+                    <button class="accept" type="submit">Редактирай</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </section>

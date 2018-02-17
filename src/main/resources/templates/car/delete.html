@@ -1,19 +1,21 @@
 <h1>Изтрий Кола</h1>
 <section>
-    <form th:action="@{/admin/car/delete/{id}(id=${car.id})}" method="POST">
-        <div>
-            <label for="name">Име</label>
-            <input type="text" id="name" name="name" th:value="${car.name}" disabled="disabled" />
-
-            <label for="price">Цена</label>
-            <input type="text" id="price" name="price" th:value="${car.price}" disabled="disabled" />
-
-            <label for="imgURL">URL на картинка</label>
-            <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}" disabled="disabled"/>
-
+    <div>
+        <form th:action="@{/admin/car/delete/{id}(id=${car.id})}" method="POST">
             <div>
-                <button class="accept" type="submit">Изтрий</button>
+                <label for="name">Име</label>
+                <input type="text" id="name" name="name" th:value="${car.name}" disabled="disabled" />
+
+                <label for="price">Цена</label>
+                <input type="text" id="price" name="price" th:value="${car.price}" disabled="disabled" />
+
+                <label for="imgURL">URL на картинка</label>
+                <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}" disabled="disabled"/>
+
+                <div>
+                    <button class="accept" type="submit">Изтрий</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </section>

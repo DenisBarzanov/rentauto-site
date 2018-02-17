@@ -1,19 +1,21 @@
 <h1>Създай Кола</h1>
 <section>
-    <form th:action="@{/admin/car/create}" method="POST">
-        <div>
-            <label for="name">Име</label>
-            <input type="text" id="name" name="name" th:value="${car.name}" />
-
-            <label for="price">Цена</label>
-            <input type="text" id="price" name="price" th:value="${car.price}"/>
-
-            <label for="imgURL">URL на картинка</label>
-            <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}"/>
-
+    <div>
+        <form th:action="@{/admin/car/create}" method="POST">
             <div>
-                <button class="accept" type="submit">Създай</button>
+                <label for="name">Име</label>
+                <input type="text" id="name" name="name" th:value="${car.name}" />
+
+                <label for="price">Цена</label>
+                <input type="text" id="price" name="price" th:value="${car.price}"/>
+
+                <label for="imgURL">URL на картинка</label>
+                <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}"/>
+
+                <div>
+                    <button class="accept" type="submit">Създай</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </section>

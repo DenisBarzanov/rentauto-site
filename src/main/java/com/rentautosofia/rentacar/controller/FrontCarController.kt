@@ -6,14 +6,12 @@ import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.entity.Customer
 import com.rentautosofia.rentacar.repository.BookedCarRepository
 import com.rentautosofia.rentacar.repository.CarRepository
-import com.rentautosofia.rentacar.util.InformManager
-import com.rentautosofia.rentacar.util.findAllIdsOfBookedCarsBetween
-import com.rentautosofia.rentacar.util.getDateFromString
+import com.rentautosofia.rentacar.repository.CustomerRepository
+import com.rentautosofia.rentacar.util.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import com.rentautosofia.rentacar.util.getDifferenceInDaysTill
 import org.springframework.validation.BindingResult
 import java.util.stream.Collectors.toList
 import javax.validation.Valid
@@ -22,7 +20,8 @@ import javax.validation.Valid
 @Controller
 class FrontCarController @Autowired
 constructor(private val carRepository: CarRepository,
-            private val bookedCarRepository: BookedCarRepository) {
+            private val bookedCarRepository: BookedCarRepository,
+            private val customerRepository: CustomerRepository) {
 
     @Autowired
     private lateinit var managerInformer: InformManager
@@ -83,19 +82,31 @@ constructor(private val carRepository: CarRepository,
         val endDateString = args[2].split("=")[1]
         val price = args[3].split("=")[1].toInt()
 
-        val customer = Customer(customerBindingModel.phoneNumber, "")
+        val customer = this.customerRepository.findOneByPhoneNumber(phoneNumber)
+                ?: Customer(phoneNumber, "")
         val startDate = getDateFromString(startDateString)
         val endDate = getDateFromString(endDateString)
         val car = this.carRepository.findOne(id)
         val bookedCar = BookedCar(car.id,customer.id, startDate, endDate)
-        this.managerInformer.informManagerWith(customer, bookedCar, 22, phoneNumber)
+        this.managerInformer.informManagerWith(bookedCar, price, phoneNumber)
 //        this.bookedCarRepository.saveAndFlush(bookedCar)
-        return "redirect:/"//todo not there
+        return "redirect:/thank_you"
+    }
+
+    @GetMapping("/thank_you")
+    fun thankYou(model: Model): String {
+        model.addAttribute("view", "thankYou")
+        return "base-layout"
     }
 
     @GetMapping("/car/inclusions")
     fun showCarInclusion(model: Model) : String {
         model.addAttribute("view", "/car/inclusions")
+        return "base-layout"
+    }
+    @GetMapping("/car/priceDependency")
+    fun showPriceDependency(model: Model): String {
+        model.addAttribute("view", "/car/priceDependency")
         return "base-layout"
     }
 }

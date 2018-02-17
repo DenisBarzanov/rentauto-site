@@ -1,14 +1,10 @@
 <h1>Всички коли</h1>
 
 <section>
-    <div>
         <table>
-
             <tr>
-                <th>Истинска <br/>Снимка</th>
-                <th>Име</th>
-                <th>Цена За <br/>Период (лев)</th>
-                <th>Поръчай</th>
+                <th:block th:include="fragments/tableHeadCommon"></th:block>
+                <th>ID</th>
             </tr>
 
             <th:block th:each="car : ${cars}">
@@ -18,11 +14,8 @@
                 </td>
                 <td th:text="${car.name}"></td>
                 <td th:text="${car.price}"></td>
-                <td>
-                    <button th:onclick="'location.href = \'' + @{/order/{id}(id=${car.id})} + '\''" class="order centered-text">Поръчайте</button>
-                </td>
+                <td th:text="${car.id}"></td>
             </tr>
             </th:block>
         </table>
-    </div>
 </section>

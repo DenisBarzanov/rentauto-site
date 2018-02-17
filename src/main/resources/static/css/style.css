@@ -4,13 +4,15 @@ body {
     /*background: linear-gradient(to right, #780206, #061161);*/
     background: linear-gradient(to right, #ACD58A, #71BE40);
     color: white;
-    text-align: center !important;
+    text-align: center;
 }
-/*h1, h2 {*/
-    /*text-align: center;*/
-/*}*/
+
 section table {
-    text-align: center !important;
+    text-align: center;
+}
+
+section th, section tr {
+    text-align: center;
 }
 
 section {
@@ -29,7 +31,7 @@ section input {
     border: none;
     border-radius: 5px;
     outline: none;
-    margin: 4px 0 10px 0;
+    margin: 5px auto;
     color: #FFF;
     text-align: left;
 }
@@ -80,21 +82,6 @@ section tr:nth-child(even) {
 /*}*/
 button, section th {
     background-color: #21409A;
-}
-
-
-.add-new {
-    padding: 15px 0;
-    text-decoration: none;
-    /*color: #000000;*/
-    width: 200px;
-    /*background: #b3ffab;*/
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-    margin: 0 auto;
-    display: block;
 }
 
 .tick {
@@ -172,9 +159,13 @@ input:valid+span:after {
     content: '✓';
     padding-left: 5px;
 }
-#daterange {
-    color: black;
-}
+/*#daterange {*/
+    /*color: black;*/
+/*}*/
+
+/*.daterangepicker .dropdown-menu .ltr .show-calendar .opensright{*/
+    /*color: black;*/
+/*}*/
 
 footer {
     position:fixed;
@@ -183,16 +174,14 @@ footer {
     left: 0;
     padding: 1rem;
     margin-top: 40px;
-    /*text-align: center;*/
-}
-
-a {
-    text-decoration: none;
 }
 
 .invisible {
     display: none;
 }
 main {
-    padding-bottom: 50px;
+    padding-bottom: 70px;
+}
+a, a:hover {
+    color: inherit;
 }
