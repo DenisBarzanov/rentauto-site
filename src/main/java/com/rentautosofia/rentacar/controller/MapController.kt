@@ -1,12 +1,3 @@
-/*
- * Decompiled with CFR 0_115.
- * 
- * Could not load the following classes:
- *  com.rentautosofia.rentacar.controller.MapController
- *  org.springframework.stereotype.Controller
- *  org.springframework.ui.Model
- *  org.springframework.web.bind.annotation.GetMapping
- */
 package com.rentautosofia.rentacar.controller
 
 import org.springframework.stereotype.Controller

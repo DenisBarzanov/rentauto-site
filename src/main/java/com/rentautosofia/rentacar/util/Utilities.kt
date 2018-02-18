@@ -36,7 +36,7 @@ fun getDateFromString(dateString: String) : Date{
     val format = SimpleDateFormat("dd-MM-yyyy")
     return format.parse(dateString)
 }
-fun CustomerRepository.findOneByPhoneNumber(phoneNumber: String): Customer? {
-    val customers = this.findAll()
-    return customers.firstOrNull { it.phoneNumber == phoneNumber }
-}
+//fun CustomerRepository.findOneByPhoneNumber(phoneNumber: String): Customer? {
+//    val customers = this.findAll()
+//    return customers.firstOrNull { it.phoneNumber == phoneNumber }
+//}

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import javax.validation.Valid
 
 
-const val PATH_ADMIN_CUSTOMER = "/admin/customer"
+const val PATH_ADMIN_CUSTOMER = "admin/customer"
 
-@RequestMapping(PATH_ADMIN_CUSTOMER)
+@RequestMapping("/" + PATH_ADMIN_CUSTOMER)
 @Controller
 class CustomerController @Autowired
 constructor(private val customerRepository: CustomerRepository) {
@@ -25,21 +25,21 @@ constructor(private val customerRepository: CustomerRepository) {
     fun showAllCustomers(model: Model) : String {
         val customers = this.customerRepository.findAll()
         model.addAttribute("customers", customers)
-        model.addAttribute("view", "customer/all")
+        model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/all")
         return "base-layout"
     }
 
     @GetMapping("/create")
     fun createCustomer(model: Model): String {
         model.addAttribute("customer", CustomerBindingModel())
-        model.addAttribute("view", "customer/create")
+        model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/create")
         return "base-layout"
     }
 
     @PostMapping("/create")
     fun createCustomerProcess(model: Model, @Valid customerBindingModel: CustomerBindingModel, bindingResult: BindingResult): String {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("view", "customer/create")
+            model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/create")
             model.addAttribute("message", "Invalid data.")
             model.addAttribute("car", customerBindingModel)
             return "base-layout"
@@ -53,7 +53,7 @@ constructor(private val customerRepository: CustomerRepository) {
     fun delete(model: Model, @PathVariable id: Int): String {
         val customer = this.customerRepository.findOne(id) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
         model.addAttribute("customer", customer)
-        model.addAttribute("view", "customer/delete")
+        model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/delete")
         return "base-layout"
     }
 
@@ -63,5 +63,11 @@ constructor(private val customerRepository: CustomerRepository) {
         this.customerRepository.delete(customer)
         this.customerRepository.flush()
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"
+    }
+
+    @GetMapping("/requests")
+    fun requests(model: Model): String {
+        model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/requests")
+        return "base-layout"
     }
 }

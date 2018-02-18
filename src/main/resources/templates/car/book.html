@@ -17,9 +17,9 @@
             <div>
                 <label for="phoneNumber">Въведете телефона си</label>
                 <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" required="required"/>
-                <input class="invisible" type="text" id="startDate" name="startDate" th:value="${param.startDate[0]}"/>
-                <input class="invisible" type="text" id="endDate" name="endDate" th:value="${param.endDate[0]}"/>
-                <input class="invisible" type="text" id="price" name="price" th:value="${param.pricePerDay[0]}"/>
+                <input type="hidden" id="startDate" name="startDate" th:value="${param.startDate[0]}"/>
+                <input type="hidden" id="endDate" name="endDate" th:value="${param.endDate[0]}"/>
+                <input type="hidden" id="price" name="price" th:value="${param.pricePerDay[0]}"/>
                 <div>
                     <button type="submit">Поръчай!</button>
                 </div>

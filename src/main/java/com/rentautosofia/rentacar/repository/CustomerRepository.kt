@@ -3,4 +3,6 @@ package com.rentautosofia.rentacar.repository
 import com.rentautosofia.rentacar.entity.Customer
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface CustomerRepository : JpaRepository<Customer, Int>
+interface CustomerRepository : JpaRepository<Customer, Int> {
+    fun findOneByPhoneNumber(phoneNumber: String) : Customer?
+}
