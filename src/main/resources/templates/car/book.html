@@ -1,18 +1,19 @@
 <section>
     <div>
         <table>
-            <tr th:include="fragments/tableHeadCommon"></tr>
-
+            <th:block th:include="fragments/tableHeadCommon"></th:block>
+            <th>Обща цена (&euro;)</th>
             <tr>
                 <td>
                     <img th:src="${car.imgURL}"/>
                 </td>
                 <td th:text="${car.name}"></td>
                 <td th:text="${param.pricePerDay[0]}"></td>
+                <td th:text="${totalPrice}"></td>
             </tr>
             <th:block th:include="fragments/paramShowDates"></th:block>
         </table>
-        <form th:action="@{/car/book/{id}(id=${car.id})}" method="POST">
+        <form th:action="@{/car/{id}/book(id=${car.id})}" method="POST">
             <div>
                 <label for="phoneNumber">Въведете телефона си</label>
                 <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" required="required"/>

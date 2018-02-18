@@ -1,7 +1,7 @@
 <h1>Изтрий Кола</h1>
 <section>
     <div>
-        <form th:action="@{/admin/car/delete/{id}(id=${car.id})}" method="POST">
+        <form th:action="@{/admin/car/{id}/delete(id=${car.id})}" method="POST">
             <div>
                 <label for="name">Име</label>
                 <input type="text" id="name" name="name" th:value="${car.name}" disabled="disabled" />

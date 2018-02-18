@@ -29,6 +29,14 @@ constructor(private val carRepository: CarRepository,
     @GetMapping("/")
     fun searchCars(model: Model): String {
         model.addAttribute("view", "index")
+        val cars = this.carRepository.findAll()
+        model.addAttribute("cars", cars)
+        return "base-layout"
+    }
+
+    @GetMapping("/car/search")
+    fun search(model: Model): String {
+        model.addAttribute("view", "car/search")
         return "base-layout"
     }
 
@@ -54,16 +62,27 @@ constructor(private val carRepository: CarRepository,
         return "base-layout"
     }
 
-    @GetMapping("/car/book/{id}")
-    fun order(model: Model, @PathVariable id: Int): String {
+    @GetMapping("/car/{id}/book")
+    fun order(model: Model,
+              @PathVariable id: Int,
+              @RequestParam("startDate") startDateString: String,
+              @RequestParam("endDate") endDateString: String,
+              @RequestParam pricePerDay: Int): String {
+
         val car = this.carRepository.findOne(id) ?: return "redirect:/"
         model.addAttribute("car", car)
         model.addAttribute("customer", CustomerBindingModel())
         model.addAttribute("view", "car/book")
-        model.addAttribute("startDate", "")
+
+        val startDate = getDateFromString(startDateString)
+        val endDate = getDateFromString(endDateString)
+        val days = startDate.getDifferenceInDaysTill(endDate)
+
+        model.addAttribute("totalPrice", pricePerDay*days)
+
         return "base-layout"
     }
-    @PostMapping("/car/book/{id}")
+    @PostMapping("/car/{id}/book")
     fun orderProcess(model: Model,
                      @PathVariable id: Int,
                      @RequestBody requestParams: String,
@@ -90,6 +109,7 @@ constructor(private val carRepository: CarRepository,
         val bookedCar = BookedCar(car.id,customer.id, startDate, endDate)
         this.managerInformer.informManagerWith(bookedCar, price, phoneNumber)
 //        this.bookedCarRepository.saveAndFlush(bookedCar)
+        this.customerRepository.saveAndFlush(customer)
         return "redirect:/thank_you"
     }
 

@@ -1,0 +1,19 @@
+<section>
+    <div>
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <form th:action="@{/login}" method="post">
+            <div>
+                <input type="hidden" name="username" th:value="rumen"/>
+                <label> Парола: <input type="password" name="password"/> </label>
+                <div>
+                    <button type="submit">Влез</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

@@ -1,10 +1,15 @@
 <h1>Всички коли</h1>
-
+<div>
+    <div>
+        <button onclick="location.href ='/admin/car/create'">Създай</button>
+    </div>
+</div>
 <section>
         <table>
             <tr>
                 <th:block th:include="fragments/tableHeadCommon"></th:block>
                 <th>ID</th>
+                <th>Опции</th>
             </tr>
 
             <th:block th:each="car : ${cars}">
@@ -15,6 +20,14 @@
                 <td th:text="${car.name}"></td>
                 <td th:text="${car.price}"></td>
                 <td th:text="${car.id}"></td>
+                <td>
+                    <div>
+                        <button th:onclick="'location.href = ' + '\'' + @{/admin/car/{id}/delete(id=${car.id})} + '\''">Изтрий</button>
+                    </div>
+                    <div>
+                        <button th:onclick="'location.href = ' + '\'' + @{/admin/car/{id}/edit(id=${car.id})} + '\''">Редактирай</button>
+                    </div>
+                </td>
             </tr>
             </th:block>
         </table>

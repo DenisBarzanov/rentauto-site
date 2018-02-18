@@ -49,7 +49,7 @@ constructor(private val customerRepository: CustomerRepository) {
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/{id}/delete")
     fun delete(model: Model, @PathVariable id: Int): String {
         val customer = this.customerRepository.findOne(id) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
         model.addAttribute("customer", customer)
@@ -57,7 +57,7 @@ constructor(private val customerRepository: CustomerRepository) {
         return "base-layout"
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping("/{id}/delete")
     fun deleteProcess(@PathVariable id: Int): String {
         val customer = this.customerRepository.findOne(id) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
         this.customerRepository.delete(customer)

@@ -1,0 +1,26 @@
+<h1>От кога до кога ще наемате кола</h1>
+<section>
+    <form th:action="@{/car/search}">
+        <div>
+            <label for="daterange">Период</label>
+            <input type="text" id="daterange" name="daterange" required="required"/>
+
+            <div>
+                <button class="accept" type="button" onclick="searchCars('daterange')">Потърси</button>
+            </div>
+            <div class="container">
+                <h2 style="color: white !important;text-align: center !important;">За да потърсите автомобили налични за някакъв период:</h2>
+                <ul class="list-group">
+                    <li class="list-group-item">Натиснете полето с датата и изберете начална и крайна дата.</li>
+                    <li class="list-group-item">Натиснете бутона "apply" за да поставите датата.</li>
+                    <li class="list-group-item">Натиснете бутона "Потърси" за да потърсите колите за периода.</li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</section>
+
+<script th:src="@{/js/searchCars.js}"></script>
+<script>
+    document.getElementsByClassName('daterangepicker')[0].style.color = 'black';
+</script>

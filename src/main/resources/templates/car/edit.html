@@ -1,7 +1,7 @@
 <h1>Редактирай Кола</h1>
 <section>
     <div>
-        <form th:action="@{/admin/car/edit/{id}(id=${car.id})}" method="POST">
+        <form th:action="@{/admin/car/{id}/edit(id=${car.id})}" method="POST">
             <div>
                 <label for="name">Име</label>
                 <input type="text" id="name" name="name" th:value="${car.name}" />

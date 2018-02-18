@@ -22,7 +22,7 @@
                     <td th:text="${car.name}"></td>
                     <td th:text="${car.price}"></td>
                     <td>
-                        <button th:onclick="'location.href = \'' + @{/car/book/{id}(id=${car.id})} + @{?startDate={startDate}(startDate=${param.startDate[0]})} + @{&amp;endDate={endDate}(endDate=${param.endDate[0]})} + @{&amp;pricePerDay={pricePerDay}(pricePerDay=${car.price})} + '\''">Наемете</button>
+                        <button th:onclick="'location.href = ' + '\'' + @{/car/{id}/book(id=${car.id},startDate=${param.startDate[0]},endDate=${param.endDate[0]},pricePerDay=${car.price})} + '\''">Наемете</button>
                     </td>
                 </tr>
             </th:block>
@@ -31,8 +31,3 @@
 </section>
 
 <script th:src="@{/js/popUp.js}"></script>
-
-
-<!--+-->
-<!--@{&amp;startDate={startDate}(startDate=${param.startDate[0]})} +-->
-<!--@{&amp;endDate={endDate}(endDate=${param.endDate[0]})}'-->

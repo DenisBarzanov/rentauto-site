@@ -1,18 +1,32 @@
-<h1>От кога до кога ще наемате кола</h1>
 <section>
-    <form th:action="@{/}">
-        <div>
-            <label for="daterange">Период</label>
-            <input type="text" id="daterange" name="daterange" required="required"/>
-
-            <div>
-                <button class="accept" type="button" onclick="searchCars('daterange')">Потърси</button>
-            </div>
-        </div>
-    </form>
+    <div>
+        <button onclick="location.href='/admin/options'">Admin?</button>
+    </div>
 </section>
-
-<script th:src="@{/js/searchCars.js}"></script>
+<section>
+    <div>
+        <th:block th:include="fragments/whatWeOffer"></th:block>
+    </div>
+</section>
+<section>
+    <div>
+        <th:block th:include="car/inclusions"></th:block>
+    </div>
+</section>
+<section>
+    <div>
+        <h2>Снимки на колите</h2>
+    </div>
+    <div class="flex-box">
+        <th:block th:each="car : ${cars}">
+            <img th:src="${car.imgURL}"/>
+        </th:block>
+    </div>
+</section>
 <script>
-    document.getElementsByClassName('daterangepicker')[0].style.color = 'black';
+    window.onload = function (){
+        let callButton = document.getElementById("callReference");
+        callButton.href = "/car/search";
+        callButton.innerHTML = "Резервирайте";
+    }
 </script>

@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
-const val PATH_ADMIN_CAR = "/admin/car"
+const val PATH_ADMIN_CAR = "admin/car"
 const val PATH_ADMIN_ALL_CARS = PATH_ADMIN_CAR + "/all"
 
-@RequestMapping(PATH_ADMIN_CAR)
+@RequestMapping("/" + PATH_ADMIN_CAR)
 @Controller
 class CarController @Autowired
 constructor(private val carRepository: CarRepository) {
@@ -58,7 +58,7 @@ constructor(private val carRepository: CarRepository) {
         return "redirect:/$PATH_ADMIN_ALL_CARS"
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/{id}/edit")
     fun edit(model: Model, @PathVariable id: Int): String {
         val car = this.carRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_ALL_CARS"
         model.addAttribute("car", car)
@@ -66,7 +66,7 @@ constructor(private val carRepository: CarRepository) {
         return "base-layout"
     }
 
-    @PostMapping("/edit/{id}")
+    @PostMapping("/{id}/edit")
     fun editProcess(model: Model, @PathVariable id: Int, @Valid carBindingModel: CarBindingModel, bindingResult: BindingResult): String {
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", "Invalid data.")
@@ -82,7 +82,7 @@ constructor(private val carRepository: CarRepository) {
         return "redirect:/$PATH_ADMIN_ALL_CARS"
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/{id}/delete")
     fun delete(model: Model, @PathVariable id: Int): String {
         val car = this.carRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_ALL_CARS"
         model.addAttribute("car", car)
@@ -90,7 +90,7 @@ constructor(private val carRepository: CarRepository) {
         return "base-layout"
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping("/{id}/delete")
     fun deleteProcess(@PathVariable id: Int): String {
         val car = this.carRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_ALL_CARS"
         this.carRepository.delete(car)
@@ -98,5 +98,11 @@ constructor(private val carRepository: CarRepository) {
         return "redirect:/$PATH_ADMIN_ALL_CARS"
     }
 
+    @GetMapping("/all")
+    fun all(model: Model): String {
+        model.addAttribute("view", "car/all")
+        val cars = this.carRepository.findAll()
+        model.addAttribute("cars", cars)
+        return "base-layout"
+    }
 }
-

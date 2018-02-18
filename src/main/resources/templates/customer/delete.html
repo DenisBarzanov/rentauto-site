@@ -1,7 +1,7 @@
 <h1>Изтрий Клиент</h1>
 <section>
     <div>
-        <form th:action="@{/admin/customer/delete/{id}(id=${customer.id})}" method="POST">
+        <form th:action="@{/admin/customer/{id}/delete(id=${customer.id})}" method="POST">
             <div>
                 <label for="name">Име</label>
                 <input type="text" id="name" name="name" th:value="${customer.name}" disabled="disabled" />
