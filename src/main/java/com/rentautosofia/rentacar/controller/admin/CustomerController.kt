@@ -1,5 +1,6 @@
 package com.rentautosofia.rentacar.controller.admin
 
+import com.rentautosofia.rentacar.bindingModel.CarBindingModel
 import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
 import com.rentautosofia.rentacar.entity.Customer
 import com.rentautosofia.rentacar.repository.CustomerRepository
@@ -49,6 +50,29 @@ constructor(private val customerRepository: CustomerRepository) {
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"
     }
 
+    @GetMapping("/{id}/edit")
+    fun edit(model: Model, @PathVariable id: Int): String {
+        val customer = this.customerRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_CUSTOMER/all"
+        model.addAttribute("customer", customer)
+        model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/all")
+        return "base-layout"
+    }
+
+    @PostMapping("/{id}/edit")
+    fun editProcess(model: Model, @PathVariable id: Int, @Valid customerBindingModel: CustomerBindingModel, bindingResult: BindingResult): String {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("message", "Invalid data.")
+            model.addAttribute("customer", customerBindingModel)
+            model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/all")
+            return "base-layout"
+        }
+        val customer = this.customerRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_CUSTOMER/all"
+        customer.name = customerBindingModel.name
+        customer.phoneNumber = customerBindingModel.phoneNumber
+        this.customerRepository.saveAndFlush(customer)
+        return "redirect:/$PATH_ADMIN_CUSTOMER/all"
+    }
+
     @GetMapping("/{id}/delete")
     fun delete(model: Model, @PathVariable id: Int): String {
         val customer = this.customerRepository.findOne(id) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
@@ -65,9 +89,4 @@ constructor(private val customerRepository: CustomerRepository) {
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"
     }
 
-    @GetMapping("/requests")
-    fun requests(model: Model): String {
-        model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/requests")
-        return "base-layout"
-    }
 }

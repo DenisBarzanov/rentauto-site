@@ -2,6 +2,7 @@ package com.rentautosofia.rentacar.util
 
 import com.rentautosofia.rentacar.entity.BookedCar
 import com.rentautosofia.rentacar.entity.Customer
+import com.rentautosofia.rentacar.entity.RequestedCar
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,15 +21,15 @@ class InformManager {
     @Autowired
     lateinit var customerRepository: CustomerRepository
 
-    fun informManagerWith(bookedCar: BookedCar, price: Int, phoneNumber: String) {
+    fun informManagerWith(requestedCar: RequestedCar, price: Int, phoneNumber: String) {
         val message = SimpleMailMessage()
-        val car = carRepository.findOne(bookedCar.carId)
-        val customer = customerRepository.findOne(bookedCar.customerId)
+        val car = carRepository.findOne(requestedCar.carId)
+        val customer = customerRepository.findOne(requestedCar.customerId)
         message.to = arrayOf("denbar@abv.bg")
         message.subject = "Нов човек си поръча кола!"
         message.text =  "Име на кола: ${car.name}\n" +
-                "Дата на взимане: ${bookedCar.startDate}\n" +
-                "Дата на връщане: ${bookedCar.endDate}\n" +
+                "Дата на взимане: ${requestedCar.startDate}\n" +
+                "Дата на връщане: ${requestedCar.endDate}\n" +
                 "Цена: $price\n" +
                 "Tелефон: $phoneNumber"
         emailSender.send(message)

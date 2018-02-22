@@ -1,0 +1,28 @@
+<section>
+    <div>
+        <table>
+            <tr>
+                <th:block th:include="fragments/tableHeadImageName"></th:block>
+                <th>Телефон</th>
+                <th th:if="${customer.name}" th:text="Име"></th>
+                <th>Начална дата</th>
+                <th>Крайна дата</th>
+            </tr>
+            <tr>
+                <td><img th:src="${car.imgURL}"/></td>
+                <td>[[${car.name}]]</td>
+                <td>[[${customer.phoneNumber}]]</td>
+                <td th:if="${customer.name}" th:text="${customer.name}"></td>
+                <td>[[${startDate}]]</td>
+                <td>[[${endDate}]]</td>
+            </tr>
+        </table>
+        <form th:action="@{/admin/bookRequest/{id}/accept(id=${id})}" method="POST">
+            <input type="hidden" id="isAccepted" name="isAccepted"/>
+            <div>
+                <button type="submit" onclick="document.getElementById('isAccepted').value = 'yes'">Приеми</button>
+                <button type="submit" onclick="document.getElementById('isAccepted').value = 'no'">Oткажи</button>
+            </div>
+        </form>
+    </div>
+</section>

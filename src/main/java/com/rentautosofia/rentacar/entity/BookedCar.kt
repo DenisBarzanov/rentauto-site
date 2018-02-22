@@ -4,12 +4,11 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "booked_cars")
-data class BookedCar(@Column(name = "car_id") var carId: Int = 0,
-                @Column(name = "customer_id") var customerId: Int = 0,
-                @Column var startDate: Date = Date(),
-                @Column var endDate: Date = Date()) {
+data class BookedCar(override var carId: Int = 0,
+                     override var customerId: Int = 0,
+                     override var startDate: Date = Date(),
+                     override var endDate: Date = Date()) : BaseBooking(carId, customerId, startDate, endDate) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int = 0
+    override var id: Int = 0
 }

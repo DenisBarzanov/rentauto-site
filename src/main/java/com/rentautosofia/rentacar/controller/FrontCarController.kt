@@ -1,12 +1,13 @@
 package com.rentautosofia.rentacar.controller
 
 import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
-import com.rentautosofia.rentacar.entity.BookedCar
 import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.entity.Customer
-import com.rentautosofia.rentacar.repository.BookedCarRepository
+import com.rentautosofia.rentacar.entity.RequestedCar
+import com.rentautosofia.rentacar.repository.RentedCarRepository
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
+import com.rentautosofia.rentacar.repository.RequestedCarRepository
 import com.rentautosofia.rentacar.util.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -20,8 +21,9 @@ import javax.validation.Valid
 @Controller
 class FrontCarController @Autowired
 constructor(private val carRepository: CarRepository,
-            private val bookedCarRepository: BookedCarRepository,
-            private val customerRepository: CustomerRepository) {
+            private val rentedCarRepository: RentedCarRepository,
+            private val customerRepository: CustomerRepository,
+            private val requestedCarRepository: RequestedCarRepository) {
 
     @Autowired
     private lateinit var managerInformer: InformManager
@@ -50,8 +52,10 @@ constructor(private val carRepository: CarRepository,
 
         val days = startDate.getDifferenceInDaysTill(endDate)
 
+        val rentedCarIdsInPeriod = this.rentedCarRepository.findAllIdsOfBookedCarsBetween(startDate, endDate)
+
         val availableCars : MutableList<Car> = allCars.stream().filter {
-            it.id !in this.bookedCarRepository.findAllIdsOfBookedCarsBetween(startDate, endDate)
+            it.id !in rentedCarIdsInPeriod
         }.collect(toList())
 
         for(car in availableCars) {
@@ -86,6 +90,11 @@ constructor(private val carRepository: CarRepository,
     fun orderProcess(model: Model,
                      @PathVariable id: Int,
                      @RequestBody requestParams: String,
+//                     @ModelAttribute phoneNumber: String,
+//                     @ModelAttribute(name = "startDate") startDateString: String,
+//                     @ModelAttribute(name = "endDate") endDateString: String,
+//                     @ModelAttribute price: Int,
+
                      @Valid customerBindingModel: CustomerBindingModel,
                      bindingResult: BindingResult) : String {
 
@@ -95,21 +104,30 @@ constructor(private val carRepository: CarRepository,
             return "base-layout"
         }
 
+        //todo replace pathvar with modelattr
+
+
+        // govno code
         val args = requestParams.split("&")
         val phoneNumber = args[0].split("=")[1]
         val startDateString = args[1].split("=")[1]
         val endDateString = args[2].split("=")[1]
         val price = args[3].split("=")[1].toInt()
 
+
+
         val customer = this.customerRepository.findOneByPhoneNumber(phoneNumber)
                 ?: Customer(phoneNumber, "")
         val startDate = getDateFromString(startDateString)
         val endDate = getDateFromString(endDateString)
         val car = this.carRepository.findOne(id)
-        val bookedCar = BookedCar(car.id,customer.id, startDate, endDate)
-        this.managerInformer.informManagerWith(bookedCar, price, phoneNumber)
-//        this.bookedCarRepository.saveAndFlush(bookedCar)
+
         this.customerRepository.saveAndFlush(customer)
+
+        val requestedCar = RequestedCar(car.id,customer.id, startDate, endDate)
+        this.requestedCarRepository.saveAndFlush(requestedCar)
+
+        this.managerInformer.informManagerWith(requestedCar, price, phoneNumber)
         return "redirect:/thank_you"
     }
 

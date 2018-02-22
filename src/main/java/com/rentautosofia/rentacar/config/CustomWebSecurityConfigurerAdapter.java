@@ -16,7 +16,7 @@ public class CustomWebSecurityConfigurerAdapter extends
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("rumen") // #2
+                .withUser("rumen")
                 .password("denisraya12")
                 .roles("ADMIN", "USER");
     }
@@ -25,7 +25,7 @@ public class CustomWebSecurityConfigurerAdapter extends
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("resources/**"); // #3
+                .antMatchers("resources/**");
     }
 
     @Override

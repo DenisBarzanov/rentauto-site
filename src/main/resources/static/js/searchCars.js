@@ -1,16 +1,17 @@
-function searchCars(dateRangeId) {
-    let dateRange = document.getElementById(dateRangeId);
-    let dateStrings = dateRange.value.split(" - ");
-    location.href = ("/car/available?startDate=" + dateStrings[0] + "&endDate=" + dateStrings[1]);
+function searchCars(startDateId, endDateId) {
+    let startDate = document.getElementById(startDateId);
+    let endDate = document.getElementById(endDateId);
+    location.href = "/car/available?startDate=" + formatDate(new Date(startDate.value)) + "&endDate=" + formatDate(new Date(endDate.value));
 }
-$('input[name="daterange"]').daterangepicker(
+function formatDate(date) {
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+
+    return day + '-' + month + '-' + year;
+}
+$('input[name="startDate"], input[name="endDate"]').daterangepicker(
     {
-        locale: {
-            format: 'DD-MM-YYYY'
-        },
-        startDate: '01-02-2018',
-        endDate: '05-02-2018'
-    },
-    function(start, end, label) {
-        // alert("A new date range was chosen: " + start.format('DD-MM-YYYY') + ' to ' + end.format('DD-MM-YYYY'));
+        singleDatePicker: true,
+        showDropdowns: true
     });

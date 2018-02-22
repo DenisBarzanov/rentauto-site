@@ -1,0 +1,19 @@
+<h1>Редактирай Клиент</h1>
+<section>
+    <div>
+        <form th:action="@{/admin/car/{id}/edit(id=${car.id})}" method="POST">
+            <div>
+
+                <label for="name">Име</label>
+                <input type="text" id="name" name="name" th:value="${customer.name}" />
+
+                <label for="phoneNumber">Телефон</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" />
+
+                <div>
+                    <button type="submit">Редактирай</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

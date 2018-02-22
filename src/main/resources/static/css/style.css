@@ -188,3 +188,19 @@ a, a:hover {
 #callImage {
     max-height: 30px;
 }
+.button-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 10px auto;
+}
+.button-area a {
+    padding: 1em 2.4em;
+    font-size: .9em;
+    margin: 1em;
+    color: white;
+    text-decoration: none;
+    flex-grow: 1;
+    text-align: center;
+}

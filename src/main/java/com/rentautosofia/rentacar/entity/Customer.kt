@@ -21,7 +21,4 @@ data class Customer(@Column var phoneNumber: String = "",
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
-
-    @ManyToMany(mappedBy = "customers")
-    lateinit var bookedCars: Set<Car>
 }

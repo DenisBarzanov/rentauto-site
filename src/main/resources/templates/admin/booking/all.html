@@ -1,0 +1,23 @@
+<h1>Всички записи</h1>
+<p>Дата формат: месец:ден:година</p>
+<section>
+    <table>
+        <tr>
+            <th>Запис ID</th>
+            <th>Кола ID</th>
+            <th>Клиент ID</th>
+            <th>Начална дата</th>
+            <th>Крайна дата</th>
+        </tr>
+
+        <th:block th:each="booking : ${bookings}">
+            <tr>
+                <td>[[${booking.id}]]</td>
+                <td>[[${booking.carId}]]</td>
+                <td>[[${booking.customerId}]]</td>
+                <td>[[${booking.startDate}]]</td>
+                <td>[[${booking.endDate}]]</td>
+            </tr>
+        </th:block>
+    </table>
+</section>
