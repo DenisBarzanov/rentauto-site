@@ -45,12 +45,12 @@ constructor(private val carRepository: CarRepository,
     @GetMapping("/car/available")
     fun getAvailableCars(model: Model, @RequestParam("startDate", required = true) startDateString: String,
                          @RequestParam("endDate", required = true) endDateString: String): String {
-        val startDate = getDateFromString(startDateString)
-        val endDate = getDateFromString(endDateString)
+        val startDate = getDateFrom(startDateString)
+        val endDate = getDateFrom(endDateString)
         model.addAttribute("view", "car/available")
         val allCars = this.carRepository.findAll()
 
-        val days = startDate.getDifferenceInDaysTill(endDate)
+        val days = startDate daysTill endDate
 
         val rentedCarIdsInPeriod = this.rentedCarRepository.findAllIdsOfBookedCarsBetween(startDate, endDate)
 
@@ -59,7 +59,7 @@ constructor(private val carRepository: CarRepository,
         }.collect(toList())
 
         for(car in availableCars) {
-            car.price = car.getPriceForPeriodPerDay(days)
+            car.price = car.getPricePerDayFor(days)
         }
 
         model.addAttribute("availableCars", availableCars)
@@ -78,9 +78,9 @@ constructor(private val carRepository: CarRepository,
         model.addAttribute("customer", CustomerBindingModel())
         model.addAttribute("view", "car/book")
 
-        val startDate = getDateFromString(startDateString)
-        val endDate = getDateFromString(endDateString)
-        val days = startDate.getDifferenceInDaysTill(endDate)
+        val startDate = getDateFrom(startDateString)
+        val endDate = getDateFrom(endDateString)
+        val days = startDate daysTill endDate
 
         model.addAttribute("totalPrice", pricePerDay*days)
 
@@ -90,11 +90,6 @@ constructor(private val carRepository: CarRepository,
     fun orderProcess(model: Model,
                      @PathVariable id: Int,
                      @RequestBody requestParams: String,
-//                     @ModelAttribute phoneNumber: String,
-//                     @ModelAttribute(name = "startDate") startDateString: String,
-//                     @ModelAttribute(name = "endDate") endDateString: String,
-//                     @ModelAttribute price: Int,
-
                      @Valid customerBindingModel: CustomerBindingModel,
                      bindingResult: BindingResult) : String {
 
@@ -104,10 +99,7 @@ constructor(private val carRepository: CarRepository,
             return "base-layout"
         }
 
-        //todo replace pathvar with modelattr
-
-
-        // govno code
+        // todo govno code
         val args = requestParams.split("&")
         val phoneNumber = args[0].split("=")[1]
         val startDateString = args[1].split("=")[1]
@@ -118,8 +110,8 @@ constructor(private val carRepository: CarRepository,
 
         val customer = this.customerRepository.findOneByPhoneNumber(phoneNumber)
                 ?: Customer(phoneNumber, "")
-        val startDate = getDateFromString(startDateString)
-        val endDate = getDateFromString(endDateString)
+        val startDate = getDateFrom(startDateString)
+        val endDate = getDateFrom(endDateString)
         val car = this.carRepository.findOne(id)
 
         this.customerRepository.saveAndFlush(customer)
@@ -127,7 +119,8 @@ constructor(private val carRepository: CarRepository,
         val requestedCar = RequestedCar(car.id,customer.id, startDate, endDate)
         this.requestedCarRepository.saveAndFlush(requestedCar)
 
-        this.managerInformer.informManagerWith(requestedCar, price, phoneNumber)
+        this.managerInformer.informManagerWith(requestedCar)
+
         return "redirect:/thank_you"
     }
 
@@ -142,6 +135,7 @@ constructor(private val carRepository: CarRepository,
         model.addAttribute("view", "car/inclusions")
         return "base-layout"
     }
+
     @GetMapping("/car/priceDependency")
     fun showPriceDependency(model: Model): String {
         model.addAttribute("view", "car/priceDependency")

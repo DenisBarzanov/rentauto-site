@@ -18,10 +18,12 @@
                 <td th:text="${customer.name}"></td>
                 <td th:text="${customer.phoneNumber}"></td>
                 <td>
-                    <button th:onclick="'location.href = \'' + @{/admin/customer/{id}/delete(id=${customer.id})} + '\''">Изтрий</button>
-                </td>
-                <td>
-                    <button th:onclick="'location.href = \'' + @{/admin/customer/{id}/edit(id=${customer.id})} + '\''">Редактирай</button>
+                    <div>
+                        <button th:onclick="'location.href = \'' + @{/admin/customer/{id}/delete(id=${customer.id})} + '\''">Изтрий</button>
+                    </div>
+                    <div>
+                        <button th:onclick="'location.href = \'' + @{/admin/customer/{id}/edit(id=${customer.id})} + '\''">Редактирай</button>
+                    </div>
                 </td>
             </tr>
             </th:block>

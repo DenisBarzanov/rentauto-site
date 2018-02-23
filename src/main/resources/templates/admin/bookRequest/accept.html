@@ -4,7 +4,9 @@
             <tr>
                 <th:block th:include="fragments/tableHeadImageName"></th:block>
                 <th>Телефон</th>
-                <th th:if="${customer.name}" th:text="Име"></th>
+                <th:block th:if="${customer.name}">
+                    <th>Име</th>
+                </th:block>
                 <th>Начална дата</th>
                 <th>Крайна дата</th>
             </tr>
@@ -12,7 +14,9 @@
                 <td><img th:src="${car.imgURL}"/></td>
                 <td>[[${car.name}]]</td>
                 <td>[[${customer.phoneNumber}]]</td>
-                <td th:if="${customer.name}" th:text="${customer.name}"></td>
+                <th:block th:if="${customer.name}">
+                    <td>[[${customer.name}]]</td>
+                </th:block>
                 <td>[[${startDate}]]</td>
                 <td>[[${endDate}]]</td>
             </tr>

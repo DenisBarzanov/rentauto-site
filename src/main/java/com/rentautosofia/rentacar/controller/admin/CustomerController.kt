@@ -54,7 +54,7 @@ constructor(private val customerRepository: CustomerRepository) {
     fun edit(model: Model, @PathVariable id: Int): String {
         val customer = this.customerRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_CUSTOMER/all"
         model.addAttribute("customer", customer)
-        model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/all")
+        model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/edit")
         return "base-layout"
     }
 
@@ -63,7 +63,7 @@ constructor(private val customerRepository: CustomerRepository) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("message", "Invalid data.")
             model.addAttribute("customer", customerBindingModel)
-            model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/all")
+            model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/edit")
             return "base-layout"
         }
         val customer = this.customerRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_CUSTOMER/all"

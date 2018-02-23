@@ -1,0 +1,54 @@
+<h1>Изтрий резервация</h1>
+<section>
+    <div>
+        <!--The car is here-->
+        <table>
+            <tr>
+                <th:block th:include="fragments/tableHeadImageName"></th:block>
+            </tr>
+            <tr>
+                <td>
+                    <img th:src="${car.imgURL}"/>
+                </td>
+                <td>[[${car.name}]]</td>
+            </tr>
+        </table>
+    </div>
+</section>
+<section>
+    <div>
+        <table>
+            <tr>
+                <th>Име на клиент</th>
+                <th>Телефон на клиент</th>
+            </tr>
+            <tr>
+                <td>[[${customer.name}]]</td>
+                <td>[[${customer.phoneNumber}]]</td>
+            </tr>
+        </table>
+    </div>
+</section>
+<section>
+    <div>
+        <table>
+            <tr>
+                <th>Дата на взимане</th>
+                <th>Дата на връщане</th>
+            </tr>
+            <tr>
+                <td>[[${startDate}]]</td>
+                <td>[[${endDate}]]</td>
+            </tr>
+        </table>
+    </div>
+</section>
+<section>
+    <div>
+        <form th:action="@{/admin/booking/{id}/delete(id=${bookingId})}" method="POST">
+            <div>
+                <button type="submit">Изтрий</button>
+            </div>
+        </form>
+    </div>
+</section>

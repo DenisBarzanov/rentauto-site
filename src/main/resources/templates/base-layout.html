@@ -5,11 +5,7 @@
     <head th:include="fragments/head" th:with="pageTitle='Rent a Car Sofia'"></head>
 
     <body th:inline="text">
-        <header>
-            <div>
-                <p th:if="${message}" th:text="${message}"></p>
-            </div>
-        </header>
+        <header th:if="${message}" th:text="${message}"></header>
 
         <main>
             <article>
@@ -17,6 +13,6 @@
             </article>
         </main>
 
-        <footer th:include="fragments/footer"></footer>
+            <footer th:include="fragments/footer"></footer>
     </body>
 </html>

@@ -13,7 +13,14 @@
                 <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}" disabled="disabled"/>
 
                 <div>
-                    <button class="accept" type="submit">Изтрий</button>
+                    <p>Снимка:</p>
+                    <div>
+                        <img th:src="${car.imgURL}"/>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit">Изтрий</button>
                 </div>
             </div>
         </form>

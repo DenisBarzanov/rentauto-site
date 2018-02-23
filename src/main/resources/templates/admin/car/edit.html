@@ -13,6 +13,13 @@
                 <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}"/>
 
                 <div>
+                    <p>Снимка:</p>
+                    <div>
+                        <img th:src="${car.imgURL}"/>
+                    </div>
+                </div>
+
+                <div>
                     <button type="submit">Редактирай</button>
                 </div>
             </div>
