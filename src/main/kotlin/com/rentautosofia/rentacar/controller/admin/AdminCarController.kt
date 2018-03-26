@@ -3,6 +3,7 @@ package com.rentautosofia.rentacar.controller.admin
 import com.rentautosofia.rentacar.bindingModel.CarBindingModel
 import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.repository.CarRepository
+import com.rentautosofia.rentacar.util.findOne
 import javax.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -14,9 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 const val PATH_ADMIN_CAR = "admin/car"
-const val PATH_ADMIN_ALL_CARS = PATH_ADMIN_CAR + "/all"
+const val PATH_ADMIN_ALL_CARS = "$PATH_ADMIN_CAR/all"
 
-@RequestMapping("/" + PATH_ADMIN_CAR)
+@RequestMapping("/$PATH_ADMIN_CAR")
 @Controller
 class CarController @Autowired
 constructor(private val carRepository: CarRepository) {

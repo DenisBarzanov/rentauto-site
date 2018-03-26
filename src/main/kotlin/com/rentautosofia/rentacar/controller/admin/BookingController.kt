@@ -4,6 +4,7 @@ import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import com.rentautosofia.rentacar.repository.RentedCarRepository
 import com.rentautosofia.rentacar.repository.RequestedCarRepository
+import com.rentautosofia.rentacar.util.findOne
 import com.rentautosofia.rentacar.util.getProperFormat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -35,11 +36,12 @@ constructor(private val carRepository: CarRepository,
     fun delete(model: Model, @PathVariable id: Int): String {
         model.addAttribute("view", "$PATH_ADMIN_BOOKING/delete")
         val booking =
-                this.rentedCarRepository.findOne(id)
+                this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
         val car =
                 this.carRepository.findOne(booking.carId)
         val customer =
                 this.customerRepository.findOne(booking.customerId)
+
         model.addAttribute("car", car)
         model.addAttribute("customer", customer)
         model.addAttribute("startDate", booking.startDate.getProperFormat())
@@ -52,7 +54,7 @@ constructor(private val carRepository: CarRepository,
     @PostMapping("/{id}/delete")
     fun deleteProcess(@PathVariable id: Int): String {
         val booking =
-                this.rentedCarRepository.findOne(id)
+                this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
         this.rentedCarRepository.delete(booking)
         this.rentedCarRepository.flush()
         return "redirect:/$PATH_ADMIN_BOOKING/all"

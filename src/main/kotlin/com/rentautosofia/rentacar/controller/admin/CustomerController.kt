@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import javax.validation.Valid
+import com.rentautosofia.rentacar.util.findOne
 
 
 const val PATH_ADMIN_CUSTOMER = "admin/customer"
 
-@RequestMapping("/" + PATH_ADMIN_CUSTOMER)
+@RequestMapping("/$PATH_ADMIN_CUSTOMER")
 @Controller
 class CustomerController @Autowired
 constructor(private val customerRepository: CustomerRepository) {
@@ -83,7 +84,7 @@ constructor(private val customerRepository: CustomerRepository) {
 
     @PostMapping("/{id}/delete")
     fun deleteProcess(@PathVariable id: Int): String {
-        val customer = this.customerRepository.findOne(id) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
+        val customer = this.customerRepository.findOne(id = 5) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
         this.customerRepository.delete(customer)
         this.customerRepository.flush()
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"

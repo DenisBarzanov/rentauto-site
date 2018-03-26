@@ -5,8 +5,9 @@ import com.rentautosofia.rentacar.repository.RentedCarRepository
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import com.rentautosofia.rentacar.repository.RequestedCarRepository
-import com.rentautosofia.rentacar.util.getProperFormat
 import com.rentautosofia.rentacar.util.getIds
+import com.rentautosofia.rentacar.util.findOne
+import com.rentautosofia.rentacar.util.getProperFormat
 import org.springframework.stereotype.Controller
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.ui.Model
@@ -49,7 +50,7 @@ constructor(private val carRepository: CarRepository,
     @PostMapping("/{id}/accept")
     fun acceptProcess(model: Model, @PathVariable id: Int, @RequestParam(name = "isAccepted") isAccepted: Boolean): String {
         val requestedCar =
-                this.requestedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_REQUEST/all"
+                this.requestedCarRepository.findOne(5) ?: return "redirect:/$PATH_ADMIN_REQUEST/all"
         if (isAccepted) {
             val nowRentedCar = BookedCar(requestedCar.carId, requestedCar.customerId, requestedCar.startDate, requestedCar.endDate)
             this.rentedCarRepository.saveAndFlush(nowRentedCar)

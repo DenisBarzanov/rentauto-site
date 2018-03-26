@@ -1,7 +1,9 @@
 package com.rentautosofia.rentacar.util
 
 import com.rentautosofia.rentacar.entity.BaseBooking
+import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.repository.RentedCarRepository
+import org.springframework.data.repository.CrudRepository
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -37,4 +39,9 @@ fun getDateFrom(dateString: String) : Date{
 
 fun Date.getProperFormat(): String {
     return format.format(this)
+}
+
+fun <T> CrudRepository<T, Int>.findOne(id: Int): T? {
+    val entity = this.findById(id)
+    return if (entity.isPresent) entity.get() else null
 }

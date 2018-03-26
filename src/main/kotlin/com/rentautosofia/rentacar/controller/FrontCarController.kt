@@ -1,6 +1,8 @@
 package com.rentautosofia.rentacar.controller
 
 import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
+import com.rentautosofia.rentacar.controller.admin.PATH_ADMIN_ALL_CARS
+import com.rentautosofia.rentacar.controller.admin.PATH_ADMIN_BOOKING
 import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.entity.Customer
 import com.rentautosofia.rentacar.entity.RequestedCar
@@ -115,6 +117,10 @@ constructor(private val carRepository: CarRepository,
         val car = this.carRepository.findOne(id)
 
         this.customerRepository.saveAndFlush(customer)
+
+        if (car == null) {
+            return "redirect:/"
+        }
 
         val requestedCar = RequestedCar(car.id,customer.id, startDate, endDate)
         this.requestedCarRepository.saveAndFlush(requestedCar)

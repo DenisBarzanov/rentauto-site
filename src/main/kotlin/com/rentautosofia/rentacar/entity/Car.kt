@@ -10,9 +10,9 @@ data class Car(@Column var name: String = "",
 
     fun getPricePerDayFor(days: Int) = when (days) {
         in 0 until 3 -> this.price
-        in 3 until 8 -> this.price - 7
-        in 8 until 15 -> this.price - 15
-        in 15 until Int.MAX_VALUE -> this.price - 20
+        in 4 until 8 -> this.price - 7
+        in 9 until 15 -> this.price - 15
+        in 16 until Int.MAX_VALUE -> this.price - 20
         else -> this.price
     }
 
