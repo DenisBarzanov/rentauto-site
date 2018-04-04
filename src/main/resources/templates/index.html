@@ -1,34 +1,14 @@
-<section>
-    <div>
-        <button onclick="location.href='/admin/options'">Admin?</button>
-    </div>
-</section>
-<section>
-    <div>
-        <th:block th:include="fragments/whatWeOffer"></th:block>
-    </div>
-</section>
-<section>
-    <div>
-        <th:block th:include="car/inclusions"></th:block>
-    </div>
-</section>
-<section>
-    <div>
-        <h2>Снимки на колите</h2>
-    </div>
-</section>
-<section>
-    <div class="flex-box">
-        <th:block th:each="car : ${cars}">
-            <img th:src="${car.imgURL}"/>
-        </th:block>
-    </div>
-</section>
-<script>
-    window.onload = function (){
-        let callButton = document.getElementById("callReference");
-        callButton.href = "/car/search";
-        callButton.innerHTML = "Резервирайте";
-    }
-</script>
+<th:block th:include="fragments/banner">
+</th:block>
+
+<th:block th:include="car/search">
+</th:block>
+
+<th:block th:include="about">
+</th:block>
+
+<th:block th:include="fragments/counterSection">
+</th:block>
+
+<th:block th:include="fragments/services">
+</th:block>

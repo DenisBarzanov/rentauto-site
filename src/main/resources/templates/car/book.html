@@ -1,29 +1,42 @@
-<section>
-    <div>
-        <table>
-            <th:block th:include="fragments/tableHeadCommon"></th:block>
-            <th>Обща цена (&euro;)</th>
-            <tr>
-                <td>
-                    <img th:src="${car.imgURL}"/>
-                </td>
-                <td th:text="${car.name}"></td>
-                <td th:text="${param.pricePerDay[0]}"></td>
-                <td th:text="${totalPrice}"></td>
-            </tr>
-            <th:block th:include="fragments/paramShowDates"></th:block>
-        </table>
-        <form th:action="@{/car/{id}/book(id=${car.id})}" method="POST">
-            <div>
-                <label for="phoneNumber">Въведете телефона си</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" required="required"/>
-                <input type="hidden" id="startDate" name="startDate" th:value="${param.startDate[0]}"/>
-                <input type="hidden" id="endDate" name="endDate" th:value="${param.endDate[0]}"/>
-                <input type="hidden" id="price" name="price" th:value="${param.pricePerDay[0]}"/>
-                <div>
-                    <button type="submit">Поръчай!</button>
+<th:block th:include="fragments/contentTitle" th:with="contentTitle='Потвърдете заявката си'">
+</th:block>
+
+
+<div class="innercms">
+    <div class="container">
+
+        <!-- Blog start -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Blog List start -->
+                <div class="blogWraper">
+                    <ul class="blogList">
+                        <li>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="postimg"><img th:src="${car.imgURL}" alt="Car image"></div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="post-header">
+                                        <h1><a>[[${car.name}]]</a></h1>
+                                        <div style="font-size: 25px" class="date"><i class="fa fa-calendar" aria-hidden="true"></i> Дата на взимане: [[${param.datetime_pick[0]}]]</div>
+                                        <div style="font-size: 25px" class="date"><i class="fa fa-calendar" aria-hidden="true"></i> Дата на връщане: [[${param.datetime_off[0]}]]</div>
+                                        <div style="font-size: 25px" class="date"><i class="fa fa-money" aria-hidden="true"></i> TOTAL: &euro;[[${totalPrice}]]</div>
+                                    </div>
+                                    <a href="javascript:{}" onclick="document.getElementById('confirmForm').submit();" class="readmore">Потвърди заявката<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-</section>
+</div>
+
+
+<form th:action="@{/car/{id}/book(id=${car.id})}" id="confirmForm" method="POST">
+    <input type="hidden" id="phone" name="phone" th:value="${param.phone[0]}"/>
+    <input type="hidden" id="startDate" name="startDate" th:value="${param.datetime_pick[0]}"/>
+    <input type="hidden" id="endDate" name="endDate" th:value="${param.datetime_off[0]}"/>
+</form>

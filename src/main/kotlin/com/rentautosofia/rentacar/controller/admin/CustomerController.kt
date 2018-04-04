@@ -1,6 +1,5 @@
 package com.rentautosofia.rentacar.controller.admin
 
-import com.rentautosofia.rentacar.bindingModel.CarBindingModel
 import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
 import com.rentautosofia.rentacar.entity.Customer
 import com.rentautosofia.rentacar.repository.CustomerRepository

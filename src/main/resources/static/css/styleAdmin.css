@@ -1,0 +1,206 @@
+body {
+    font-family: Lato, sans-serif;
+    font-size: 28px;
+    /*background: linear-gradient(to right, #780206, #061161);*/
+    background: linear-gradient(to right, #ACD58A, #71BE40);
+    color: white;
+    text-align: center;
+}
+
+section table {
+    text-align: center;
+}
+
+section th, section tr {
+    text-align: center;
+}
+
+section {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+section div {
+    /*max-width: 60%;*/
+}
+section input {
+    display: block;
+    padding: 25px 105px 25px 15px;
+    background: rgba(96,108,136, 0.5);
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    margin: 5px auto;
+    color: #FFF;
+    text-align: left;
+}
+label {
+    display: block;
+}
+
+img {
+    height: 230px;
+}
+
+button {
+    padding: 10px;
+    margin: 5px auto;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    font-size: 26px;
+    display: inline-block;
+}
+
+section table {
+    border-collapse: collapse;
+    overflow-x: auto;
+    width: 100%;
+    margin: 30px 0;
+    table-layout: auto;
+}
+
+section th, section td {
+    /*text-align: center;*/
+    padding: 15px 20px;
+}
+
+/*tr:first-child {*/
+/*background-color: #F0810E !important;*/
+/*}*/
+section tr:nth-child(odd) {
+    background-color: #0465B2;
+}
+section tr:nth-child(even) {
+    background-color: #00ACAC;
+}
+
+/*.button-cancel {*/
+/**/
+/*}*/
+button, section th {
+    background-color: #21409A;
+}
+
+.tick {
+    height: 30px;
+}
+
+
+/* Popup container - can be anything you want */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+    visibility: hidden;
+    width: 550px;
+    background-color: #555;
+    color: #fff;
+    /*text-align: center;*/
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: -120%;
+    margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    border-top-color: #555;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+#map {
+    position: fixed !important;
+    min-height: 100%;
+    width: 100%;
+}
+
+input:invalid+span:after {
+    content: '✖';
+    padding-left: 5px;
+}
+
+input:valid+span:after {
+    content: '✓';
+    padding-left: 5px;
+}
+
+footer {
+    position:fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    margin-top: 40px;
+}
+
+main {
+    padding-bottom: 70px;
+}
+a, a:hover {
+    color: inherit;
+}
+.flex-box {
+    display:flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.container {
+    color: black;
+    text-align: left;
+}
+#callImage {
+    max-height: 30px;
+}
+.button-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 10px auto;
+}
+.button-area a {
+    padding: 1em 2.4em;
+    font-size: .9em;
+    margin: 1em;
+    color: white;
+    text-decoration: none;
+    flex-grow: 1;
+    text-align: center;
+}

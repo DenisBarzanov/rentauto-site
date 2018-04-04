@@ -1,8 +1,5 @@
 package com.rentautosofia.rentacar.controller
 
-import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
-import com.rentautosofia.rentacar.controller.admin.PATH_ADMIN_ALL_CARS
-import com.rentautosofia.rentacar.controller.admin.PATH_ADMIN_BOOKING
 import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.entity.Customer
 import com.rentautosofia.rentacar.entity.RequestedCar
@@ -15,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import org.springframework.validation.BindingResult
-import java.util.stream.Collectors.toList
-import javax.validation.Valid
 
 
 @Controller
@@ -33,20 +27,18 @@ constructor(private val carRepository: CarRepository,
     @GetMapping("/")
     fun searchCars(model: Model): String {
         model.addAttribute("view", "index")
-        val cars = this.carRepository.findAll()
-        model.addAttribute("cars", cars)
-        return "base-layout"
+        return "client-base-layout"
     }
 
-    @GetMapping("/car/search")
-    fun search(model: Model): String {
-        model.addAttribute("view", "car/search")
-        return "base-layout"
+    @PostMapping("/car/search")
+    fun searchProcess(@RequestBody input: String): String {
+        return "redirect:/car/available?$input"
     }
 
     @GetMapping("/car/available")
-    fun getAvailableCars(model: Model, @RequestParam("startDate", required = true) startDateString: String,
-                         @RequestParam("endDate", required = true) endDateString: String): String {
+    fun getAvailableCars(model: Model,
+                         @RequestParam("datetime_pick", required = true) startDateString: String,
+                         @RequestParam("datetime_off", required = true) endDateString: String): String {
         val startDate = getDateFrom(startDateString)
         val endDate = getDateFrom(endDateString)
         model.addAttribute("view", "car/available")
@@ -56,58 +48,46 @@ constructor(private val carRepository: CarRepository,
 
         val rentedCarIdsInPeriod = this.rentedCarRepository.findAllIdsOfBookedCarsBetween(startDate, endDate)
 
-        val availableCars : MutableList<Car> = allCars.stream().filter {
+        val availableCars : MutableList<Car> = allCars.asSequence().filter {
             it.id !in rentedCarIdsInPeriod
-        }.collect(toList())
+        }.toMutableList()
 
         for(car in availableCars) {
             car.price = car.getPricePerDayFor(days)
         }
-
         model.addAttribute("availableCars", availableCars)
-        return "base-layout"
+
+        return "client-base-layout"
     }
 
     @GetMapping("/car/{id}/book")
     fun order(model: Model,
               @PathVariable id: Int,
-              @RequestParam("startDate") startDateString: String,
-              @RequestParam("endDate") endDateString: String,
-              @RequestParam pricePerDay: Int): String {
+              @RequestParam("datetime_pick") startDateString: String,
+              @RequestParam("datetime_off") endDateString: String,
+              @RequestParam phone: String): String {
 
         val car = this.carRepository.findOne(id) ?: return "redirect:/"
         model.addAttribute("car", car)
-        model.addAttribute("customer", CustomerBindingModel())
         model.addAttribute("view", "car/book")
 
         val startDate = getDateFrom(startDateString)
         val endDate = getDateFrom(endDateString)
         val days = startDate daysTill endDate
 
-        model.addAttribute("totalPrice", pricePerDay*days)
+        model.addAttribute("totalPrice", car.getPricePerDayFor(days) * days)
 
-        return "base-layout"
+        return "client-base-layout"
     }
     @PostMapping("/car/{id}/book")
     fun orderProcess(model: Model,
                      @PathVariable id: Int,
-                     @RequestBody requestParams: String,
-                     @Valid customerBindingModel: CustomerBindingModel,
-                     bindingResult: BindingResult) : String {
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("view", "index")
-            model.addAttribute("message", "Invalid data.")
-            return "base-layout"
-        }
-
-        // todo govno code
+                     @RequestBody requestParams: String) : String {
+        //todo govno code
         val args = requestParams.split("&")
-        val phoneNumber = args[0].split("=")[1]
-        val startDateString = args[1].split("=")[1]
-        val endDateString = args[2].split("=")[1]
-        val price = args[3].split("=")[1].toInt()
-
+        val phoneNumber = args[1].split("=")[1]
+        val startDateString = args[2].split("=")[1]
+        val endDateString = args[3].split("=")[1]
 
 
         val customer = this.customerRepository.findOneByPhoneNumber(phoneNumber)
@@ -118,14 +98,12 @@ constructor(private val carRepository: CarRepository,
 
         this.customerRepository.saveAndFlush(customer)
 
-        if (car == null) {
-            return "redirect:/"
-        }
+        car ?: return "redirect:/"
 
         val requestedCar = RequestedCar(car.id,customer.id, startDate, endDate)
         this.requestedCarRepository.saveAndFlush(requestedCar)
 
-        this.managerInformer.informManagerWith(requestedCar)
+        //this.managerInformer.informManagerWith(requestedCar)
 
         return "redirect:/thank_you"
     }
@@ -133,18 +111,18 @@ constructor(private val carRepository: CarRepository,
     @GetMapping("/thank_you")
     fun thankYou(model: Model): String {
         model.addAttribute("view", "thankYou")
-        return "base-layout"
+        return "client-base-layout"
     }
 
-    @GetMapping("/car/inclusions")
-    fun showCarInclusion(model: Model) : String {
-        model.addAttribute("view", "car/inclusions")
-        return "base-layout"
-    }
-
-    @GetMapping("/car/priceDependency")
-    fun showPriceDependency(model: Model): String {
-        model.addAttribute("view", "car/priceDependency")
-        return "base-layout"
-    }
+//    @GetMapping("/car/inclusions")
+//    fun showCarInclusion(model: Model) : String {
+//        model.addAttribute("view", "car/inclusions")
+//        return "client-base-layout"
+//    }
+//
+//    @GetMapping("/car/priceDependency")
+//    fun showPriceDependency(model: Model): String {
+//        model.addAttribute("view", "car/priceDependency")
+//        return "client-base-layout"
+//    }
 }

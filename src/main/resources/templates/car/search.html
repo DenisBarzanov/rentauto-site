@@ -1,30 +1,56 @@
-<h1>От кога до кога ще наемате кола</h1>
-<section>
-    <form th:action="@{/car/search}">
-        <div>
-            <label for="startDate">Дата на взимане</label>
-            <input type="text" id="startDate" name="startDate" required="required"/>
-
-            <label for="endDate">Дата на връщане</label>
-            <input type="text" id="endDate" name="endDate" required="required"/>
-
-            <div>
-                <button type="button" onclick="searchCars('startDate', 'endDate')">Потърси</button>
+<!-- Form Section -->
+<div class="container">
+    <div class="bformBox">
+        <h3>BOOK YOUR CAR TODAY!</h3>
+        <form th:action="@{/car/search}" method="POST">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div class="formrow">
+                        <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i> Pick-Up</span>
+                            <select class="form-control" data-live-search="true" name="pickup" id="pickup" required="required" >
+                                <option value="">Select Pick-Up</option>
+                                <option>Sofia</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="formrow">
+                        <div class="input-group date form_datetime" data-date="2018-02-22T05:25:07Z" data-date-format="dd MM yyyy" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Select Date and Time" name="datetime_pick" required="required" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span> </div>
+                    </div>
+                </div>
             </div>
-            <div class="container">
-                <h2 style="color: white !important;text-align: center !important;">За да потърсите автомобили налични за някакъв период:</h2>
-                <ul class="list-group">
-                    <li class="list-group-item">Натиснете полето с датата и изберете начална и крайна дата.</li>
-                    <li class="list-group-item">Натиснете бутона "apply" за да поставите датата.</li>
-                    <li class="list-group-item">Натиснете бутона "Потърси" за да потърсите колите за периода.</li>
-                </ul>
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div class="formrow">
+                        <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i> Drop-Off</span>
+                            <select class="form-control" data-live-search="true" name="dropoff" id="drop" required="required">
+                                <option value="" >Select Drop-Off</option>
+                                <option>Sofia</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="formrow">
+                        <div class="input-group date form_datetime" data-date="2018-02-22T05:25:07Z" data-date-format="dd MM yyyy" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Select Date and Time" name="datetime_off" required="required" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span> </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </form>
-</section>
-
-<script th:src="@{/js/searchCars.js}"></script>
-<script>
-    document.getElementsByClassName('daterangepicker')[0].style.color = 'black';
-    document.getElementsByClassName('daterangepicker')[1].style.color = 'black';
-</script>
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="formrow">
+                        <input type="text" class="form-control" placeholder="Phone" name="phone" required="required">
+                    </div>
+                </div>
+            </div>
+            <div class="formbtn">
+                <input type="submit" class="btn" value="Search for cars">
+            </div>
+        </form>
+    </div>
+</div>

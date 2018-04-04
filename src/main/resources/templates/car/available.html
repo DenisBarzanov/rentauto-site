@@ -1,33 +1,47 @@
-<h1>Налични коли по това време</h1>
+<th:block th:include="fragments/contentTitle" th:with="contentTitle='Изберете си кола'">
+</th:block>
 
-<section>
-    <div>
-        <table>
-            <th:block th:include="fragments/paramShowDates"></th:block>
-            <th:block th:include="fragments/whatIncludes"></th:block>
-            <th:block th:include="fragments/takingAddress"></th:block>
-            <th:block th:include="fragments/showPriceDependency"></th:block>
-        </table>
-        <table>
-            <tr>
-                <th:block th:include="@{fragments/tableHeadCommon}"></th:block>
-                <th>Наеми</th>
-            </tr>
-
-            <th:block th:each="car : ${availableCars}">
-                <tr>
-                    <td>
-                        <img th:src="${car.imgURL}"/>
-                    </td>
-                    <td th:text="${car.name}"></td>
-                    <td th:text="${car.price}"></td>
-                    <td>
-                        <button th:onclick="'location.href = ' + '\'' + @{/car/{id}/book(id=${car.id},startDate=${param.startDate[0]},endDate=${param.endDate[0]},pricePerDay=${car.price})} + '\''">Наемете</button>
-                    </td>
-                </tr>
-            </th:block>
-        </table>
+<!-- Cars Section -->
+<div class="parallax-section" id="cars">
+    <div class="container">
+        <div class="section-title">
+            <h3>Vehicle Models <span>For Rent</span></h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquet, massa ac ornare feugiat, nunc dui auctor ipsum, sed posuere eros sapien id quam. Maecenas odio nisi, efficitur eget</p>
+        </div>
+        <div class="vehiclesList">
+            <ul class="carsmodals">
+                <th:block th:each="car : ${availableCars}">
+                    <li class="item">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h3>[[${car.name}]]</h3>
+                                <div class="subtitle">Traffic</div>
+                                <div class="carPrice"> <strong>&euro;[[${car.price}]]</strong> <span>/Day</span> </div>
+                                <a class="reserve btn" th:href="@{/car/{id}/book(id=${car.id})}"><i class="fa fa-calendar" aria-hidden="true"></i> Reserve Now</a> </div>
+                            <div class="col-md-6"><a th:href="@{${car.imgURL}}" class="image-popup"><img th:src="${car.imgURL}" alt="" /></a></div>
+                            <div class="col-md-3">
+                                <div class="carinfo">
+                                    <ul>
+                                        <li>LPG: <strong>Yes</strong></li>
+                                        <li>Doors: <strong>5</strong></li>
+                                        <li>Passengers: <strong>5</strong></li>
+                                        <li>Luggage: <strong>2 Bags</strong></li>
+                                        <li>Transmission: <strong>Automatic</strong></li>
+                                        <li>Air conditioning: <strong>Dual Zone</strong></li>
+                                        <li>Minimum age: <strong>35 years</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
     </div>
-</section>
-
-<script th:src="@{/js/popUp.js}"></script>
+</div>
+<script>
+    let links = document.querySelectorAll('.reserve');
+    links.forEach(function (link) {
+        link.href += document.location.search
+    })
+</script>

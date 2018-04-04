@@ -2,22 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-    <head th:include="fragments/head" th:with="pageTitle='Rent a Car Sofia'"></head>
+<head th:include="fragments/headAdmin" th:with="pageTitle='Rent a Car Sofia'"></head>
 
-    <body>
-        <header>
-            <th:block th:include="fragments/nav">
-            </th:block>
-            <div>
-                <p th:if="${message}" th:text="${message}"></p>
-            </div>
-        </header>
-        <main>
-            <article>
-                <div th:include="${view}"></div>
-            </article>
-        </main>
+<body>
+<header>
+    <div>
+        <p th:if="${message}" th:text="${message}"></p>
+    </div>
+</header>
+<main>
+    <article>
+        <div th:include="${view}"></div>
+    </article>
+</main>
 
-        <footer th:include="fragments/footer"></footer>
-    </body>
+<footer th:include="fragments/footer"></footer>
+</body>
 </html>

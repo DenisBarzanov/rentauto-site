@@ -8,15 +8,15 @@
  */
 package com.rentautosofia.rentacar
 
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
 @SpringBootApplication
-open class RentacarApplication {
+class RentacarApplication {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            SpringApplication.run(RentacarApplication::class.java, *args)
+            runApplication<RentacarApplication>(*args)
         }
     }
 }

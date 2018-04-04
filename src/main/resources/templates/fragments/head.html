@@ -1,18 +1,26 @@
-<head th:fragmpent="head" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
     <title th:if="${pageTitle}" th:text="${pageTitle}"></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="description" content="Car Rental One Page HTML Template">
+    <meta name="keywords" content="one page, html, template, car, car rental, taxi, cab, booking, responsive, business">
+    <meta name="author" content="Rumen Barzanov">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <!-- Include Required Prerequisites -->
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-datetimepicker.min.css}" />
 
-    <!-- Include Date Range Picker -->
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <!-- Fontawesome css -->
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
 
-    <script th:src="@{/js/popUp.js}"></script>
+    <!-- Magnific-popup css -->
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
 
-    <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <!-- Owl Carousel css -->
+    <link rel="stylesheet" th:href="@{/css/owl.theme.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
 
+    <!-- Main css -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
