@@ -3,6 +3,7 @@ package com.rentautosofia.rentacar.controller.admin
 import com.rentautosofia.rentacar.bindingModel.CarBindingModel
 import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.repository.CarRepository
+import com.rentautosofia.rentacar.util.car
 import com.rentautosofia.rentacar.util.findOne
 import javax.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,7 +38,13 @@ constructor(private val carRepository: CarRepository) {
             model.addAttribute("car", carBindingModel)
             return "base-layout"
         }
-        val car = Car(carBindingModel.name, carBindingModel.price, carBindingModel.imgURL)
+
+        val car = car {
+            name = carBindingModel.name
+            price = carBindingModel.price
+            imgURL = carBindingModel.imgURL
+        }
+
         this.carRepository.saveAndFlush(car)
         return "redirect:/$PATH_ADMIN_ALL_CARS"
     }
@@ -59,9 +66,11 @@ constructor(private val carRepository: CarRepository) {
             return "base-layout"
         }
         val car = this.carRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_ALL_CARS"
-        car.name = carBindingModel.name
-        car.imgURL = carBindingModel.imgURL
-        car.price = carBindingModel.price
+        with(car) {
+            name = carBindingModel.name
+            imgURL = carBindingModel.imgURL
+            price = carBindingModel.price
+        }
         this.carRepository.saveAndFlush(car)
         return "redirect:/$PATH_ADMIN_ALL_CARS"
     }

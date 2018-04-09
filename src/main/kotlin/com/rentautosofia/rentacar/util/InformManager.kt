@@ -23,15 +23,18 @@ class InformManager {
         val message = SimpleMailMessage()
         val car = carRepository.findOne(requestedCar.carId)
         val customer = customerRepository.findOne(requestedCar.customerId)
-        val price = car!!.getPricePerDayFor(requestedCar.startDate daysTill requestedCar.endDate)
+        val days = requestedCar.startDate daysTill requestedCar.endDate;
+        val totalPrice = car!!.getPricePerDayFor(days) * days;
         message.setTo("denbar@abv.bg")
         message.setSubject("Нов човек си поръча кола!")
-        message.setText("Име на кола: ${car.name}\n" +
-                "Дата на взимане: ${requestedCar.startDate}\n" +
-                "Дата на връщане: ${requestedCar.endDate}\n" +
-                "Цена: $price\n" +
-                "Tелефон: ${customer!!.phoneNumber}" +
-                if(customer.name.isNotEmpty()) "Име: ${customer.name}" else "")
+        message.setText(
+                """Име на кола: ${car.name}
+                Дата на взимане: ${requestedCar.startDate}
+                Дата на връщане: ${requestedCar.endDate}
+                Крайна цена: $totalPrice
+                Tелефон: ${customer!!.phoneNumber}""" +
+                if(customer.name.isNotEmpty())
+                    "Име: ${customer.name}" else "")
         emailSender.send(message)
     }
 }

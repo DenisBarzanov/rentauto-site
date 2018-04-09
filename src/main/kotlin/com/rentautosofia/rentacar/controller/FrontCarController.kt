@@ -111,7 +111,7 @@ constructor(private val carRepository: CarRepository,
     @GetMapping("/thank_you")
     fun thankYou(model: Model): String {
         model.addAttribute("view", "thankYou")
-        return "client-base-layout"
+        return "empty-client-base-layout"
     }
 
 //    @GetMapping("/car/inclusions")

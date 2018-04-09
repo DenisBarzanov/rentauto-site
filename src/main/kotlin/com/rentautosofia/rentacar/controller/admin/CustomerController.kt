@@ -83,7 +83,7 @@ constructor(private val customerRepository: CustomerRepository) {
 
     @PostMapping("/{id}/delete")
     fun deleteProcess(@PathVariable id: Int): String {
-        val customer = this.customerRepository.findOne(id = 5) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
+        val customer = this.customerRepository.findOne(id) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
         this.customerRepository.delete(customer)
         this.customerRepository.flush()
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"
