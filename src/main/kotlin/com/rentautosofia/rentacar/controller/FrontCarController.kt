@@ -22,7 +22,7 @@ constructor(private val carRepository: CarRepository,
             private val requestedCarRepository: RequestedCarRepository) {
 
     @Autowired
-    private lateinit var managerInformer: InformManager
+    private lateinit var managerInformer: ManagerInformer
 
     @GetMapping("/")
     fun searchCars(model: Model): String {
@@ -103,7 +103,7 @@ constructor(private val carRepository: CarRepository,
         val requestedCar = RequestedCar(car.id,customer.id, startDate, endDate)
         this.requestedCarRepository.saveAndFlush(requestedCar)
 
-        //this.managerInformer.informManagerWith(requestedCar)
+        this.managerInformer.informManagerWith(requestedCar)
 
         return "redirect:/thank_you"
     }

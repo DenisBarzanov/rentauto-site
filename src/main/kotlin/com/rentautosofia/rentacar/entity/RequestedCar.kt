@@ -12,3 +12,10 @@ data class RequestedCar(override var carId: Int = 0,
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     override var id: Int = 0
 }
+
+
+fun requestedCar(function: RequestedCar.() -> Unit): RequestedCar {
+    val requestedCar = RequestedCar()
+    requestedCar.function()
+    return requestedCar
+}

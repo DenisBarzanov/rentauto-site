@@ -2,6 +2,7 @@ package com.rentautosofia.rentacar.controller.admin
 
 import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
 import com.rentautosofia.rentacar.entity.Customer
+import com.rentautosofia.rentacar.entity.customer
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -45,7 +46,10 @@ constructor(private val customerRepository: CustomerRepository) {
             model.addAttribute("car", customerBindingModel)
             return "base-layout"
         }
-        val customer = Customer(customerBindingModel.phoneNumber, customerBindingModel.name)
+        val customer = customer {
+            phoneNumber = customerBindingModel.phoneNumber
+            name = customerBindingModel.name
+        }
         this.customerRepository.saveAndFlush(customer)
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"
     }
@@ -53,22 +57,30 @@ constructor(private val customerRepository: CustomerRepository) {
     @GetMapping("/{id}/edit")
     fun edit(model: Model, @PathVariable id: Int): String {
         val customer = this.customerRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_CUSTOMER/all"
-        model.addAttribute("customer", customer)
-        model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/edit")
+        with(model) {
+            addAttribute("customer", customer)
+            addAttribute("view", "$PATH_ADMIN_CUSTOMER/edit")
+        }
         return "base-layout"
     }
 
     @PostMapping("/{id}/edit")
     fun editProcess(model: Model, @PathVariable id: Int, @Valid customerBindingModel: CustomerBindingModel, bindingResult: BindingResult): String {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("message", "Invalid data.")
-            model.addAttribute("customer", customerBindingModel)
-            model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/edit")
+            with(model) {
+                addAttribute("message", "Invalid data.")
+                addAttribute("customer", customerBindingModel)
+                addAttribute("view", "$PATH_ADMIN_CUSTOMER/edit")
+            }
             return "base-layout"
         }
         val customer = this.customerRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_CUSTOMER/all"
-        customer.name = customerBindingModel.name
-        customer.phoneNumber = customerBindingModel.phoneNumber
+
+        with(customer) {
+            name = customerBindingModel.name
+            phoneNumber = customerBindingModel.phoneNumber
+        }
+
         this.customerRepository.saveAndFlush(customer)
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"
     }
@@ -76,8 +88,10 @@ constructor(private val customerRepository: CustomerRepository) {
     @GetMapping("/{id}/delete")
     fun delete(model: Model, @PathVariable id: Int): String {
         val customer = this.customerRepository.findOne(id) ?: return "redirect:$PATH_ADMIN_CUSTOMER/all"
-        model.addAttribute("customer", customer)
-        model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/delete")
+        with(model) {
+            addAttribute("customer", customer)
+            addAttribute("view", "$PATH_ADMIN_CUSTOMER/delete")
+        }
         return "base-layout"
     }
 

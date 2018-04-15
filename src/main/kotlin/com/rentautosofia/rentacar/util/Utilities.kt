@@ -45,9 +45,3 @@ fun <T> CrudRepository<T, Int>.findOne(id: Int): T? {
     val entity = this.findById(id)
     return if (entity.isPresent) entity.get() else null
 }
-
-fun car(function: Car.() -> Unit): Car {
-    val car = Car()
-    car.function()
-    return car
-}

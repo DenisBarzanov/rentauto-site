@@ -1,9 +1,8 @@
 package com.rentautosofia.rentacar.controller.admin
 
 import com.rentautosofia.rentacar.bindingModel.CarBindingModel
-import com.rentautosofia.rentacar.entity.Car
+import com.rentautosofia.rentacar.entity.car
 import com.rentautosofia.rentacar.repository.CarRepository
-import com.rentautosofia.rentacar.util.car
 import com.rentautosofia.rentacar.util.findOne
 import javax.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired

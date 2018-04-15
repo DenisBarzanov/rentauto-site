@@ -1,0 +1,53 @@
+<!-- Contact Section -->
+<div id="contact">
+    <div class="container">
+
+        <!-- Dection Title -->
+        <div class="section-title" >
+            <h3>Свържете се с <span>Нас</span></h3>
+            <p>На картата е изобразен адреса на взимане на колата по подразбиране.<br/>
+            Ако искате да я вземете от другаде, моля свържете се с нас.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+
+                <!--Map section-->
+
+                <div id="map"></div>
+                <!-- Google Map -->
+                <script th:src="@{/js/gmap.js}"></script>
+                <script async defer
+                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwhMwCcXQf_P_5zApM-yeg02XkWbUEAHQ&callback=initMap">
+                </script>
+
+                <!--Map section-->
+
+            </div>
+            <div class="col-md-4">
+                <div class="contact-now">
+                    <div class="contact"> <span><i class="fa fa-home"></i></span>
+                        <div class="information"> <strong>Адрес на взимане:</strong>
+                            <p>"Подпоручик Футеков 1", кръстовището на улица Бели Дунав
+                                <br/> и пътя на Ломско Шосе, блока срещу Била,
+                                <br/>офис 6 - етаж 2 (до автошкола "Василеви")</p>
+                        </div>
+                    </div>
+                    <!-- Contact Info -->
+                    <div class="contact"> <span><i class="fa fa-envelope"></i></span>
+                        <div class="information"> <strong>Имейл адрес:</strong>
+                            <p>denbar@abv.bg</p>
+                        </div>
+                    </div>
+                    <!-- Contact Info -->
+                    <div class="contact"> <span><i class="fa fa-phone"></i></span>
+                        <div class="information"> <strong>Телефонен №:</strong>
+                            <p>+359 899 5888 30</p>
+                        </div>
+                    </div>
+                    <!-- Contact Info -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

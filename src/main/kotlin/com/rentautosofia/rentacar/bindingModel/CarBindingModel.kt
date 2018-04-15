@@ -1,11 +1,3 @@
-/*
- * Decompiled with CFR 0_115.
- * 
- * Could not load the following classes:
- *  com.rentautosofia.rentacar.bindingModel.CarBindingModel
- *  javax.validation.constraints.NotNull
- *  javax.validation.constraints.Size
- */
 package com.rentautosofia.rentacar.bindingModel
 
 import javax.validation.constraints.Size

@@ -3,7 +3,6 @@ package com.rentautosofia.rentacar.controller.admin
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import com.rentautosofia.rentacar.repository.RentedCarRepository
-import com.rentautosofia.rentacar.repository.RequestedCarRepository
 import com.rentautosofia.rentacar.util.findOne
 import com.rentautosofia.rentacar.util.getProperFormat
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,8 +20,7 @@ const val PATH_ADMIN_BOOKING = "admin/booking"
 class BookingController @Autowired
 constructor(private val carRepository: CarRepository,
             private val customerRepository: CustomerRepository,
-            private val rentedCarRepository: RentedCarRepository,
-            private val requestedCarRepository: RequestedCarRepository){
+            private val rentedCarRepository: RentedCarRepository){
 
     @GetMapping("/all")
     fun bookings(model: Model): String {
@@ -42,11 +40,13 @@ constructor(private val carRepository: CarRepository,
         val customer =
                 this.customerRepository.findOne(booking.customerId)
 
-        model.addAttribute("car", car)
-        model.addAttribute("customer", customer)
-        model.addAttribute("startDate", booking.startDate.getProperFormat())
-        model.addAttribute("endDate", booking.endDate.getProperFormat())
-        model.addAttribute("bookingId", booking.id)
+        with(model) {
+            addAttribute("car", car)
+            addAttribute("customer", customer)
+            addAttribute("startDate", booking.startDate.getProperFormat())
+            addAttribute("endDate", booking.endDate.getProperFormat())
+            addAttribute("bookingId", booking.id)
+        }
 
         return "base-layout"
     }

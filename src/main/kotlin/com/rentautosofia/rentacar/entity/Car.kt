@@ -20,3 +20,9 @@ data class Car(@Column var name: String = "",
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
 }
+
+fun car(function: Car.() -> Unit): Car {
+    val car = Car()
+    car.function()
+    return car
+}

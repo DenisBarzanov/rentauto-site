@@ -1,6 +1,6 @@
 package com.rentautosofia.rentacar.controller.admin
 
-import com.rentautosofia.rentacar.entity.BookedCar
+import com.rentautosofia.rentacar.entity.bookedCar
 import com.rentautosofia.rentacar.repository.RentedCarRepository
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 const val PATH_ADMIN_REQUEST = "admin/bookRequest"
 
 @Controller
-@RequestMapping("/" + PATH_ADMIN_REQUEST)
+@RequestMapping("/$PATH_ADMIN_REQUEST")
 class CustomerRequestController @Autowired
 constructor(private val carRepository: CarRepository,
             private val customerRepository: CustomerRepository,
@@ -25,9 +25,10 @@ constructor(private val carRepository: CarRepository,
 
     @GetMapping("/all")
     fun requests(model: Model): String {
-        model.addAttribute("view", "$PATH_ADMIN_REQUEST/all")
-        model.addAttribute("requestIds",
-                this.requestedCarRepository.findAll().getIds())
+        with(model) {
+            addAttribute("view", "$PATH_ADMIN_REQUEST/all")
+            addAttribute("requestIds", this@CustomerRequestController.requestedCarRepository.findAll().getIds())
+        }
         return "base-layout"
     }
 
@@ -48,11 +49,16 @@ constructor(private val carRepository: CarRepository,
     }
 
     @PostMapping("/{id}/accept")
-    fun acceptProcess(model: Model, @PathVariable id: Int, @RequestParam(name = "isAccepted") isAccepted: Boolean): String {
+    fun acceptProcess(model: Model, @PathVariable id: Int, @RequestParam isAccepted: Boolean): String {
         val requestedCar =
-                this.requestedCarRepository.findOne(5) ?: return "redirect:/$PATH_ADMIN_REQUEST/all"
+                this.requestedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_REQUEST/all"
         if (isAccepted) {
-            val nowRentedCar = BookedCar(requestedCar.carId, requestedCar.customerId, requestedCar.startDate, requestedCar.endDate)
+            val nowRentedCar = bookedCar {
+                carId = requestedCar.carId
+                customerId = requestedCar.customerId
+                startDate = requestedCar.startDate
+                endDate = requestedCar.endDate
+            }
             this.rentedCarRepository.saveAndFlush(nowRentedCar)
         }
         this.requestedCarRepository.delete(requestedCar)

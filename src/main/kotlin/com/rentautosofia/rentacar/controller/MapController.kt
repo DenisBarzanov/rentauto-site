@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
 class MapController {
-    @GetMapping("/taking_place")
-    fun takingPlace(model: Model): String {
-        model.addAttribute("view", "car/map")
-        return "base-layout"
-    }
+//    @GetMapping("/taking_place")
+//    fun takingPlace(model: Model): String {
+//        model.addAttribute("view", "car/map")
+//        return "client-base-layout"
+//    }
 }
 

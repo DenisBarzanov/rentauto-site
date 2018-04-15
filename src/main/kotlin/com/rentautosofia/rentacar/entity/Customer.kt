@@ -10,3 +10,10 @@ data class Customer(@Column var phoneNumber: String = "",
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
 }
+
+
+fun customer(function: Customer.() -> Unit): Customer {
+    val customer = Customer()
+    customer.function()
+    return customer
+}
