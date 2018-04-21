@@ -13,10 +13,10 @@ data class Car(@Column var name: String = "",
                var transmission: Transmission = Transmission.MANUAL) {
 
     fun getPricePerDayFor(days: Int) = when (days) {
-        in 1 until 3 -> this.price
-        in 4 until 8 -> this.price - 7
-        in 9 until 15 -> this.price - 15
-        in 16 until Int.MAX_VALUE -> this.price - 20
+        in 1 .. 3 -> this.price
+        in 4 .. 8 -> this.price - 7
+        in 9 .. 15 -> this.price - 15
+        in 16 .. Int.MAX_VALUE -> this.price - 20
         else -> throw IllegalArgumentException("Cannot get get price per day for $days (NON-POSITIVE) days!!")
     }
 

@@ -81,7 +81,7 @@ class ManagerInformer {
                                             </tr>
                                             <tr>
                                                 <td>Дата на връщане</td>
-                                                <td><strong>'${requestedCar.startDate.getProperFormat()}'</strong></td>
+                                                <td><strong>'${requestedCar.endDate.getProperFormat()}'</strong></td>
                                             </tr>
                                             <tr>
                                                 <td>Име на клиент</td>

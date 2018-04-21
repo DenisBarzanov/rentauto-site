@@ -1,14 +1,14 @@
 <!-- Form Section -->
 <div class="container">
     <div class="bformBox">
-        <h3>BOOK YOUR CAR TODAY!</h3>
+        <h3>РЕЗЕРВИРАЙТЕ КОЛА ДНЕС!</h3>
         <form th:action="@{/car/search}" method="POST">
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
                         <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i> Място на взимане</span>
                             <select class="form-control" data-live-search="true" name="pickup" id="pickup" required="required" >
-                                <option value="">Изберете място на взимане</option>
+                                <option value="">Mясто на взимане</option>
                                 <option>Sofia</option>
                             </select>
                         </div>
@@ -28,7 +28,7 @@
                     <div class="formrow">
                         <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i> Място на връщане</span>
                             <select class="form-control" data-live-search="true" name="dropoff" id="drop" required="required">
-                                <option value="" >Изберете място на връщане</option>
+                                <option value="" >Mясто на връщане</option>
                                 <option>Sofia</option>
                             </select>
                         </div>
@@ -46,7 +46,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
-                        <button class="btn btn-block" onclick="location.href = '/#contact'">Вижте адреса</button>
+                        <button type="button" class="btn btn-block" onclick="location.href = '/#contact'">Вижте адреса</button>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6">
