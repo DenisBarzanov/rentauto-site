@@ -8,8 +8,6 @@
         <table>
             <tr>
                 <th:block th:include="fragments/tableHeadCommon"></th:block>
-                <th>ID</th>
-                <th>Опции</th>
             </tr>
 
             <th:block th:each="car : ${cars}">
@@ -17,9 +15,7 @@
                 <td>
                     <img th:src="${car.imgURL}"/>
                 </td>
-                <td th:text="${car.name}"></td>
-                <td th:text="${car.price}"></td>
-                <td th:text="${car.id}"></td>
+                <th:block th:include="fragments/tableBodyCommon"></th:block>
                 <td>
                     <div>
                         <button th:onclick="'location.href = ' + '\'' + @{/admin/car/{id}/delete(id=${car.id})} + '\''">Изтрий</button>

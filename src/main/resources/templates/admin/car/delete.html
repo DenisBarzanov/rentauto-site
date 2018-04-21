@@ -3,21 +3,8 @@
     <div>
         <form th:action="@{/admin/car/{id}/delete(id=${car.id})}" method="POST">
             <div>
-                <label for="name">Име</label>
-                <input type="text" id="name" name="name" th:value="${car.name}" disabled="disabled" />
-
-                <label for="price">Цена</label>
-                <input type="text" id="price" name="price" th:value="${car.price}" disabled="disabled" />
-
-                <label for="imgURL">URL на картинка</label>
-                <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}" disabled="disabled"/>
-
-                <div>
-                    <p>Снимка:</p>
-                    <div>
-                        <img th:src="${car.imgURL}"/>
-                    </div>
-                </div>
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" th:value="${car.id}" disabled="disabled" />
 
                 <div>
                     <button type="submit">Изтрий</button>

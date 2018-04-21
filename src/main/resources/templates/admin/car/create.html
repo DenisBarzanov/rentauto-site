@@ -12,6 +12,21 @@
                 <label for="imgURL">URL на картинка</label>
                 <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}"/>
 
+                <label class="check-container">LPG?
+                    <input type="checkbox" name="LPG" th:checked="${car.LPG}">
+                    <span class="checkmark"></span>
+                </label>
+
+                <label>
+                    Превключване:
+                    <select class="form-control" id="transmission" name="transmission" th:value="${car.transmission}">
+                        <option th:each="transmission : ${T(com.rentautosofia.rentacar.transmission.Transmission).values()}"
+                                th:value="${transmission}"
+                                th:text="${transmission}">
+                        </option>
+                    </select>
+                </label>
+
                 <div>
                     <button type="submit">Създай</button>
                 </div>

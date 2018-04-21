@@ -5,8 +5,8 @@
 <div class="parallax-section" id="cars">
     <div class="container">
         <div class="section-title">
-            <h3>Vehicle Models <span>For Rent</span></h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquet, massa ac ornare feugiat, nunc dui auctor ipsum, sed posuere eros sapien id quam. Maecenas odio nisi, efficitur eget</p>
+            <h3>Модели Автомобили <span>За Наем</span></h3>
+            <p>Тези автомобили са налични за наем през определения от вас период. </p>
         </div>
         <div class="vehiclesList">
             <ul class="carsmodals">
@@ -16,19 +16,16 @@
                             <div class="col-md-3">
                                 <h3>[[${car.name}]]</h3>
                                 <div class="subtitle">Traffic</div>
-                                <div class="carPrice"> <strong>&euro;[[${car.price}]]</strong> <span>/Day</span> </div>
-                                <a class="reserve btn" th:href="@{/car/{id}/book(id=${car.id})}"><i class="fa fa-calendar" aria-hidden="true"></i> Reserve Now</a> </div>
+                                <div class="carPrice"> <strong>&euro; [[${car.price}]]</strong> <span>/Ден</span> </div>
+                                <a class="reserve btn" th:href="@{/car/{id}/book(id=${car.id})}"><i class="fa fa-calendar" aria-hidden="true"></i> Резервирайте сега</a> </div>
                             <div class="col-md-6"><a th:href="@{${car.imgURL}}" class="image-popup"><img th:src="${car.imgURL}" alt="" /></a></div>
                             <div class="col-md-3">
                                 <div class="carinfo">
                                     <ul>
-                                        <li>LPG: <strong>Yes</strong></li>
-                                        <li>Doors: <strong>5</strong></li>
-                                        <li>Passengers: <strong>5</strong></li>
-                                        <li>Luggage: <strong>2 Bags</strong></li>
-                                        <li>Transmission: <strong>Automatic</strong></li>
-                                        <li>Air conditioning: <strong>Dual Zone</strong></li>
-                                        <li>Minimum age: <strong>35 years</strong></li>
+                                        <li>LPG: <strong>[[${car.LPG} ? 'Да' : 'Не']]</strong></li>
+                                        <li>Превключване: <strong>[[${car.transmission}]]</strong></li>
+                                        <li>Климатик: <strong>Да</strong></li>
+                                        <li>Минимална възраст: <strong>25 години</strong></li>
                                     </ul>
                                 </div>
                             </div>

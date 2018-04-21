@@ -6,9 +6,9 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
-                        <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i> Pick-Up</span>
+                        <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i> Място на взимане</span>
                             <select class="form-control" data-live-search="true" name="pickup" id="pickup" required="required" >
-                                <option value="">Select Pick-Up</option>
+                                <option value="">Изберете място на взимане</option>
                                 <option>Sofia</option>
                             </select>
                         </div>
@@ -17,17 +17,18 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
                         <div class="input-group date form_datetime" data-date="2018-02-22T05:25:07Z" data-date-format="dd MM yyyy" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Select Date and Time" name="datetime_pick" required="required" >
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span> </div>
+                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Изберете дата" name="datetime_pick" required="required" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
-                        <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i> Drop-Off</span>
+                        <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i> Място на връщане</span>
                             <select class="form-control" data-live-search="true" name="dropoff" id="drop" required="required">
-                                <option value="" >Select Drop-Off</option>
+                                <option value="" >Изберете място на връщане</option>
                                 <option>Sofia</option>
                             </select>
                         </div>
@@ -36,20 +37,26 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
                         <div class="input-group date form_datetime" data-date="2018-02-22T05:25:07Z" data-date-format="dd MM yyyy" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Select Date and Time" name="datetime_off" required="required" >
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span> </div>
+                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Изберете дата" name="datetime_off" required="required" >
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 col-sm-12">
+                <div class="col-md-6 col-sm-6">
                     <div class="formrow">
-                        <input type="text" class="form-control" placeholder="Phone" name="phone" required="required">
+                        <button class="btn btn-block" onclick="location.href = '/#contact'">Вижте адреса</button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="formrow">
+                        <input type="text" class="form-control" placeholder="Телефон" name="phone" required="required">
                     </div>
                 </div>
             </div>
             <div class="formbtn">
-                <input type="submit" class="btn" value="Search for cars">
+                <input type="submit" class="btn" value="Потърси коли">
             </div>
         </form>
     </div>

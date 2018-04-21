@@ -42,6 +42,8 @@ constructor(private val carRepository: CarRepository) {
             name = carBindingModel.name
             price = carBindingModel.price
             imgURL = carBindingModel.imgURL
+            LPG = carBindingModel.LPG
+            transmission = carBindingModel.transmission
         }
 
         this.carRepository.saveAndFlush(car)
@@ -69,6 +71,8 @@ constructor(private val carRepository: CarRepository) {
             name = carBindingModel.name
             imgURL = carBindingModel.imgURL
             price = carBindingModel.price
+            LPG = carBindingModel.LPG
+            transmission = carBindingModel.transmission
         }
         this.carRepository.saveAndFlush(car)
         return "redirect:/$PATH_ADMIN_ALL_CARS"

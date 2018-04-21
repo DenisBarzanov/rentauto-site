@@ -1,12 +1,16 @@
 package com.rentautosofia.rentacar.entity
 
+import com.rentautosofia.rentacar.transmission.Transmission
 import javax.persistence.*
 
 @Entity
 @Table(name = "cars")
 data class Car(@Column var name: String = "",
                @Column var price: Int = 0,
-               @Column(length = 1000) var imgURL: String = "") {
+               @Column(length = 1000) var imgURL: String = "",
+               @Column var LPG: Boolean? = false,
+               @Column @Enumerated(EnumType.STRING)
+               var transmission: Transmission = Transmission.MANUAL) {
 
     fun getPricePerDayFor(days: Int) = when (days) {
         in 1 until 3 -> this.price

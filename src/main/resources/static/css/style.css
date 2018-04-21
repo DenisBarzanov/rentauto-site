@@ -1931,7 +1931,7 @@ ul.orderlist li:before {
 }
 #map {
 	width: 100%;
-	height: 400px;
+	height: 550px;
 	border: none;
 	display: block;
 	pointer-events: none;
