@@ -1934,7 +1934,7 @@ ul.orderlist li:before {
 	height: 550px;
 	border: none;
 	display: block;
-	pointer-events: none;
+	/*pointer-events: none;*/
 }
 .frmap {
 	margin-top: 10px;
