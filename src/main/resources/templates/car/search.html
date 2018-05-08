@@ -43,11 +43,20 @@
                     </div>
                 </div>
             </div>
+            <div class="row"> 
+                <div class="col-md-12 col-sm-12">
+                    <p style="font-size: 20px; text-align: center; color: black">
+                        Лесно се стига до нас от Летище София:<br/>
+                        Взимате метрото от метростанция "Летище София"<br/>
+                        до метростанция "Бели Дунав" и сте там.<br/>
+                        <br/>
+                        Ако искате да я вземте директно от "Летище София" - такса &euro;10<br/>
+                    </p>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-6 col-sm-6">
-                    <div class="formrow">
-                        <button type="button" class="btn btn-block" onclick="location.href = '/#contact'">Вижте адреса</button>
-                    </div>
+                    <button type="button" class="btn btn-block" onclick="location.href = '/#contact'">Вижте адреса</button>
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
@@ -61,3 +70,10 @@
         </form>
     </div>
 </div>
+<script>
+    // When the user clicks on div, open the popup
+    function popUp() {
+            var popup = document.getElementById("myPopUp");
+                popup.classList.toggle("show");
+    }
+</script>
