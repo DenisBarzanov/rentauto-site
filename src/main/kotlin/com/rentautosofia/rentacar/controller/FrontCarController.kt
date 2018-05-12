@@ -1,5 +1,6 @@
 package com.rentautosofia.rentacar.controller
 
+import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
 import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.entity.Customer
 import com.rentautosofia.rentacar.entity.RequestedCar
@@ -11,7 +12,9 @@ import com.rentautosofia.rentacar.util.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 
 @Controller
@@ -64,12 +67,12 @@ constructor(private val carRepository: CarRepository,
     fun order(model: Model,
               @PathVariable id: Int,
               @RequestParam("datetime_pick") startDateString: String,
-              @RequestParam("datetime_off") endDateString: String,
-              @RequestParam phone: String): String {
+              @RequestParam("datetime_off") endDateString: String): String {
 
         val car = this.carRepository.findOne(id) ?: return "redirect:/"
         model.addAttribute("car", car)
         model.addAttribute("view", "car/book")
+        model.addAttribute("customer", Customer())
 
         val startDate = getDateFrom(startDateString)
         val endDate = getDateFrom(endDateString)
@@ -82,23 +85,32 @@ constructor(private val carRepository: CarRepository,
     @PostMapping("/car/{id}/book")
     fun orderProcess(model: Model,
                      @PathVariable id: Int,
-                     @RequestBody requestParams: String) : String {
+                     @RequestBody requestParams: String,
+                     @Valid customerBindingModel: CustomerBindingModel,
+                     bindingResult: BindingResult) : String {
         //todo govno code
+        println(requestParams)
         val args = requestParams.split("&")
-        val phoneNumber = args[1].split("=")[1]
-        val startDateString = args[2].split("=")[1]
-        val endDateString = args[3].split("=")[1]
+
+        val startDateString = args[1].split("=")[1]
+        val endDateString = args[2].split("=")[1]
 
 
-        val customer = this.customerRepository.findOneByPhoneNumber(phoneNumber)
-                ?: Customer(phoneNumber, "")
-        val startDate = getDateFrom(startDateString)
-        val endDate = getDateFrom(endDateString)
-        val car = this.carRepository.findOne(id)
+        val newCustomer = this.customerRepository.findOneByPhoneNumber(customerBindingModel.phoneNumber)
+        val customer = if ((newCustomer != null)) {
+            newCustomer
+        } else {
+            Customer(
+                    phoneNumber = customerBindingModel.phoneNumber,
+                    email = customerBindingModel.email
+            )
+        }
 
         this.customerRepository.saveAndFlush(customer)
 
-        car ?: return "redirect:/"
+        val startDate = getDateFrom(startDateString)
+        val endDate = getDateFrom(endDateString)
+        val car = this.carRepository.findOne(id) ?: return "redirect:/"
 
         val requestedCar = RequestedCar(car.id,customer.id, startDate, endDate)
         this.requestedCarRepository.saveAndFlush(requestedCar)

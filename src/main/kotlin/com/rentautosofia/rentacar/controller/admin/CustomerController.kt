@@ -46,10 +46,11 @@ constructor(private val customerRepository: CustomerRepository) {
             model.addAttribute("car", customerBindingModel)
             return "base-layout"
         }
-        val customer = customer {
-            phoneNumber = customerBindingModel.phoneNumber
-            name = customerBindingModel.name
-        }
+        val customer = Customer (
+            phoneNumber = customerBindingModel.phoneNumber,
+            name = customerBindingModel.name,
+            email = customerBindingModel.email
+        )
         this.customerRepository.saveAndFlush(customer)
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"
     }

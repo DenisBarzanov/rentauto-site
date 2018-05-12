@@ -10,6 +10,7 @@
             <tr>
                 <th>Име</th>
                 <th>Телефон</th>
+                <th>Email</th>
                 <th>Опция</th>
             </tr>
 
@@ -17,6 +18,7 @@
             <tr>
                 <td th:text="${customer.name}"></td>
                 <td th:text="${customer.phoneNumber}"></td>
+                <td th:text="${customer.email}"></td>
                 <td>
                     <div>
                         <button th:onclick="'location.href = \'' + @{/admin/customer/{id}/delete(id=${customer.id})} + '\''">Изтрий</button>

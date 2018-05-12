@@ -1,6 +1,7 @@
 package com.rentautosofia.rentacar.controller.admin
 
 import com.rentautosofia.rentacar.bindingModel.CarBindingModel
+import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.entity.car
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.util.findOne
@@ -38,13 +39,13 @@ constructor(private val carRepository: CarRepository) {
             return "base-layout"
         }
 
-        val car = car {
-            name = carBindingModel.name
-            price = carBindingModel.price
-            imgURL = carBindingModel.imgURL
-            LPG = carBindingModel.LPG
+        val car = Car (
+            name = carBindingModel.name,
+            price = carBindingModel.price,
+            imgURL = carBindingModel.imgURL,
+            LPG = carBindingModel.LPG,
             transmission = carBindingModel.transmission
-        }
+        )
 
         this.carRepository.saveAndFlush(car)
         return "redirect:/$PATH_ADMIN_ALL_CARS"

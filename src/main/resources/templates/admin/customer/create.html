@@ -3,13 +3,18 @@
     <div>
         <form th:action="@{/admin/customer/create}" method="POST">
             <div>
-            <label for="name">Име</label>
+                <label for="name">Име</label>
                 <input type="text" id="name" name="name" th:value="${customer.name}" />
 
                 <label for="phoneNumber">Телефон</label>
                 <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" />
 
-               <div>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" th:value="${customer.email}" />
+
+
+                <div>
                     <button type="submit">Създай</button>
                </div>
             </div>
