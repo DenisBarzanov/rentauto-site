@@ -23,6 +23,21 @@
                                         <div style="font-size: 25px" class="date"><i class="fa fa-calendar" aria-hidden="true"></i> Дата на връщане: [[${param.datetime_off[0]}]]</div>
                                         <div style="font-size: 25px" class="date"><i class="fa fa-money" aria-hidden="true"></i> TOTAL: &euro;[[${totalPrice}]]</div>
                                     </div>
+                                    <div>
+                                        <form th:action="@{/car/{id}/book(id=${car.id})}" id="confirmForm" method="POST">
+                                            <div class="formrow">
+                                                <input type="hidden" id="startDate" name="startDate" th:value="${param.datetime_pick[0]}"/>
+                                                <input type="hidden" id="endDate" name="endDate" th:value="${param.datetime_off[0]}"/>
+
+
+                                                <label for="email">Email</label>
+                                                <input type="email" id="email" name="email" th:value="${customer.email}" />
+
+                                                <label for="phoneNumber">Телефон</label>
+                                                <input type="tel" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" />
+                                            </div>
+                                        </form>
+                                    </div>
                                     <a href="javascript:{}" onclick="document.getElementById('confirmForm').submit();" class="readmore">Потвърди заявката<i class="fa fa-caret-right" aria-hidden="true"></i></a>
                                 </div>
                             </div>
@@ -35,8 +50,4 @@
 </div>
 
 
-<form th:action="@{/car/{id}/book(id=${car.id})}" id="confirmForm" method="POST">
-    <input type="hidden" id="phone" name="phone" th:value="${param.phone[0]}"/>
-    <input type="hidden" id="startDate" name="startDate" th:value="${param.datetime_pick[0]}"/>
-    <input type="hidden" id="endDate" name="endDate" th:value="${param.datetime_off[0]}"/>
-</form>
+
