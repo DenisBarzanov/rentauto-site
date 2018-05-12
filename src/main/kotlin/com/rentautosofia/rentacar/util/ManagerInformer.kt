@@ -94,7 +94,11 @@ class ManagerInformer {
                                             <tr>
                                                 <td>Телефон на клиент</td>
                                                 <td><strong>'${customer?.phoneNumber}'</strong></td>
+                                            </tr>                                            <tr>
+                                                <td>Email на клиент</td>
+                                                <td><strong>'${customer?.email}'</strong></td>
                                             </tr>
+
                                             <tr>
                                                 <td>TOTAL сума + намаления</td>
                                                 <td><strong>&euro;'$totalPrice'</strong></td>
