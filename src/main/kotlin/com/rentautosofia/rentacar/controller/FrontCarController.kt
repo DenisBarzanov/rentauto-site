@@ -106,16 +106,23 @@ constructor(private val carRepository: CarRepository,
             )
         }
 
-        this.customerRepository.saveAndFlush(customer)
+        if (this.customerRepository.findOneByPhoneNumber(customerBindingModel.phoneNumber) != customer) {
+            // No such customer yet
+            this.customerRepository.saveAndFlush(customer)
+        }
+
 
         val startDate = getDateFrom(startDateString)
         val endDate = getDateFrom(endDateString)
         val car = this.carRepository.findOne(id) ?: return "redirect:/"
 
         val requestedCar = RequestedCar(car.id,customer.id, startDate, endDate)
-        this.requestedCarRepository.saveAndFlush(requestedCar)
 
-        this.managerInformer.informManagerWith(requestedCar)
+        if (this.requestedCarRepository.hasBooking(requestedCar).not()) {
+            // No such booking yet
+            this.requestedCarRepository.saveAndFlush(requestedCar)
+            this.managerInformer.informManagerWith(requestedCar)
+        }
 
         return "redirect:/thank_you"
     }
@@ -123,7 +130,7 @@ constructor(private val carRepository: CarRepository,
     @GetMapping("/thank_you")
     fun thankYou(model: Model): String {
         model.addAttribute("view", "thankYou")
-        return "empty-client-base-layout"
+        return "client-base-layout"
     }
 
 //    @GetMapping("/car/inclusions")

@@ -11,6 +11,28 @@ data class RequestedCar(override var carId: Int = 0,
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     override var id: Int = 0
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is RequestedCar) {
+            return false
+        }
+        if ((other.carId == this.carId) and
+                (other.customerId == this.customerId) and
+                (other.startDate == this.startDate) and
+                (other.endDate == this.endDate)) {
+            return true
+        }
+        return false
+    }
+
+    override fun hashCode(): Int {
+        var result = carId
+        result = 31 * result + customerId
+        result = 31 * result + startDate.hashCode()
+        result = 31 * result + endDate.hashCode()
+        result = 31 * result + id
+        return result
+    }
 }
 
 

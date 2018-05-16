@@ -45,6 +45,20 @@
 </section>
 <section>
     <div>
+        <table>
+            <tr>
+                <th>Цена на ден</th>
+                <th>Цяла цена</th>
+            </tr>
+            <tr>
+                <td>[[${pricePerDay}]]</td>
+                <td>[[${totalPrice}]]</td>
+            </tr>
+        </table>
+    </div>
+</section>
+<section>
+    <div>
         <form th:action="@{/admin/booking/{id}/delete(id=${bookingId})}" method="POST">
             <div>
                 <button type="submit">Изтрий</button>

@@ -3,6 +3,7 @@ package com.rentautosofia.rentacar.controller.admin
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import com.rentautosofia.rentacar.repository.RentedCarRepository
+import com.rentautosofia.rentacar.util.daysTill
 import com.rentautosofia.rentacar.util.findOne
 import com.rentautosofia.rentacar.util.getProperFormat
 import org.springframework.beans.factory.annotation.Autowired
@@ -40,12 +41,18 @@ constructor(private val carRepository: CarRepository,
         val customer =
                 this.customerRepository.findOne(booking.customerId)
 
+        val days = booking.startDate daysTill booking.endDate
+        val pricePerDay = car?.getPricePerDayFor(days)!!
+        val totalPrice = pricePerDay * days
+
         with(model) {
             addAttribute("car", car)
             addAttribute("customer", customer)
             addAttribute("startDate", booking.startDate.getProperFormat())
             addAttribute("endDate", booking.endDate.getProperFormat())
             addAttribute("bookingId", booking.id)
+            addAttribute("pricePerDay", pricePerDay)
+            addAttribute("totalPrice", totalPrice)
         }
 
         return "base-layout"
