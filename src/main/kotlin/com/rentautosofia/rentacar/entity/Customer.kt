@@ -10,6 +10,12 @@ data class Customer(@Column var phoneNumber: String = "",
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is Customer)
+            other.phoneNumber == this.phoneNumber
+        else false
+    }
 }
 
 
