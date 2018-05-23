@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/head" th:with="pageTitle='Rent a Car Sofia'"></head>
+
+<body data-spy="scroll" data-target=".navbar-collapse" data-offset="50"
+      th:inline="text">
+
+<header>
+
+    <div>
+        <p th:if="${message}" th:text="${message}"></p>
+    </div>
+</header>
+<main>
+    <article>
+        <div th:include="${view}"></div>
+    </article>
+</main>
+
+<th:block th:include="fragments/scripts">
+</th:block>
 </body>
 </html>

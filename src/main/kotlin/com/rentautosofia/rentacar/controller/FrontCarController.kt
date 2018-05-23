@@ -10,11 +10,14 @@ import com.rentautosofia.rentacar.repository.CustomerRepository
 import com.rentautosofia.rentacar.repository.RequestedCarRepository
 import com.rentautosofia.rentacar.util.*
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
+import org.springframework.util.MultiValueMap
 
 
 @Controller
@@ -82,35 +85,39 @@ constructor(private val carRepository: CarRepository,
 
         return "client-base-layout"
     }
-    @PostMapping("/car/{id}/book")
+    @PostMapping("/car/{id}/book", consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     fun orderProcess(model: Model,
                      @PathVariable id: Int,
-                     @RequestBody requestParams: String,
                      @Valid customerBindingModel: CustomerBindingModel,
-                     bindingResult: BindingResult) : String {
-        //todo govno code
-        println(requestParams)
-        val args = requestParams.split("&")
+                     bindingResult: BindingResult,
+                     request: HttpServletRequest,
+                     @RequestBody multiParams: MultiValueMap<String, String>) : String {
 
-        val startDateString = args[1].split("=")[1]
-        val endDateString = args[2].split("=")[1]
+        println(multiParams)
+
+        val params = multiParams.toSingleValueMap()
+
+        println(params)
+
+        val startDateString = params["startDate"]!!
+        val endDateString = params["endDate"]!!
 
 
-        val newCustomer = this.customerRepository.findOneByPhoneNumber(customerBindingModel.phoneNumber)
-        val customer = if ((newCustomer != null)) {
-            newCustomer
-        } else {
-            Customer(
+
+//        request.setAttribute("startDate", startDateString)
+//        request.setAttribute("endDate", endDateString)
+        val customer: Customer
+        val existingCustomer = this.customerRepository.findOneByPhoneNumber(customerBindingModel.phoneNumber)
+
+        if (existingCustomer == null) {
+            customer = Customer(
                     phoneNumber = customerBindingModel.phoneNumber,
                     email = customerBindingModel.email
             )
-        }
-
-        if (this.customerRepository.findOneByPhoneNumber(customerBindingModel.phoneNumber) != customer) {
-            // No such customer yet
             this.customerRepository.saveAndFlush(customer)
+        } else {
+            customer = existingCustomer
         }
-
 
         val startDate = getDateFrom(startDateString)
         val endDate = getDateFrom(endDateString)
@@ -118,19 +125,29 @@ constructor(private val carRepository: CarRepository,
 
         val requestedCar = RequestedCar(car.id,customer.id, startDate, endDate)
 
-        if (this.requestedCarRepository.hasBooking(requestedCar).not()) {
+        if (!this.requestedCarRepository.hasBooking(requestedCar)) {
             // No such booking yet
             this.requestedCarRepository.saveAndFlush(requestedCar)
             this.managerInformer.informManagerWith(requestedCar)
         }
 
-        return "redirect:/thank_you"
+        val willPayDepositNow = params["payDepositNow"].toString().toBoolean()
+
+        return if (willPayDepositNow)
+            "forward:/pay"
+        else "redirect:/cancel"
     }
 
-    @GetMapping("/thank_you")
-    fun thankYou(model: Model): String {
-        model.addAttribute("view", "thankYou")
-        return "client-base-layout"
+    @GetMapping("/success")
+    fun success(model: Model): String {
+        model.addAttribute("view", "success")
+        return "empty-client-base-layout"
+    }
+
+    @GetMapping("/cancel")
+    fun cancel(model: Model): String {
+        model.addAttribute("view", "cancel")
+        return "empty-client-base-layout"
     }
 
 //    @GetMapping("/car/inclusions")

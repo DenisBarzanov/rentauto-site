@@ -80,6 +80,7 @@ constructor(private val customerRepository: CustomerRepository) {
         with(customer) {
             name = customerBindingModel.name
             phoneNumber = customerBindingModel.phoneNumber
+            email = customerBindingModel.email
         }
 
         this.customerRepository.saveAndFlush(customer)

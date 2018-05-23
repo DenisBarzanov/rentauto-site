@@ -2,7 +2,7 @@
 	<div class="container">
     	<div class="ints">
         <img th:src="@{/images/check.png}" alt="" />
-        <h1>Успешна Заявка</h1>
+        <h1 th:if="${message}" th:text="${message}"></h1>
     	<h2>Ще ви се обадим (Ако сте въвели валидни данни)<br/>
             Заявката ви ще стане реална ако я потвърдите чрез обаждане на тел:
             <a href="tel:+359 899 5888 30">

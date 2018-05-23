@@ -19,11 +19,6 @@ class PaymentController(@Autowired
 
     private val log = LoggerFactory.getLogger(javaClass)
 
-    @RequestMapping(method = [(RequestMethod.GET)])
-    fun index(): String {
-        return "index"
-    }
-
     @RequestMapping(method = [(RequestMethod.POST)], value = ["/pay"])
     fun pay(request: HttpServletRequest): String {
         val cancelUrl = URLUtils.getBaseURl(request) + PAYPAL_CANCEL_URL
@@ -34,7 +29,7 @@ class PaymentController(@Autowired
                     "BGN",
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.sale,
-                    "payment description",
+                    "RentAuto Sofia deposit payment",
                     cancelUrl,
                     successUrl)
             for (links in payment.links) {
