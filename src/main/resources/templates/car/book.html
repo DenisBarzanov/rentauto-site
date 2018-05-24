@@ -39,21 +39,23 @@
                                                 <input type="tel" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}"
                                                        style="padding: 12px 20px 12px 50px;margin: 8px 0;display: inline-block;border: 1px solid #ccc;border-radius: 4px; box-sizing: border-box;"/>
                                                 <script th:src="@{/intl-tel-input-12.1.0/build/js/intlTelInput.js}"></script>
-                                                <!-- Bootstrap -->
-
-                                                <br/>
-                                                <label class="check-container">Сега ще платя депозит:
-                                                    <input id="payDepositNow" type="checkbox" name="payDepositNow" th:checked="${payDepositNow}">
-                                                    <span class="checkmark"></span>
-                                                </label>
-
-
+                                               
                                                 <script>
                                                     $("#phoneNumber").intlTelInput({
                                                         nationalMode: false,
                                                         preferredCountries: ['bg'],
                                                     });
                                                 </script>
+
+
+                                                <!-- Bootstrap -->
+
+                                                <!--<label class="check-container">-->
+                                                    <!--<input id="payDepositNow" type="checkbox" name="payDepositNow" th:checked="${payDepositNow}">-->
+                                                    <!--<span class="checkmark"></span>-->
+                                                    <!--&lt;&minus;&minus;Сега ще платя депозит с PayPal-->
+                                                <!--</label>-->
+
 
                                             </div>
                                         </form>
