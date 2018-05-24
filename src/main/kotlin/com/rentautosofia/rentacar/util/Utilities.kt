@@ -1,7 +1,6 @@
 package com.rentautosofia.rentacar.util
 
 import com.rentautosofia.rentacar.entity.BaseBooking
-import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.entity.RequestedCar
 import com.rentautosofia.rentacar.repository.RentedCarRepository
 import com.rentautosofia.rentacar.repository.RequestedCarRepository
@@ -26,8 +25,8 @@ fun Date.isBetween(startDate: Date, endDate: Date) : Boolean {
 fun RentedCarRepository.findAllIdsOfBookedCarsBetween(startDate: Date, endDate: Date): List<Int> {
     val allBookedCars = this.findAll()
     val bookedInPeriod = allBookedCars.filter {
-        it.startDate.isBetween(startDate, endDate) or
-                it.endDate.isBetween(startDate, endDate)
+        startDate.isBetween(it.startDate, it.endDate) or
+                endDate.isBetween(it.startDate, it.endDate)
     }
     return bookedInPeriod.map { it.carId }
 }

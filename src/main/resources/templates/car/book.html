@@ -24,7 +24,7 @@
                                         <div style="font-size: 25px" class="date"><i class="fa fa-money" aria-hidden="true"></i> TOTAL: &euro;[[${totalPrice}]]</div>
                                     </div>
                                     <div>
-                                        <form th:action="@{/car/{id}/book(id=${car.id})}" id="confirmForm" method="POST" onsubmit="document.getElementById('payDepositNow').value = document.getElementById("researchPaper").checked;" >
+                                        <form th:action="@{/car/{id}/book(id=${car.id})}" id="confirmForm" method="POST" >
                                             <div class="formrow">
                                                 <input type="hidden" id="startDate" name="startDate" th:value="${param.datetime_pick[0]}"/>
                                                 <input type="hidden" id="endDate" name="endDate" th:value="${param.datetime_off[0]}"/>
@@ -39,21 +39,18 @@
                                                 <input type="tel" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}"
                                                        style="padding: 12px 20px 12px 50px;margin: 8px 0;display: inline-block;border: 1px solid #ccc;border-radius: 4px; box-sizing: border-box;"/>
                                                 <script th:src="@{/intl-tel-input-12.1.0/build/js/intlTelInput.js}"></script>
-                                               
+
                                                 <script>
                                                     $("#phoneNumber").intlTelInput({
                                                         nationalMode: false,
-                                                        preferredCountries: ['bg'],
+                                                        preferredCountries: ['bg']
                                                     });
                                                 </script>
 
-
-                                                <!-- Bootstrap -->
-
                                                 <!--<label class="check-container">-->
-                                                    <!--<input id="payDepositNow" type="checkbox" name="payDepositNow" th:checked="${payDepositNow}">-->
-                                                    <!--<span class="checkmark"></span>-->
-                                                    <!--&lt;&minus;&minus;Сега ще платя депозит с PayPal-->
+                                                <!--<input id="payDepositNow" type="checkbox" name="payDepositNow" th:checked="${payDepositNow}">-->
+                                                <!--<span class="checkmark"></span>-->
+                                                <!--&nbsp;&lt;&minus;&minus; Сега ще платя ДЕПОЗИТ с PayPal-->
                                                 <!--</label>-->
 
 

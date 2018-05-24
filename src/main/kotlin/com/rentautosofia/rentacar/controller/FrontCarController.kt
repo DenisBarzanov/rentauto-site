@@ -128,7 +128,7 @@ constructor(private val carRepository: CarRepository,
         if (!this.requestedCarRepository.hasBooking(requestedCar)) {
             // No such booking yet
             this.requestedCarRepository.saveAndFlush(requestedCar)
-//            this.managerInformer.informManagerWith(requestedCar)
+            this.managerInformer.informManagerWith(requestedCar)
         }
 
         val willPayDepositNow = params["payDepositNow"].toString() == "on"
