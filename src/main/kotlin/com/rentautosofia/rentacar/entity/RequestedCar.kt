@@ -17,7 +17,6 @@ data class RequestedCar(override var carId: Int = 0,
             return false
         }
         if ((other.carId == this.carId) and
-                (other.customerId == this.customerId) and
                 (other.startDate == this.startDate) and
                 (other.endDate == this.endDate)) {
             return true
