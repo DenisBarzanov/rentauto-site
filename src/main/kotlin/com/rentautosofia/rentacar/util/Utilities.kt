@@ -25,8 +25,11 @@ fun Date.isBetween(startDate: Date, endDate: Date) : Boolean {
 fun RentedCarRepository.findAllIdsOfBookedCarsBetween(startDate: Date, endDate: Date): List<Int> {
     val allBookedCars = this.findAll()
     val bookedInPeriod = allBookedCars.filter {
-        startDate.isBetween(it.startDate, it.endDate) or
-                endDate.isBetween(it.startDate, it.endDate)
+        (it.endDate.before(startDate) or it.startDate.after(endDate))
+                .not()
+
+//        startDate.isBetween(it.startDate, it.endDate) or // misses one case
+//                endDate.isBetween(it.startDate, it.endDate)
     }
     return bookedInPeriod.map { it.carId }
 }
@@ -49,7 +52,7 @@ fun <T> CrudRepository<T, Int>.findOne(id: Int): T? {
 
 fun RequestedCarRepository.hasBooking(booking: RequestedCar): Boolean {
     val allBookings = this.findAll()
-
+    // Todo if dates and car are equal between 2 requests -> the second one would sadly be ignored
     for (current_booking in allBookings) {
         if (current_booking == booking) {
             return true

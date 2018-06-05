@@ -1,5 +1,6 @@
 package com.rentautosofia.rentacar.controller
 
+import org.springframework.ui.Model
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,7 +27,7 @@ class PaymentController(@Autowired
         try {
             val payment = paypalService.createPayment(
                     200.00,
-                    "BGN",
+                    "EUR",
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.sale,
                     "RentAuto Sofia deposit payment",
@@ -45,16 +46,18 @@ class PaymentController(@Autowired
     }
 
     @RequestMapping(method = [RequestMethod.GET], value = [PAYPAL_CANCEL_URL])
-    fun cancelPay(): String {
-        return "cancel"
+    fun cancelPay(model: Model): String {
+        model.addAttribute("view", "cancel")
+        return "client-base-layout"
     }
 
     @RequestMapping(method = [RequestMethod.GET], value = [PAYPAL_SUCCESS_URL])
-    fun successPay(@RequestParam("paymentId") paymentId: String, @RequestParam("PayerID") payerId: String): String {
+    fun successPay(model: Model, @RequestParam("paymentId") paymentId: String, @RequestParam("PayerID") payerId: String): String {
         try {
             val payment = paypalService.executePayment(paymentId, payerId)
             if (payment.state == "approved") {
-                return "success"
+                model.addAttribute("view", "cancel")
+                return "client-base-layout"
             }
         } catch (e: PayPalRESTException) {
             log.error(e.message)

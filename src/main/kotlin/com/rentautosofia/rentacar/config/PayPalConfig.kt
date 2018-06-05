@@ -1,5 +1,6 @@
 package com.rentautosofia.rentacar.config
 
+import com.paypal.api.payments.FuturePayment
 import java.util.HashMap
 
 import org.springframework.beans.factory.annotation.Value
@@ -36,6 +37,7 @@ class PaypalConfig {
     @Throws(PayPalRESTException::class)
     fun apiContext(): APIContext {
         val apiContext = APIContext(authTokenCredential().accessToken)
+//        apiContext.setRefreshToken(FuturePayment.fetchRefreshToken(apiContext, "access_token\$production\$jkxnzq6vp5cznxss\\\$91774e1903a3a4dcdffe3fc96fa9ba6f"))
         apiContext.configurationMap = paypalSdkConfig()
         return apiContext
     }

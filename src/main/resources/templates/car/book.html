@@ -47,17 +47,17 @@
                                                     });
                                                 </script>
 
-                                                <!--<label class="check-container">-->
-                                                <!--<input id="payDepositNow" type="checkbox" name="payDepositNow" th:checked="${payDepositNow}">-->
-                                                <!--<span class="checkmark"></span>-->
-                                                <!--&nbsp;&lt;&minus;&minus; Сега ще платя ДЕПОЗИТ с PayPal-->
-                                                <!--</label>-->
+                                                <label class="check-container">
+                                               <input id="payDepositNow" type="checkbox" name="payDepositNow" th:checked="${payDepositNow}">
+                                               <span class="checkmark"></span>
+                                                &nbsp;&lt;&minus;&minus; Сега ще платя ДЕПОЗИТ от €200 с PayPal (Натиснете за Да)
+                                                </label>
 
 
                                             </div>
                                         </form>
                                     </div>
-                                    <a href="javascript:{}" onclick="document.getElementById('confirmForm').submit();" class="readmore">Потвърди заявката<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                                    <a href="javascript:{}" onclick="submitform()" class="readmore">Потвърди заявката<i class="fa fa-caret-right" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </li>
@@ -68,5 +68,14 @@
     </div>
 </div>
 
-
+<script>
+    function submitform() {
+      var f = document.getElementById('confirmForm');
+      if(f.checkValidity()) {
+        f.submit();
+      } else {
+        alert("Попълнете всичко!");
+      }
+    }
+</script>
 

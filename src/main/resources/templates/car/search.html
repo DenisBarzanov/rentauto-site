@@ -2,7 +2,7 @@
 <div class="container" id="search">
     <div class="bformBox">
         <h3>РЕЗЕРВИРАЙТЕ КОЛА ДНЕС!</h3>
-        <form th:action="@{/car/search}" method="POST">
+        <form th:action="@{/car/search}" method="POST" onsubmit="return submition()">
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
@@ -17,7 +17,7 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
                         <div class="input-group date form_datetime" data-date="2018-02-22T05:25:07Z" data-date-format="dd MM yyyy" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Изберете дата" name="datetime_pick" required="required" />
+                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Изберете дата" name="datetime_pick" id="datetime_pick" required="required" />
                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
                         <div class="input-group date form_datetime" data-date="2018-02-22T05:25:07Z" data-date-format="dd MM yyyy" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Изберете дата" name="datetime_off" required="required" />
+                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Изберете дата" name="datetime_off" id="datetime_off" required="required" />
                             <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -48,16 +48,44 @@
                     <button type="button" class="btn btn-block" onclick="location.href = '/#map'">Вижте адреса</button>
                 </div>
             </div>
+            <div>
+                <p style="color: red; font-size: 20px; text-align: center;" id="error"></p>
+            </div>
             <div class="formbtn">
                 <input type="submit" class="btn" value="Потърси коли">
             </div>
         </form>
     </div>
 </div>
+
 <script>
-    // When the user clicks on the div, open the popup
-    function popUp() {
-            let popup = document.getElementById("myPopUp");
-                popup.classList.toggle("show");
+	let startDateId = '#datetime_pick';
+	let endDateId = '#datetime_off';
+	function checkDates() {
+        let isOk = true;
+		if (!$(startDateId).val()) {
+			$(startDateId).addClass('invalid');
+            isOk = false;
+	  	} else {
+			$(startDateId).removeClass('invalid')
+	  	}
+		
+		if (!$(endDateId).val()) {
+			$(endDateId).addClass('invalid');
+            isOk = false;
+	  	} else {
+			$(endDateId).removeClass('invalid')
+	  	}
+        return isOk;
+	}
+
+   	function submition() {
+        let filled = checkDates();
+        if (!filled) $("#error").text("Моля попълнете и двете дати!");
+        return filled;
     }
+
+	$('#buildDate').change(function() {
+	  checkDates();
+	});
 </script>
