@@ -50,7 +50,7 @@
                                                 <label class="check-container">
                                                <input id="payDepositNow" type="checkbox" name="payDepositNow" th:checked="${payDepositNow}">
                                                <span class="checkmark"></span>
-                                                &nbsp;&lt;&minus;&minus; Сега ще платя ДЕПОЗИТ от €200 с PayPal (Натиснете за Да)
+                                                &nbsp;&lt;&minus;&minus; Сега ли ще платите ДЕПОЗИТ от €200 с PayPal? (Натиснете за Да)
                                                 </label>
 
 
@@ -71,10 +71,10 @@
 <script>
     function submitform() {
       var f = document.getElementById('confirmForm');
-      if(f.checkValidity()) {
+      if($("#email") && $("#phoneNumber")) {
         f.submit();
       } else {
-        alert("Попълнете всичко!");
+        alert("Попълнете поне имейла и телефона!");
       }
     }
 </script>
