@@ -25,9 +25,10 @@
                                     </div>
                                     <div>
                                         <form th:action="@{/car/{id}/book(id=${car.id})}" id="confirmForm" method="POST" >
-                                            <div class="formrow">
+                                            <div class="formrow" th:with="deposit = ${totalPrice*25/100}">
                                                 <input type="hidden" id="startDate" name="startDate" th:value="${param.datetime_pick[0]}" />
                                                 <input type="hidden" id="endDate" name="endDate" th:value="${param.datetime_off[0]}"/>
+                                                <input type="hidden" id="deposit" name="deposit" th:value="${deposit}"/>
 
 
                                                 <label for="email">Email</label>
@@ -50,14 +51,14 @@
                                                 <label class="check-container">
                                                <input id="payDepositNow" type="checkbox" name="payDepositNow" th:checked="${payDepositNow}">
                                                <span class="checkmark"></span>
-                                                &nbsp;&lt;&minus;&minus; Сега ли ще платите ДЕПОЗИТ от €200 с PayPal? (Натиснете за Да)
+                                               &nbsp;&lt;&minus;&minus; Сега ли ще платите КАПАРО от €[[${deposit}]] с PayPal, за да ви се запази колата? (Натиснете за Да)
                                                 </label>
 
 
                                             </div>
                                         </form>
                                     </div>
-                                    <a href="javascript:{}" onclick="submitform()" class="readmore">Потвърди заявката<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                                    <a href="javascript:{}" onclick="onclick="document.getElementById('confirmForm').submit();" class="readmore">Потвърди заявката<i class="fa fa-caret-right" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </li>
@@ -67,15 +68,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    function submitform() {
-      var f = document.getElementById('confirmForm');
-      if($("#email") && $("#phoneNumber")) {
-        f.submit();
-      } else {
-        alert("Попълнете поне имейла и телефона!");
-      }
-    }
-</script>
 

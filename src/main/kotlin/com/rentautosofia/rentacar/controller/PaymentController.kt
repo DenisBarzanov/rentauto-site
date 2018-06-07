@@ -13,6 +13,8 @@ import com.rentautosofia.rentacar.config.PaypalPaymentIntent
 import com.rentautosofia.rentacar.config.PaypalPaymentMethod
 import com.rentautosofia.rentacar.service.PaypalService
 import com.rentautosofia.rentacar.util.URLUtils
+import org.springframework.util.MultiValueMap
+import org.springframework.web.bind.annotation.RequestBody
 
 @Controller
 class PaymentController(@Autowired
@@ -21,12 +23,14 @@ class PaymentController(@Autowired
     private val log = LoggerFactory.getLogger(javaClass)
 
     @RequestMapping(method = [(RequestMethod.POST)], value = ["/pay"])
-    fun pay(request: HttpServletRequest): String {
+    fun pay(request: HttpServletRequest, @RequestBody multiParams: MultiValueMap<String, String>): String {
+        val params = multiParams.toSingleValueMap()
+        val depositAmount = params["deposit"]!!.toDouble()
         val cancelUrl = URLUtils.getBaseURl(request) + PAYPAL_CANCEL_URL
         val successUrl = URLUtils.getBaseURl(request) + PAYPAL_SUCCESS_URL
         try {
             val payment = paypalService.createPayment(
-                    200.00,
+                    depositAmount,
                     "EUR",
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.sale,
