@@ -5,16 +5,20 @@ import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestParam
 import com.paypal.base.rest.PayPalRESTException
 import com.rentautosofia.rentacar.config.PaypalPaymentIntent
 import com.rentautosofia.rentacar.config.PaypalPaymentMethod
+import com.rentautosofia.rentacar.repository.RentedCarRepository
 import com.rentautosofia.rentacar.service.PaypalService
 import com.rentautosofia.rentacar.util.URLUtils
+import com.rentautosofia.rentacar.util.findOne
 import org.springframework.util.MultiValueMap
-import org.springframework.web.bind.annotation.RequestBody
+import com.rentautosofia.rentacar.repository.CarRepository
+import com.rentautosofia.rentacar.util.daysTill
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import org.springframework.validation.BindingResult
+
 
 @Controller
 class PaymentController(@Autowired
@@ -22,21 +26,34 @@ class PaymentController(@Autowired
 
     private val log = LoggerFactory.getLogger(javaClass)
 
+    @Autowired
+    private lateinit var rentedCarRepository: RentedCarRepository
+    @Autowired
+    private lateinit var carRepository: CarRepository
+
     @RequestMapping(method = [(RequestMethod.POST)], value = ["/pay"])
-    fun pay(request: HttpServletRequest, @RequestBody multiParams: MultiValueMap<String, String>): String {
+    fun pay(model: Model, request: HttpServletRequest, @RequestBody multiParams: MultiValueMap<String, String>): String {
         val params = multiParams.toSingleValueMap()
-        val depositAmount = params["deposit"]!!.toDouble()
+        val depositAmount: Int
+        //depositAmount = //if (params["deposit"] != null) {
+            //params["deposit"]!!.toInt()
+        //} else {
+        val booking = rentedCarRepository.findOne(params["orderId"]!!.toInt())!!
+        val car = carRepository.findOne(booking.carId)!!
+        depositAmount = car.getPricePerDayFor(booking.startDate daysTill booking.endDate)
+        //}
         val cancelUrl = URLUtils.getBaseURl(request) + PAYPAL_CANCEL_URL
         val successUrl = URLUtils.getBaseURl(request) + PAYPAL_SUCCESS_URL
+
         try {
             val payment = paypalService.createPayment(
-                    depositAmount,
+                    depositAmount.toDouble(),
                     "EUR",
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.sale,
                     "RentAuto Sofia deposit payment",
                     cancelUrl,
-                    successUrl)
+                    "$successUrl?orderId=${booking.id}")
             for (links in payment.links) {
                 if (links.rel == "approval_url") {
                     return "redirect:" + links.href
@@ -56,11 +73,17 @@ class PaymentController(@Autowired
     }
 
     @RequestMapping(method = [RequestMethod.GET], value = [PAYPAL_SUCCESS_URL])
-    fun successPay(model: Model, @RequestParam("paymentId") paymentId: String, @RequestParam("PayerID") payerId: String): String {
+    fun successPay(@RequestParam("orderId") orderId: Int, model: Model, @RequestParam("paymentId") paymentId: String, @RequestParam("PayerID") payerId: String): String {
         try {
             val payment = paypalService.executePayment(paymentId, payerId)
             if (payment.state == "approved") {
-                model.addAttribute("view", "cancel")
+
+                print("\n\n\nDEPOSIT PAYED for id: $orderId\n\n\n")
+                val booking = rentedCarRepository.findOne(orderId!!)
+                booking!!.payedDeposit = true
+                rentedCarRepository.saveAndFlush(booking) // Make it payed
+
+                model.addAttribute("view", "success")
                 return "client-base-layout"
             }
         } catch (e: PayPalRESTException) {

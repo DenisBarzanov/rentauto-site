@@ -11,6 +11,8 @@ data class BookedCar(override var carId: Int = 0,
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     override var id: Int = 0
+
+    var payedDeposit: Boolean? = false
 }
 
 

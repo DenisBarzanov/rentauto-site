@@ -7,6 +7,7 @@
             <th>Клиент ID</th>
             <th>Начална дата</th>
             <th>Крайна дата</th>
+            <th>Платил Капаро</th>
             <th>Опция</th>
         </tr>
 
@@ -17,6 +18,7 @@
                 <td>[[${booking.customerId}]]</td>
                 <td>[[${booking.startDate}]]</td>
                 <td>[[${booking.endDate}]]</td>
+                <td>[[${booking.payedDeposit} ? 'Да' : 'Не']]</td>
                 <td>
                     <div>
                         <button th:onclick="'location.href = ' + '\'' + @{/admin/booking/{id}/delete(id=${booking.id})} + '\''">Изтрий</button>

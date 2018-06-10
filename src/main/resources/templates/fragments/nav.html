@@ -4,23 +4,35 @@
 
         <!-- NAVBAR HEADER -->
         <div class="navbar-header">
-            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="icon icon-bar"></span> <span class="icon icon-bar"></span> <span class="icon icon-bar"></span> </button>
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span
+                    class="icon icon-bar"></span> <span class="icon icon-bar"></span> <span
+                    class="icon icon-bar"></span></button>
             <!-- lOGO TEXT HERE -->
-            <a href="/" class="navbar-brand">Sofia <span>RentAuto</span></a> </div>
+            <a href="/" class="navbar-brand">Sofia <span>RentAuto</span></a></div>
 
         <!-- NAVIGATION LINKS -->
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-		<li>
-			<div id="google_translate_element" style="margin-top: 10px"></div>
-            <script type="text/javascript">
-function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'bg', includedLanguages: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-}
-                    </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                <li>
+                    <div id="google_translate_element" style="margin-top: 10px; color: gray"></div>
+                    <script type="text/javascript">
+                        function googleTranslateElementInit() {
+                            new google.translate.TranslateElement({
+                                pageLanguage: 'bg',
+                                includedLanguages: 'en',
+                                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                            }, 'google_translate_element');
+                        }
+                    </script>
+                    <script type="text/javascript"
+                            src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-		</li>
-                <li><a href="/#home" class="smoothScroll">Начало</a></li>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" id="myBtn" class="btn btn-default" style="margin: 10px 5px 0 5px; color: gray;padding: 7px">
+                        <i class="fa fa-paypal" aria-hidden="true">Депозит</i>
+                    </a>
+                </li>
                 <li><a href="https://drive.google.com/uc?export=download&amp;id=1VqlTGN6csN1KcLiStmg10v5IvlQJRP-Z">
                     Пълни условия
                 </a></li>
@@ -28,8 +40,61 @@ function googleTranslateElementInit() {
                 <!--<li><a href="/#about" class="smoothScroll">За нас</a></li>-->
                 <li><a href="/#map" class="smoothScroll">Карта</a></li>
                 <li><a href="/admin/options">Админ</a></li>
-                <li><a href="tel:+359 899 5888 30" class="calltxt" onclick=""><i class="fa fa-phone" aria-hidden="true"></i> +359 899 5888 30</a></li>
+                <li><a href="tel:+359 899 5888 30" class="calltxt" onclick=""><i class="fa fa-phone"
+                                                                                 aria-hidden="true"></i> +359 899 5888
+                    30</a></li>
             </ul>
         </div>
     </div>
 </div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header" style="text-align: center">
+            <span class="close">&times;</span>
+            <h2 style="text-align: center">Платете капаро с PayPal</h2>
+        </div>
+        <div class="modal-body" style="text-align: center">
+            <form th:action="@{/pay}" method="POST">
+                <label for="orderId">ID на поръчка</label>
+                <input type="number" class="custom-input" id="orderId" name="orderId" th:value="${orderId}" required="required" />
+                <button type="submit" class="btn btn-success">Плати</button>
+            </form>
+        </div>
+        <div class="modal-footer" style="text-align: center">
+            <h3>Въведете ID на поръчката, за която ще платите капаро</h3>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    };
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
