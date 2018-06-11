@@ -1,8 +1,6 @@
 package com.rentautosofia.rentacar.controller.admin
 
-import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
 import com.rentautosofia.rentacar.entity.Customer
-import com.rentautosofia.rentacar.entity.customer
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -33,24 +31,13 @@ constructor(private val customerRepository: CustomerRepository) {
 
     @GetMapping("/create")
     fun createCustomer(model: Model): String {
-        model.addAttribute("customer", CustomerBindingModel())
+        model.addAttribute("customer", Customer())
         model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/create")
         return "base-layout"
     }
 
     @PostMapping("/create")
-    fun createCustomerProcess(model: Model, @Valid customerBindingModel: CustomerBindingModel, bindingResult: BindingResult): String {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("view", "$PATH_ADMIN_CUSTOMER/create")
-            model.addAttribute("message", "Invalid data.")
-            model.addAttribute("car", customerBindingModel)
-            return "base-layout"
-        }
-        val customer = Customer (
-            phoneNumber = customerBindingModel.phoneNumber,
-            name = customerBindingModel.name,
-            email = customerBindingModel.email
-        )
+    fun createCustomerProcess(model: Model, customer: Customer): String {
         this.customerRepository.saveAndFlush(customer)
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"
     }
@@ -66,23 +53,8 @@ constructor(private val customerRepository: CustomerRepository) {
     }
 
     @PostMapping("/{id}/edit")
-    fun editProcess(model: Model, @PathVariable id: Int, @Valid customerBindingModel: CustomerBindingModel, bindingResult: BindingResult): String {
-        if (bindingResult.hasErrors()) {
-            with(model) {
-                addAttribute("message", "Invalid data.")
-                addAttribute("customer", customerBindingModel)
-                addAttribute("view", "$PATH_ADMIN_CUSTOMER/edit")
-            }
-            return "base-layout"
-        }
-        val customer = this.customerRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_CUSTOMER/all"
-
-        with(customer) {
-            name = customerBindingModel.name
-            phoneNumber = customerBindingModel.phoneNumber
-            email = customerBindingModel.email
-        }
-
+    fun editProcess(model: Model, @PathVariable id: Int, customer: Customer): String {
+        this.customerRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_CUSTOMER/all"
         this.customerRepository.saveAndFlush(customer)
         return "redirect:/$PATH_ADMIN_CUSTOMER/all"
     }

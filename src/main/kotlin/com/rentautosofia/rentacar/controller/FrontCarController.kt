@@ -1,6 +1,5 @@
 package com.rentautosofia.rentacar.controller
 
-import com.rentautosofia.rentacar.bindingModel.CustomerBindingModel
 import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.entity.Customer
 import com.rentautosofia.rentacar.entity.RequestedCar
@@ -88,8 +87,7 @@ constructor(private val carRepository: CarRepository,
     @PostMapping("/car/{id}/book", consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     fun orderProcess(model: Model,
                      @PathVariable id: Int,
-                     @Valid customerBindingModel: CustomerBindingModel,
-                     bindingResult: BindingResult,
+                     newCustomer: Customer,
                      request: HttpServletRequest,
                      @RequestBody multiParams: MultiValueMap<String, String>) : String {
 
@@ -107,13 +105,10 @@ constructor(private val carRepository: CarRepository,
 //        request.setAttribute("startDate", startDateString)
 //        request.setAttribute("endDate", endDateString)
         val customer: Customer
-        val existingCustomer = this.customerRepository.findOneByPhoneNumber(customerBindingModel.phoneNumber)
+        val existingCustomer = this.customerRepository.findOneByPhoneNumber(newCustomer.phoneNumber)
 
         if (existingCustomer == null) {
-            customer = Customer(
-                    phoneNumber = customerBindingModel.phoneNumber,
-                    email = customerBindingModel.email
-            )
+            customer = newCustomer
             this.customerRepository.saveAndFlush(customer)
         } else {
             customer = existingCustomer

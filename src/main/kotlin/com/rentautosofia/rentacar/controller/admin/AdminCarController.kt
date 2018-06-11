@@ -1,15 +1,11 @@
 package com.rentautosofia.rentacar.controller.admin
 
-import com.rentautosofia.rentacar.bindingModel.CarBindingModel
 import com.rentautosofia.rentacar.entity.Car
-import com.rentautosofia.rentacar.entity.car
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.util.findOne
-import javax.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -25,28 +21,13 @@ constructor(private val carRepository: CarRepository) {
 
     @GetMapping("/create")
     fun create(model: Model): String {
-        model.addAttribute("car", CarBindingModel())
+        model.addAttribute("car", Car())
         model.addAttribute("view", "$PATH_ADMIN_CAR/create")
         return "base-layout"
     }
 
     @PostMapping("/create")
-    fun createProcess(model: Model, @Valid carBindingModel: CarBindingModel, bindingResult: BindingResult): String {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("view", "$PATH_ADMIN_CAR/create")
-            model.addAttribute("message", "Invalid data.")
-            model.addAttribute("car", carBindingModel)
-            return "base-layout"
-        }
-
-        val car = Car (
-            name = carBindingModel.name,
-            price = carBindingModel.price,
-            imgURL = carBindingModel.imgURL,
-            LPG = carBindingModel.LPG,
-            transmission = carBindingModel.transmission
-        )
-
+    fun createProcess(model: Model, car: Car): String {
         this.carRepository.saveAndFlush(car)
         return "redirect:/$PATH_ADMIN_ALL_CARS"
     }
@@ -60,21 +41,15 @@ constructor(private val carRepository: CarRepository) {
     }
 
     @PostMapping("/{id}/edit")
-    fun editProcess(model: Model, @PathVariable id: Int, @Valid carBindingModel: CarBindingModel, bindingResult: BindingResult): String {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("message", "Invalid data.")
-            model.addAttribute("car", carBindingModel)
-            model.addAttribute("view", "$PATH_ADMIN_CAR/edit")
-            return "base-layout"
-        }
-        val car = this.carRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_ALL_CARS"
-        with(car) {
-            name = carBindingModel.name
-            imgURL = carBindingModel.imgURL
-            price = carBindingModel.price
-            LPG = carBindingModel.LPG
-            transmission = carBindingModel.transmission
-        }
+    fun editProcess(model: Model, @PathVariable id: Int, newCar: Car): String {
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("message", "Invalid data.")
+//            model.addAttribute("car", carBindingModel)
+//            model.addAttribute("view", "$PATH_ADMIN_CAR/edit")
+//            return "base-layout"
+//        }
+        this.carRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_ALL_CARS"
+        val car = newCar.copy(id = id)
         this.carRepository.saveAndFlush(car)
         return "redirect:/$PATH_ADMIN_ALL_CARS"
     }

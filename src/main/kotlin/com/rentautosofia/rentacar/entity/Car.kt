@@ -8,9 +8,13 @@ import javax.persistence.*
 data class Car(@Column var name: String = "",
                @Column var price: Int = 0,
                @Column(length = 1000) var imgURL: String = "",
-               @Column var LPG: Boolean? = false,
+               @Column var LPG: Boolean = false,
                @Column @Enumerated(EnumType.STRING)
-               var transmission: Transmission = Transmission.MANUAL) {
+               var transmission: Transmission = Transmission.MANUAL,
+               @Column var seatCount: Int? = null,
+               @Id
+               @GeneratedValue(strategy = GenerationType.IDENTITY)
+               var id: Int = -1) {
 
     fun getPricePerDayFor(days: Int) = when (days) {
         in 1 .. 3 -> this.price
@@ -19,14 +23,10 @@ data class Car(@Column var name: String = "",
         in 16 .. Int.MAX_VALUE -> this.price - 20
         else -> throw IllegalArgumentException("Cannot get get price per day for $days (NON-POSITIVE) days!!")
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int = 0
 }
-
-fun car(function: Car.() -> Unit): Car {
-    val car = Car()
-    car.function()
-    return car
-}
+//
+//fun car(function: Car.() -> Unit): Car {
+//    val car = Car()
+//    car.function()
+//    return car
+//}

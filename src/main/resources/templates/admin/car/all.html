@@ -7,7 +7,14 @@
 <section>
         <table>
             <tr>
-                <th:block th:include="fragments/tableHeadCommon"></th:block>
+                <th>Истинска<br/>Снимка</th>
+                <th>Име</th>                
+                <th>Цена На<br/>Ден (&euro;)</th>
+                <th>LPG</th>
+                <th>Превключване</th>
+                <th>Брой седалки</th>
+                <th>ID</th>
+                <th>Опции</th>
             </tr>
 
             <th:block th:each="car : ${cars}">
@@ -15,7 +22,12 @@
                 <td>
                     <img th:src="${car.imgURL}"/>
                 </td>
-                <th:block th:include="fragments/tableBodyCommon"></th:block>
+                <td>[[${car.name}]]</td>
+                <td>[[${car.price}]]</td>
+                <td>[[${car.LPG}]]</td>
+                <td>[[${car.transmission}]]</td>
+                <td>[[${car.seatCount}]]</td>
+                <td>[[${car.id}]]</td>
                 <td>
                     <div>
                         <button th:onclick="'location.href = ' + '\'' + @{/admin/car/{id}/delete(id=${car.id})} + '\''">Изтрий</button>
