@@ -38,8 +38,8 @@
                 <th>Дата на връщане</th>
             </tr>
             <tr>
-                <td>[[${startDate}]]</td>
-                <td>[[${endDate}]]</td>
+                <td>[[${#dates.format(booking.startDate, 'dd-MM-yyyy')}]]</td>
+                <td>[[${#dates.format(booking.endDate, 'dd-MM-yyyy')}]]</td>
             </tr>
         </table>
     </div>
@@ -60,7 +60,7 @@
 </section>
 <section>
     <div>
-        <form th:action="@{/admin/booking/{id}/delete(id=${bookingId})}" method="POST">
+        <form th:action="@{/admin/booking/{id}/delete(id=${booking.id})}" method="POST">
             <div>
                 <button type="submit">Изтрий</button>
             </div>

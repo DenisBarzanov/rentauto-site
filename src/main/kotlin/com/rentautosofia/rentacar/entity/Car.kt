@@ -14,7 +14,7 @@ data class Car(@Column var name: String = "",
                @Column var seatCount: Int? = null,
                @Id
                @GeneratedValue(strategy = GenerationType.IDENTITY)
-               var id: Int = -1) {
+               var id: Int = 0) {
 
     fun getPricePerDayFor(days: Int) = when (days) {
         in 1 .. 3 -> this.price

@@ -1,0 +1,27 @@
+<h1>Редактирай Резервация</h1>
+<section>
+    <div>
+        <form th:action="@{/admin/booking/{id}/edit(id=${booking.id})}" method="POST">
+            <div>
+                <label for="id">ID:</label>
+                <input type="text" id="id" name="id" th:value="${booking.id}" disabled="disabled" />
+
+                <label for="startDate">Дата взимане</label>
+                <input type="text" id="startDate" name="startDate" th:value="${#dates.format(booking.startDate, 'dd-MM-yyyy')}" />
+
+                <label for="endDate">Дата връщане</label>
+                <input type="text" id="endDate" name="endDate" th:value="${#dates.format(booking.endDate, 'dd-MM-yyyy')}"/>
+
+
+                <label class="check-container">Платил капаро?
+                    <input type="checkbox" name="payedDeposit" th:checked="${booking.payedDeposit}">
+                    <span class="checkmark"></span>
+                </label>
+
+                <div>
+                    <button type="submit">Редактирай</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

@@ -7,7 +7,6 @@ import com.rentautosofia.rentacar.repository.CustomerRepository
 import com.rentautosofia.rentacar.repository.RequestedCarRepository
 import com.rentautosofia.rentacar.util.getIds
 import com.rentautosofia.rentacar.util.findOne
-import com.rentautosofia.rentacar.util.getProperFormat
 import org.springframework.stereotype.Controller
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.ui.Model
@@ -41,10 +40,11 @@ constructor(private val carRepository: CarRepository,
                 this.carRepository.findOne(requested.carId)
         val customer =
                 this.customerRepository.findOne(requested.customerId)
-        model.addAttribute("car", car)
-        model.addAttribute("customer", customer)
-        model.addAttribute("startDate", requested.startDate.getProperFormat())
-        model.addAttribute("endDate", requested.endDate.getProperFormat())
+        with(model) {
+            addAttribute("car", car)
+            addAttribute("customer", customer)
+            addAttribute("requested", requested)
+        }
         return "base-layout"
     }
 

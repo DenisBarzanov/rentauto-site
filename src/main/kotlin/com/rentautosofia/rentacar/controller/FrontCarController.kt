@@ -91,19 +91,11 @@ constructor(private val carRepository: CarRepository,
                      request: HttpServletRequest,
                      @RequestBody multiParams: MultiValueMap<String, String>) : String {
 
-        println(multiParams)
-
         val params = multiParams.toSingleValueMap()
-
-        println(params)
 
         val startDateString = params["startDate"]!!
         val endDateString = params["endDate"]!!
 
-
-
-//        request.setAttribute("startDate", startDateString)
-//        request.setAttribute("endDate", endDateString)
         val customer: Customer
         val existingCustomer = this.customerRepository.findOneByPhoneNumber(newCustomer.phoneNumber)
 
@@ -144,16 +136,4 @@ constructor(private val carRepository: CarRepository,
         model.addAttribute("view", "cancel")
         return "empty-client-base-layout"
     }
-
-//    @GetMapping("/car/inclusions")
-//    fun showCarInclusion(model: Model) : String {
-//        model.addAttribute("view", "car/inclusions")
-//        return "client-base-layout"
-//    }
-//
-//    @GetMapping("/car/priceDependency")
-//    fun showPriceDependency(model: Model): String {
-//        model.addAttribute("view", "car/priceDependency")
-//        return "client-base-layout"
-//    }
 }

@@ -42,15 +42,8 @@ constructor(private val carRepository: CarRepository) {
 
     @PostMapping("/{id}/edit")
     fun editProcess(model: Model, @PathVariable id: Int, newCar: Car): String {
-//        if (bindingResult.hasErrors()) {
-//            model.addAttribute("message", "Invalid data.")
-//            model.addAttribute("car", carBindingModel)
-//            model.addAttribute("view", "$PATH_ADMIN_CAR/edit")
-//            return "base-layout"
-//        }
         this.carRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_ALL_CARS"
-        val car = newCar.copy(id = id)
-        this.carRepository.saveAndFlush(car)
+        this.carRepository.saveAndFlush(newCar)
         return "redirect:/$PATH_ADMIN_ALL_CARS"
     }
 

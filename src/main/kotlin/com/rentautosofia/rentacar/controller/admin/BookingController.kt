@@ -1,5 +1,6 @@
 package com.rentautosofia.rentacar.controller.admin
 
+import com.rentautosofia.rentacar.entity.BookedCar
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import com.rentautosofia.rentacar.repository.RentedCarRepository
@@ -9,10 +10,7 @@ import com.rentautosofia.rentacar.util.getProperFormat
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 
 const val PATH_ADMIN_BOOKING = "admin/booking"
 
@@ -31,6 +29,23 @@ constructor(private val carRepository: CarRepository,
         model.addAttribute("bookings", allBookings)
         return "base-layout"
     }
+
+
+    @GetMapping("/{id}/edit")
+    fun edit(model: Model, @PathVariable id: Int): String {
+        val booking = this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
+        model.addAttribute("booking", booking)
+        model.addAttribute("view", "$PATH_ADMIN_BOOKING/edit")
+        return "base-layout"
+    }
+
+    @PostMapping("/{id}/edit")
+    fun editProcess(model: Model, @PathVariable id: Int, newBooking: BookedCar): String {
+        val oldBooking = this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
+        this.rentedCarRepository.saveAndFlush(oldBooking.copy(startDate = newBooking.startDate, endDate = newBooking.endDate, payedDeposit = newBooking.payedDeposit))
+        return "redirect:/$PATH_ADMIN_BOOKING/all"
+    }
+
     @GetMapping("/{id}/delete")
     fun delete(model: Model, @PathVariable id: Int): String {
         model.addAttribute("view", "$PATH_ADMIN_BOOKING/delete")
@@ -46,11 +61,9 @@ constructor(private val carRepository: CarRepository,
         val totalPrice = pricePerDay * days
 
         with(model) {
+            addAttribute("booking", booking)
             addAttribute("car", car)
             addAttribute("customer", customer)
-            addAttribute("startDate", booking.startDate.getProperFormat())
-            addAttribute("endDate", booking.endDate.getProperFormat())
-            addAttribute("bookingId", booking.id)
             addAttribute("pricePerDay", pricePerDay)
             addAttribute("totalPrice", totalPrice)
         }

@@ -16,12 +16,13 @@
                 <td>[[${booking.id}]]</td>
                 <td>[[${booking.carId}]]</td>
                 <td>[[${booking.customerId}]]</td>
-                <td>[[${booking.startDate}]]</td>
-                <td>[[${booking.endDate}]]</td>
+                <td>[[${#dates.format(booking.startDate, 'dd-MM-yyyy')}]]</td>
+                <td>[[${#dates.format(booking.endDate, 'dd-MM-yyyy')}]]</td>
                 <td>[[${booking.payedDeposit} ? 'Да' : 'Не']]</td>
                 <td>
                     <div>
                         <button th:onclick="'location.href = ' + '\'' + @{/admin/booking/{id}/delete(id=${booking.id})} + '\''">Изтрий</button>
+                        <button th:onclick="'location.href = ' + '\'' + @{/admin/booking/{id}/edit(id=${booking.id})} + '\''">Редактирай</button>
                     </div>
                 </td>
             </tr>
