@@ -101,16 +101,16 @@ constructor(private val carRepository: CarRepository,
 
         if (existingCustomer == null) {
             customer = newCustomer
-            this.customerRepository.saveAndFlush(customer)
+            customer.id = this.customerRepository.saveAndFlush(customer).id // save returns saved object
         } else {
             customer = existingCustomer
-        }
+        }	
 
         val startDate = getDateFrom(startDateString)
         val endDate = getDateFrom(endDateString)
         val car = this.carRepository.findOne(id) ?: return "redirect:/"
 
-        val requestedCar = RequestedCar(car.id,customer.id, startDate, endDate)
+        val requestedCar = RequestedCar(car.id, customer.id, startDate, endDate)
 
         if (!this.requestedCarRepository.hasBooking(requestedCar)) {
             // No such booking yet
