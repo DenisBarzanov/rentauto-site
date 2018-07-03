@@ -116,6 +116,7 @@ constructor(private val carRepository: CarRepository,
             // No such booking yet
             this.requestedCarRepository.saveAndFlush(requestedCar)
             this.managerInformer.informManagerWith(requestedCar)
+            this.managerInformer.informClientWith(requestedCar)
         }
 
         val willPayDepositNow = params["payDepositNow"].toString() == "on"

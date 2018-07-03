@@ -3,7 +3,9 @@
         <div class="flex-box">
             <th:block th:each="id : ${requestIds}">
                 <div>
-                    <button th:onclick="'location.href = ' + '\'' + @{/admin/bookRequest/{id}/accept(id=${id})} + '\''">Виж</button>
+                    <button th:onclick="'location.href = ' + '\'' + @{/admin/bookRequest/{id}/accept(id=${id})} + '\''">
+                        Виж
+                    </button>
                 </div>
             </th:block>
         </div>
