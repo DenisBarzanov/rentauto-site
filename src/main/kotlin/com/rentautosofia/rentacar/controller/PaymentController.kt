@@ -34,20 +34,21 @@ class PaymentController(@Autowired
     @RequestMapping(method = [(RequestMethod.POST)], value = ["/pay"])
     fun pay(model: Model, request: HttpServletRequest, @RequestBody multiParams: MultiValueMap<String, String>): String {
         val params = multiParams.toSingleValueMap()
-        val depositAmount: Int
+//        val depositAmount: Int
         //depositAmount = //if (params["deposit"] != null) {
             //params["deposit"]!!.toInt()
         //} else {
         val booking = rentedCarRepository.findOne(params["orderId"]!!.toInt())!!
         val car = carRepository.findOne(booking.carId)!!
-        depositAmount = car.getPricePerDayFor(booking.startDate daysTill booking.endDate)
+//        depositAmount = car.getPricePerDayFor(booking.startDate daysTill booking.endDate)
         //}
         val cancelUrl = URLUtils.getBaseURl(request) + PAYPAL_CANCEL_URL
         val successUrl = URLUtils.getBaseURl(request) + PAYPAL_SUCCESS_URL
 
         try {
             val payment = paypalService.createPayment(
-                    depositAmount.toDouble(),
+//                    depositAmount.toDouble(),
+                    100.00,
                     "EUR",
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.sale,
@@ -79,7 +80,7 @@ class PaymentController(@Autowired
             if (payment.state == "approved") {
 
                 print("\n\n\nDEPOSIT PAYED for id: $orderId\n\n\n")
-                val booking = rentedCarRepository.findOne(orderId!!)
+                val booking = rentedCarRepository.findOne(orderId)
                 booking!!.payedDeposit = true
                 rentedCarRepository.saveAndFlush(booking) // Make it payed
 

@@ -3,8 +3,6 @@
     <div>
         <form th:action="@{/admin/customer/create}" method="POST">
             <div>
-                <label for="name">Име</label>
-                <input type="text" id="name" name="name" th:value="${customer.name}" />
 
                 <label for="phoneNumber">Телефон</label>
                 <input type="text" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" />

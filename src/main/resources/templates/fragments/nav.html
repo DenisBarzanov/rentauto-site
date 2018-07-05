@@ -29,7 +29,7 @@
 
                 </li>
                 <li>
-                    <a href="javascript:void(0)" id="myBtn" class="btn btn-default" style="margin: 10px 5px 0 5px; color: gray;padding: 7px">
+                    <a href="javascript:void(0)" id="paypal_btn" class="btn btn-default">
                         <i class="fa fa-paypal" aria-hidden="true">Депозит</i>
                     </a>
                 </li>
@@ -61,7 +61,7 @@
             <form th:action="@{/pay}" method="POST">
                 <label for="orderId">ID на поръчка</label>
                 <input type="number" class="custom-input" id="orderId" name="orderId" th:value="${orderId}" required="required" />
-                <button type="submit" class="btn btn-success">Плати</button>
+                <button type="submit" class="btn btn-success" style="background-color: #3b7bbf; border-color: #3b7bbf;">Плати</button>
             </form>
         </div>
         <div class="modal-footer" style="text-align: center">
@@ -76,7 +76,7 @@
     var modal = document.getElementById('myModal');
 
     // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
+    var btn = document.getElementById("paypal_btn");
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];

@@ -6,7 +6,6 @@
                 <th>Име</th>
                 <th>Телефон</th>
                 <th>Email</th>
-                <th>Име на клиент</th>
                 <th>Начална дата</th>
                 <th>Крайна дата</th>
             </tr>
@@ -15,7 +14,6 @@
                 <td>[[${car.name}]]</td>
                 <td>[[${customer.phoneNumber}]]</td>
                 <td>[[${customer.email}]]</td>
-                <td th:text="${customer?.name}">Няма</td>
                 <td>[[${#dates.format(requested.startDate, 'dd-MM-yyyy')}]]</td>
                 <td>[[${#dates.format(requested.endDate, 'dd-MM-yyyy')}]]</td>
             </tr>

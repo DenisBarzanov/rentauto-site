@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:300,400,500,700');
+
 /*------------------------------------------
 Project Name : Car Rental
 Desgined By  : eCreative solutions
@@ -21,6 +23,12 @@ Table Of Index
 13. Footer css
 14. Media Quries css
 ------------------------------------------*/
+#paypal_btn {
+    margin: 10px 5px 0 5px;
+    color: white;
+    padding: 7px;
+    background-color: #3b7bbf;
+}
 
 .custom-input {
     padding: 12px 20px;
@@ -31,7 +39,7 @@ Table Of Index
     box-sizing: border-box;
 }
 
-/* Modal PayPay form*/
+/* Modal PayPal form*/
 body {
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -107,8 +115,11 @@ body {
 
 .modal-header {
     padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white !important;
+    background-color: #3b7bbf;
+}
+
+.modal-header  h2 {
+    color: white;
 }
 
 .modal-body {
@@ -117,7 +128,7 @@ body {
 
 .modal-footer {
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: #3b7bbf;
     color: white;
 }
 
@@ -176,7 +187,6 @@ body {
     }
 }
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:300,400,500,700');
 html, body {
     min-height: 100%;
 }

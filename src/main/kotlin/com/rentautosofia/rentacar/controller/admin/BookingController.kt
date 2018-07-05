@@ -26,6 +26,13 @@ constructor(private val carRepository: CarRepository,
         model.addAttribute("view", "$PATH_ADMIN_BOOKING/all")
         val allBookings =
                 this.rentedCarRepository.findAll()
+        allBookings.sortWith(Comparator(fun (booking1: BookedCar, booking2: BookedCar): Int {
+            return when {
+                booking1.startDate.before(booking2.startDate) -> -1
+                booking1.startDate.after(booking2.startDate) -> 1
+                else -> 0
+            }
+        }))
         model.addAttribute("bookings", allBookings)
         return "base-layout"
     }

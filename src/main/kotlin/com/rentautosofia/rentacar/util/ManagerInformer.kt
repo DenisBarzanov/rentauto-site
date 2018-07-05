@@ -84,14 +84,6 @@ class ManagerInformer {
                                                 <td><strong>'${requestedCar.endDate.getProperFormat()}'</strong></td>
                                             </tr>
                                             <tr>
-                                                <td>Име на клиент</td>
-                                                <td><strong>'${
-                                                if(customer?.name?.isNotEmpty() == true)
-                                                    customer.name
-                                                else "Няма"
-                                                }'</strong></td>
-                                            </tr>
-                                            <tr>
                                                 <td>Телефон на клиент</td>
                                                 <td><strong>'${customer?.phoneNumber}'</strong></td>
                                             </tr>                                            <tr>
@@ -265,7 +257,7 @@ class ManagerInformer {
 						    Снимка на кола
 						</td>
 						<td>
-						    <img src="${car?.imgURL}" />
+						    <img style="width: 300px;" src="${car.imgURL}" />
 						</td>
 					    <tr>
                                     </table>

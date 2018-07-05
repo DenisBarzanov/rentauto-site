@@ -8,7 +8,6 @@
     <div>
         <table>
             <tr>
-                <th>Име</th>
                 <th>Телефон</th>
                 <th>Email</th>
                 <th>Опция</th>
@@ -16,7 +15,6 @@
 
             <th:block th:each="customer : ${customers}">
             <tr>
-                <td th:text="${customer.name}"></td>
                 <td th:text="${customer.phoneNumber}"></td>
                 <td th:text="${customer.email}"></td>
                 <td>
