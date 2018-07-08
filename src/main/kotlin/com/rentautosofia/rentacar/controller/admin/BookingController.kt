@@ -12,13 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import java.util.Date
 
 const val PATH_ADMIN_BOOKING = "admin/booking"
 
-object BookedCarForView : BookedCar() {
-    var car: Car? = null
-    var customer: Customer? = null
-}
+data class BookedCarForView (
+    var car: Car? = null,
+    var customer: Customer? = null,
+    var startDate: Date = Date(),
+    var endDate: Date = Date(),
+    var payedDeposit: Boolean? = false,
+    var id: Int = 0)
 
 @Controller
 @RequestMapping("/$PATH_ADMIN_BOOKING")
@@ -28,11 +32,13 @@ constructor(private val carRepository: CarRepository,
             private val rentedCarRepository: RentedCarRepository){
 
     fun BookedCar.toBookedCarForView(): BookedCarForView {
-        val bookedCarView = this as BookedCarForView
-        with(bookedCarView) {
-            car = this@BookingController.carRepository.findOne(bookedCarView.carId)
-            customer = this@BookingController.customerRepository.findOne(bookedCarView.customerId)
-        }
+        val bookedCarView = BookedCarForView(
+            car = this@BookingController.carRepository.findOne(this.carId),
+            customer = this@BookingController.customerRepository.findOne(this.customerId),
+            startDate = this.startDate,
+            endDate = this.endDate,
+            payedDeposit = this.payedDeposit,
+            id = this.id)
         return bookedCarView
     }
 
@@ -44,10 +50,10 @@ constructor(private val carRepository: CarRepository,
                 this.rentedCarRepository.findAll()
         allBookings.sortWith(Comparator(fun (b1: BookedCar, b2: BookedCar): Int {
             return when {
-                with(b1.startDate) { after(b2.startDate) and after(b2.endDate) }
-                    or with(b1.endDate) { after(b2.startDate) and after(b2.endDate)}
-                    -> 1
-                else -> -1
+                with(b1.startDate) { before(b2.startDate) and before(b2.endDate) }
+                    or with(b1.endDate) { before(b2.startDate) and before(b2.endDate)}
+                    -> -1
+                else -> 1
             }
         }))
 
@@ -72,14 +78,8 @@ constructor(private val carRepository: CarRepository,
 
     @PostMapping("/{id}/edit")
     fun editProcess(model: Model, @PathVariable id: Int, newBooking: BookedCar): String {
-        val booking = this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
-//        this.rentedCarRepository.saveAndFlush(oldBooking.copy(startDate = newBooking.startDate, endDate = newBooking.endDate, payedDeposit = newBooking.payedDeposit))
-        with(booking) {
-            startDate = newBooking.startDate
-            endDate = newBooking.endDate
-            payedDeposit = newBooking.payedDeposit
-        }
-        this.rentedCarRepository.saveAndFlush(booking)
+        val oldBooking = this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
+        this.rentedCarRepository.saveAndFlush(oldBooking.copy(startDate = newBooking.startDate, endDate = newBooking.endDate, payedDeposit = newBooking.payedDeposit))
         return "redirect:/$PATH_ADMIN_BOOKING/all"
     }
 

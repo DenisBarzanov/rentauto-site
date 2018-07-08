@@ -3,7 +3,6 @@
     <table>
         <tr>
             <th>Снимка</th>
-            <th>Кола име</th>
             <th>Начална дата</th>
             <th>Крайна дата</th>
             <th>Платил Капаро</th>
@@ -15,10 +14,16 @@
                 <td>
                     <img th:src="${booking.car.imgURL}"/>
                 </td>
-                <td>[[${booking.car.name}]]</td>
                 <td>[[${#dates.format(booking.startDate, 'dd-MM-yyyy')}]]</td>
                 <td>[[${#dates.format(booking.endDate, 'dd-MM-yyyy')}]]</td>
-                <td>[[${booking.payedDeposit} ? 'Да' : 'Не']]</td>
+                <td>
+			<div th:if="${booking.payedDeposit}" >
+				<img src="https://cdn4.iconfinder.com/data/icons/basic-elements-circle/614/781_-_Tick-512.png"/>
+			</div>
+			<div th:unless="${booking.payedDeposit}" >
+				<img src="https://cdn3.iconfinder.com/data/icons/flat-actions-icons-9/792/Tick_Mark_Dark-512.png"/>
+			</div>
+		</td>
                 <td>
                     <div>
                         <button th:onclick="'location.href = ' + '\'' + @{/admin/booking/{id}/delete(id=${booking.id})} + '\''">Виж</button>

@@ -18,8 +18,8 @@ infix fun Date.daysTill(otherDate: Date): Int {
 }
 
 fun Date.isBetween(startDate: Date, endDate: Date) : Boolean {
-    return (this.after(startDate) or (this == startDate)) and
-            (this.before(endDate) or (this == endDate))
+    return this.after(startDate) and
+            this.before(endDate)
 }
 
 fun RentedCarRepository.findAllIdsOfBookedCarsBetween(startDate: Date, endDate: Date): List<Int> {

@@ -4,7 +4,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-open class BookedCar(override var carId: Int = 0,
+data class BookedCar(override var carId: Int = 0,
                      override var customerId: Int = 0,
                      override var startDate: Date = Date(),
                      override var endDate: Date = Date(),
