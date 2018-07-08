@@ -60,8 +60,16 @@ constructor(private val carRepository: CarRepository,
 
         val viewBookings = allBookings.map { it.toBookedCarForView() }
 
+        val bookedCarIds = viewBookings.map { it.car!!.id }.distinct()
 
-        model.addAttribute("bookings", viewBookings)
+        val bookedCarsSorted = mutableListOf<List<BookedCarForView>>()
+
+        bookedCarIds.forEach(fun (carId: Int) {
+            val oneCarList = viewBookings.filter { it.car!!.id == carId }
+            bookedCarsSorted.add(oneCarList)
+        })
+
+        model.addAttribute("bookings", bookedCarsSorted.flatten())
         return "base-layout"
     }
 
