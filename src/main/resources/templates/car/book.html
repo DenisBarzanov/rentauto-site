@@ -56,7 +56,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <a href="javascript:{}" onclick="document.getElementById('confirmButton').click();" class="readmore">Потвърди заявката<i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                                    <a href="javascript:{}" onclick="submitBooking()" class="readmore">Потвърди заявката<i class="fa fa-caret-right" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </li>
@@ -67,3 +67,30 @@
     </div>
 </div>
 
+<!-- Event snippet for Full Rental Request conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script>
+    function gtag_report_conversion(url) {
+        /*<![CDATA[*/
+
+        var callback = function () {
+            if (typeof(url) != 'undefined') {
+                window.location = url;
+            }
+        };
+        gtag('event', 'conversion', {
+            'send_to': 'AW-824530894/kWYhCMnCs4UBEM6vlYkD',
+            'value': /*[[${totalPrice}]]*/ 500.00,
+            'currency': 'EUR',
+            'event_callback': callback
+        });
+        return false;
+
+        /*]]>*/
+    }
+    function submitBooking() {
+        gtag_report_conversion();
+        $(".preloader").fadeIn(1000);
+        document.getElementById('confirmButton').click();
+    }
+</script>
