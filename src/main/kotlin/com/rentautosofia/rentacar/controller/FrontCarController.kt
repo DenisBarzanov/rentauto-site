@@ -12,12 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
-import javax.validation.Valid
 import org.springframework.util.MultiValueMap
-
 
 @Controller
 class FrontCarController @Autowired
@@ -36,9 +33,7 @@ constructor(private val carRepository: CarRepository,
     }
 
     @PostMapping("/car/search")
-    fun searchProcess(@RequestBody input: String): String {
-        return "redirect:/car/available?$input"
-    }
+    fun searchProcess(@RequestBody input: String) = "redirect:/car/available?$input"
 
     @GetMapping("/car/available")
     fun getAvailableCars(model: Model,

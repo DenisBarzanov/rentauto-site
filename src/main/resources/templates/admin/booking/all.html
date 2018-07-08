@@ -2,9 +2,8 @@
 <section>
     <table>
         <tr>
-            <th>Запис ID</th>
-            <th>Кола ID</th>
-            <th>Клиент ID</th>
+            <th>Снимка</th>
+            <th>Кола име</th>
             <th>Начална дата</th>
             <th>Крайна дата</th>
             <th>Платил Капаро</th>
@@ -13,16 +12,17 @@
 
         <th:block th:each="booking : ${bookings}">
             <tr>
-                <td>[[${booking.id}]]</td>
-                <td>[[${booking.carId}]]</td>
-                <td>[[${booking.customerId}]]</td>
+                <td>
+                    <img th:src="${booking.car.imgURL}"/>
+                </td>
+                <td>[[${booking.car.name}]]</td>
                 <td>[[${#dates.format(booking.startDate, 'dd-MM-yyyy')}]]</td>
                 <td>[[${#dates.format(booking.endDate, 'dd-MM-yyyy')}]]</td>
                 <td>[[${booking.payedDeposit} ? 'Да' : 'Не']]</td>
                 <td>
                     <div>
-                        <button th:onclick="'location.href = ' + '\'' + @{/admin/booking/{id}/delete(id=${booking.id})} + '\''">Изтрий</button>
-                        <button th:onclick="'location.href = ' + '\'' + @{/admin/booking/{id}/edit(id=${booking.id})} + '\''">Редактирай</button>
+                        <button th:onclick="'location.href = ' + '\'' + @{/admin/booking/{id}/delete(id=${booking.id})} + '\''">Виж</button>
+                        <button th:onclick="'location.href = ' + '\'' + @{/admin/booking/{id}/edit(id=${booking.id})} + '\''">Промени</button>
                     </div>
                 </td>
             </tr>
