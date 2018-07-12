@@ -60,6 +60,18 @@
 </section>
 <section>
     <div>
+        <table>
+            <tr>
+                <th>Код за Депозит</th>
+            </tr>
+            <tr>
+                <td>[[${booking.id}]]</td>
+            </tr>
+        </table>
+    </div>
+</section>
+<section>
+    <div>
         <form th:action="@{/admin/booking/{id}/delete(id=${booking.id})}" method="POST">
             <div>
                 <button type="submit">Изтрий</button>

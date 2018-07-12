@@ -25,7 +25,7 @@
                                     </div>
                                     <div>
                                         <form th:action="@{/car/{id}/book(id=${car.id})}" id="confirmForm" method="POST" >
-					    <input type="submit" style="display: none" id="confirmButton"/>
+					                        <input type="submit" style="display: none" id="confirmButton"/>
                                             <div class="formrow" th:with="deposit = ${totalPrice*25/100}">
                                                 <input type="hidden" id="startDate" name="startDate" th:value="${param.datetime_pick[0]}" />
                                                 <input type="hidden" id="endDate" name="endDate" th:value="${param.datetime_off[0]}"/>
@@ -34,6 +34,8 @@
 
                                                 <label for="email">Email</label>
                                                 <input type="email" class="custom-input" id="email" name="email" th:value="${customer.email}" required="required" />
+
+                                                <br/>
 
                                                 <label for="phoneNumber">Телефон</label>
                                                 <input type="tel" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" class="custom-input" required="required"/>
@@ -45,14 +47,6 @@
                                                         preferredCountries: ['bg']
                                                     });
                                                 </script>
-
-                                               <!--<label class="check-container">
-                                               <input id="payDepositNow" type="checkbox" name="payDepositNow" th:checked="${payDepositNow}">
-                                               <span class="checkmark"></span>
-                                               &nbsp;&lt;&minus;&minus; Сега ли ще платите КАПАРО от €[[${deposit}]] с PayPal, за да ви се запази колата? (Натиснете за Да)
-                                               </label>-->
-
-
                                             </div>
                                         </form>
                                     </div>
@@ -70,11 +64,12 @@
 <!-- Event snippet for Full Rental Request conversion page
 In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
 <script>
+
     function gtag_report_conversion(url) {
         /*<![CDATA[*/
 
-        var callback = function () {
-            if (typeof(url) != 'undefined') {
+        const callback = function () {
+            if (typeof(url) !== 'undefined') {
                 window.location = url;
             }
         };
@@ -89,8 +84,32 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
         /*]]>*/
     }
     function submitBooking() {
-        gtag_report_conversion();
-        $(".preloader").fadeIn(1000);
-        document.getElementById('confirmButton').click();
+        // document.getElementById('confirmButton').click();
+        $('#confirmForm').submit();
     }
+    $(function() {
+        // Initialize form validation on the registration form.
+        // It has the name attribute "registration"
+        $("form[id='confirmForm']").validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                phoneNumber: {
+                    required: true
+                }
+            },
+            // Specify validation error messages
+            messages: {
+                phoneNumber: "Моля въведете тел. номер",
+                email: "Моля въведете валиден email"
+            },
+            submitHandler: function(form) {
+                gtag_report_conversion();
+                form.submit();
+                $('.preloader').fadeIn(1000);
+            }
+        });
+    });
 </script>

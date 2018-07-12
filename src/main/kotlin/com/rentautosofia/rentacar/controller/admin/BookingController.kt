@@ -31,16 +31,14 @@ constructor(private val carRepository: CarRepository,
             private val customerRepository: CustomerRepository,
             private val rentedCarRepository: RentedCarRepository){
 
-    fun BookedCar.toBookedCarForView(): BookedCarForView {
-        val bookedCarView = BookedCarForView(
+    fun BookedCar.toBookedCarForView(): BookedCarForView =
+         BookedCarForView(
             car = this@BookingController.carRepository.findOne(this.carId),
             customer = this@BookingController.customerRepository.findOne(this.customerId),
             startDate = this.startDate,
             endDate = this.endDate,
             payedDeposit = this.payedDeposit,
             id = this.id)
-        return bookedCarView
-    }
 
     @GetMapping("/all")
     fun bookings(model: Model): String {

@@ -98,11 +98,8 @@
 
     /*==== Cars ====*/
     $(document).ready(function () {
-        var owl_article = $('.carousel_article').find('.owl-carousel');
-        var item_amount = parseInt(owl_article.find('.item').length);
-        var willLoop = item_amount > 1;
         $('.carsmodals').owlCarousel({
-            loop: willLoop,
+            loop: true,
             margin: 30,
             nav: true,
             responsiveClass: true,
@@ -110,17 +107,17 @@
                 0: {
                     items: 1,
                     nav: true,
-                    loop: willLoop
+                    loop: true
                 },
                 700: {
                     items: 1,
                     nav: true,
-                    loop: willLoop
+                    loop: true
                 },
                 1170: {
                     items: 1,
                     nav: true,
-                    loop: willLoop
+                    loop: true
                 }
             }
 
