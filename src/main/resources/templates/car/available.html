@@ -15,31 +15,41 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <h3>[[${car.name}]]</h3>
-                                <div class="subtitle">Traffic</div>
+                                <div class="subtitle">[[${car.LPG} ? 'LPG' : '']]</div>
                                 <div class="carPrice"> <strong>&euro; [[${car.price}]]</strong> <span>/Ден</span> </div>
                                 <a class="reserve btn" th:href="@{/car/{id}/book(id=${car.id})}"><i class="fa fa-calendar" aria-hidden="true"></i> Резервирайте сега</a> </div>
-                            <div class="col-md-6"><a th:href="@{${car.imgURL}}" class="image-popup"><img th:src="${car.imgURL}" alt="" /></a></div>
+                            <div class="col-md-6"><a th:href="@{${car.imgUrl}}" class="image-popup"><img th:src="${car.imgUrl}" alt="" /></a></div>
                             <div class="col-md-3">
                                 <div class="carinfo">
                                     <ul>
                                         <li>LPG: <strong>[[${car.LPG} ? 'Да' : 'Не']]</strong></li>
-                                        <li>Превключване: <strong>[[${car.transmission}]]</strong></li>
-                                        <li>Климатик: <strong>Да</strong></li>
-                                        <li>Минимална възраст: <strong>25 години</strong></li>
-                                        <li>Брой места: <strong>[[${car.seatCount}]]</strong></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </th:block>
-            </ul>
-        </div>
-    </div>
+                                        <li>Превключване: 
+											<strong>
+                                                <th:block th:switch="${#strings.toString(car.transmission)}">
+													<div th:case="'AUTOMATIC'">
+														АВТОМАТИК
+													</div>
+													<div th:case="'MANUAL'">
+														РЪЧНА
+													</div>
+												</th:block> 
+											</strong></li>
+												<li>Климатик: <strong>Да</strong></li>
+												<li>Минимална възраст: <strong>25 години</strong></li>
+												<li>Брой места: <strong>[[${car.seatCount}]]</strong></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</li>
+				</th:block>
+			</ul>
+		</div>
+	</div>
 </div>
 <script>
-    let links = document.querySelectorAll('.reserve');
-    links.forEach(function (link) {
-        link.href += document.location.search
-    })
+let links = document.querySelectorAll('.reserve');
+links.forEach(function (link) {
+	link.href += document.location.search
+})
 </script>

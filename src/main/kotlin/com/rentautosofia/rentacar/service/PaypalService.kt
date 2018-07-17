@@ -22,7 +22,7 @@ class PaypalService {
 
     @Throws(PayPalRESTException::class)
     fun createPayment(
-            total: Double?,
+            total: Float?,
             currency: String,
             method: PaypalPaymentMethod,
             intent: PaypalPaymentIntent,

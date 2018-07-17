@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<h1>График</h1>
+<section>
+    <table>
+        <tr>
+            <th>Снимка</th>
+            <th>Дата</th>
+            <th>Действие</th>
+            <th>Опция</th>
+        </tr>
 
-</body>
-</html>
+        <th:block th:each="booking : ${scheduledBookings}">
+            <tr>
+                <td>
+                    <img th:src="${booking.car.imgUrl}"/>
+                </td>
+                <td>[[${#dates.format(booking.date, 'dd-MM-yyyy')}]]</td>
+                <td>
+                    <th:block th:switch="${#strings.toString(booking.action)}">
+                        <div th:case="'TAKE_BACK'">
+                            Вземи обратно
+                        </div>
+                        <div th:case="'GIVE'">
+                            Дай
+                        </div>
+                        <div th:case="'TAKE_EARNEST'">
+                            Вземи капаро
+                        </div>
+                    </th:block>
+                </td>
+                <td>
+                    <div>
+                        <button th:onclick="'location.href = ' + '\'' + @{/admin/booking/{id}/delete(id=${booking.id})} + '\''">Виж</button>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+</section>

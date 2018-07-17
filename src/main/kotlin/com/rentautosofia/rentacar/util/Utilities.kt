@@ -2,9 +2,12 @@ package com.rentautosofia.rentacar.util
 
 import com.rentautosofia.rentacar.entity.BaseBooking
 import com.rentautosofia.rentacar.entity.RequestedCar
+import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.RentedCarRepository
 import com.rentautosofia.rentacar.repository.RequestedCarRepository
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Component
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -56,4 +59,22 @@ fun RequestedCarRepository.hasBooking(booking: RequestedCar): Boolean {
         }
     }
     return false
+}
+
+@Component
+class DataAccessUtils {
+    companion object {
+        lateinit var rentedCarRepository: RentedCarRepository
+        lateinit var carRepository: CarRepository
+    }
+
+    @Autowired
+    private fun setRentedCarRepository(rentedCarRepository: RentedCarRepository) {
+        DataAccessUtils.rentedCarRepository = rentedCarRepository
+    }
+
+    @Autowired
+    private fun setCarRepository(carRepository: CarRepository) {
+        DataAccessUtils.carRepository = carRepository
+    }
 }

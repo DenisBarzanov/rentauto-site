@@ -5,21 +5,6 @@
     /*==== Loader ====*/
     $('.preloader').fadeOut(1000); // set duration in brackets  
 
-    /*==== Date Picker ====*/
-    $('.form_datetime').datetimepicker({
-        minView: 2,
-        pickTime: false,
-        format: 'dd-mm-yyyy',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1,
-        startDate: new Date()
-    });
-
     /*==== Nav ====*/
     $('.navbar-collapse a').on('click', function () {
         $(".navbar-collapse").collapse('hide');
@@ -99,7 +84,7 @@
     /*==== Cars ====*/
     $(document).ready(function () {
         $('.carsmodals').owlCarousel({
-            loop: true,
+            loop: false,
             margin: 30,
             nav: true,
             responsiveClass: true,
@@ -107,17 +92,17 @@
                 0: {
                     items: 1,
                     nav: true,
-                    loop: true
+                    loop: false,
                 },
                 700: {
                     items: 1,
                     nav: true,
-                    loop: true
+                    loop: false,
                 },
                 1170: {
                     items: 1,
                     nav: true,
-                    loop: true
+                    loop: false,
                 }
             }
 

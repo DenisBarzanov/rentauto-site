@@ -14,10 +14,7 @@ import com.rentautosofia.rentacar.util.URLUtils
 import com.rentautosofia.rentacar.util.findOne
 import org.springframework.util.MultiValueMap
 import com.rentautosofia.rentacar.repository.CarRepository
-import com.rentautosofia.rentacar.util.daysTill
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import org.springframework.validation.BindingResult
 
 
 @Controller
@@ -31,7 +28,7 @@ class PaymentController(@Autowired
     @Autowired
     private lateinit var carRepository: CarRepository
 
-    @RequestMapping(method = [(RequestMethod.POST)], value = ["/pay"])
+    @PostMapping("/pay")
     fun pay(model: Model, request: HttpServletRequest, @RequestBody multiParams: MultiValueMap<String, String>): String {
         val params = multiParams.toSingleValueMap()
 //        val depositAmount: Int
@@ -46,15 +43,16 @@ class PaymentController(@Autowired
         val successUrl = URLUtils.getBaseURl(request) + PAYPAL_SUCCESS_URL
 
         try {
+            val amount = 100
             val payment = paypalService.createPayment(
 //                    depositAmount.toDouble(),
-                    100.00,
+                    amount.toFloat(),
                     "EUR",
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.sale,
                     "RentAuto Sofia deposit payment",
                     cancelUrl,
-                    "$successUrl?orderId=${booking.id}")
+                    "$successUrl?orderId=${booking.id}&amount=$amount")
             for (links in payment.links) {
                 if (links.rel == "approval_url") {
                     return "redirect:" + links.href
@@ -67,22 +65,22 @@ class PaymentController(@Autowired
         return "redirect:/"
     }
 
-    @RequestMapping(method = [RequestMethod.GET], value = [PAYPAL_CANCEL_URL])
+    @GetMapping(PAYPAL_CANCEL_URL)
     fun cancelPay(model: Model): String {
         model.addAttribute("view", "cancel")
         return "client-base-layout"
     }
 
-    @RequestMapping(method = [RequestMethod.GET], value = [PAYPAL_SUCCESS_URL])
-    fun successPay(@RequestParam("orderId") orderId: Int, model: Model, @RequestParam("paymentId") paymentId: String, @RequestParam("PayerID") payerId: String): String {
+    @GetMapping(PAYPAL_SUCCESS_URL)
+    fun successPay(@RequestParam orderId: Int, @RequestParam amount: Int, model: Model, @RequestParam("paymentId") paymentId: String, @RequestParam("PayerID") payerId: String): String {
         try {
             val payment = paypalService.executePayment(paymentId, payerId)
             if (payment.state == "approved") {
 
                 print("\n\n\nDEPOSIT PAYED for id: $orderId\n\n\n")
-                val booking = rentedCarRepository.findOne(orderId)
-                booking!!.payedDeposit = true
-                rentedCarRepository.saveAndFlush(booking) // Make it payed
+                val booking = rentedCarRepository.findOne(orderId)!!
+                booking.earnest += amount
+                rentedCarRepository.saveAndFlush(booking) // Make it paid
 
                 model.addAttribute("view", "success")
                 return "client-base-layout"

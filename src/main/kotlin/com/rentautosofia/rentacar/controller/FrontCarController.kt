@@ -1,8 +1,6 @@
 package com.rentautosofia.rentacar.controller
 
-import com.rentautosofia.rentacar.entity.Car
-import com.rentautosofia.rentacar.entity.Customer
-import com.rentautosofia.rentacar.entity.RequestedCar
+import com.rentautosofia.rentacar.entity.*
 import com.rentautosofia.rentacar.repository.RentedCarRepository
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
@@ -41,6 +39,9 @@ constructor(private val carRepository: CarRepository,
                          @RequestParam("datetime_off", required = true) endDateString: String): String {
         val startDate = getDateFrom(startDateString)
         val endDate = getDateFrom(endDateString)
+        if (startDate.after(endDate)) {
+            return "redirect:/"
+        }
         model.addAttribute("view", "car/available")
         val allCars = this.carRepository.findAll()
 
@@ -71,11 +72,11 @@ constructor(private val carRepository: CarRepository,
         model.addAttribute("view", "car/book")
         model.addAttribute("customer", Customer())
 
-        val startDate = getDateFrom(startDateString)
-        val endDate = getDateFrom(endDateString)
-        val days = startDate daysTill endDate
+        val booking = BaseBooking(startDate = getDateFrom(startDateString),
+                endDate = getDateFrom(endDateString),
+                carId = car.id)
 
-        model.addAttribute("totalPrice", car.getPricePerDayFor(days) * days)
+        model.addAttribute("totalPrice", booking.totalPrice)
 
         return "client-base-layout"
     }

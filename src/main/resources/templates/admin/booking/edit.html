@@ -13,10 +13,8 @@
                 <input type="text" id="endDate" name="endDate" th:value="${#dates.format(booking.endDate, 'dd-MM-yyyy')}"/>
 
 
-                <label class="check-container">Платил капаро?
-                    <input type="checkbox" name="payedDeposit" th:checked="${booking.payedDeposit}">
-                    <span class="checkmark"></span>
-                </label>
+                <label for="earnest">Капаро</label>
+                <input type="number" id="earnest" name="earnest" th:value="${booking.earnest}"/>
 
                 <div>
                     <button type="submit">Редактирай</button>

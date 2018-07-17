@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name = "cars")
 data class Car(@Column var name: String = "",
                @Column var price: Int = 0,
-               @Column(length = 1000) var imgURL: String = "",
+               @Column(name = "imgurl", length = 1000) var imgUrl: String = "",
                @Column var LPG: Boolean = false,
                @Column @Enumerated(EnumType.STRING)
                var transmission: Transmission = Transmission.MANUAL,

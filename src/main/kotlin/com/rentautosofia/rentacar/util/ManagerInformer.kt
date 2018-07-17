@@ -19,11 +19,8 @@ class ManagerInformer {
     lateinit var customerRepository: CustomerRepository
 
     fun informManagerWith(requestedCar: RequestedCar) {
-        val car = carRepository.findOne(requestedCar.carId)
-        val customer = customerRepository.findOne(requestedCar.customerId)
-        val days = requestedCar.startDate daysTill requestedCar.endDate
-        val totalPrice = car!!.getPricePerDayFor(days) * days
-
+        val car = carRepository.findOne(requestedCar.carId)!!
+        val customer = customerRepository.findOne(requestedCar.customerId)!!
         val mimeMessage = emailSender.createMimeMessage()
         val helper = MimeMessageHelper(mimeMessage, false, "UTF-8")
 
@@ -85,15 +82,16 @@ class ManagerInformer {
                                             </tr>
                                             <tr>
                                                 <td>Телефон на клиент</td>
-                                                <td><strong>'${customer?.phoneNumber}'</strong></td>
+                                                <td><strong>'${customer.phoneNumber}'</strong></td>
+                                                <td><strong>'${customer.phoneNumber}'</strong></td>
                                             </tr>                                            <tr>
                                                 <td>Email на клиент</td>
-                                                <td><strong>'${customer?.email}'</strong></td>
+                                                <td><strong>'${customer.email}'</strong></td>
                                             </tr>
 
                                             <tr>
                                                 <td>TOTAL сума + намаления</td>
-                                                <td><strong>&euro;'$totalPrice'</strong></td>
+                                                <td><strong>&euro;'${requestedCar.totalPrice}'</strong></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -176,10 +174,8 @@ class ManagerInformer {
     }
 
     fun informClientWith(requestedCar: RequestedCar) {
-        val car = carRepository.findOne(requestedCar.carId)
-        val customer = customerRepository.findOne(requestedCar.customerId)
-        val days = requestedCar.startDate daysTill requestedCar.endDate
-        val totalPrice = car!!.getPricePerDayFor(days) * days
+        val car = carRepository.findOne(requestedCar.carId)!!
+        val customer = customerRepository.findOne(requestedCar.customerId)!!
 
         val mimeMessage = emailSender.createMimeMessage()
         val helper = MimeMessageHelper(mimeMessage, false, "UTF-8")
@@ -242,22 +238,22 @@ class ManagerInformer {
                                             </tr>
                                             <tr>
                                                 <td>Телефон</td>
-                                                <td><strong>'${customer?.phoneNumber}'</strong></td>
+                                                <td><strong>'${customer.phoneNumber}'</strong></td>
                                             </tr>                                            <tr>
                                                 <td>Email</td>
-                                                <td><strong>'${customer?.email}'</strong></td>
+                                                <td><strong>'${customer.email}'</strong></td>
                                             </tr>
 
                                             <tr>
                                                 <td>TOTAL сума</td>
-                                                <td><strong>&euro;'$totalPrice'</strong></td>
+                                                <td><strong>&euro;'${requestedCar.totalPrice}'</strong></td>
                                             </tr>
                                             <tr>
 						<td>
 						    Снимка на кола
 						</td>
 						<td>
-						    <img style="width: 300px;" src="${car.imgURL}" />
+						    <img style="width: 300px;" src="${car.imgUrl}" />
 						</td>
 					    <tr>
                                     </table>
@@ -317,7 +313,7 @@ class ManagerInformer {
             """
         mimeMessage.setContent(html, "text/html; charset=utf-8")
 
-        helper.setTo(customer!!.email)
+        helper.setTo(customer.email)
         helper.setSubject("Успешна заявка!")
 
 //        mimeMessage.writeTo(System.out)

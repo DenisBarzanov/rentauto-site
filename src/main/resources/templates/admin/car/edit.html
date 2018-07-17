@@ -15,8 +15,8 @@
                 <label for="seatCount">Брой седалки</label>
                 <input type="number" id="seatCount" name="seatCount" th:value="${car.seatCount}"/>
 
-                <label for="imgURL">URL на картинка</label>
-                <input type="text" id="imgURL" name="imgURL" th:value="${car.imgURL}"/>
+                <label for="imgUrl">URL на картинка</label>
+                <input type="text" id="imgUrl" name="imgUrl" th:value="${car.imgUrl}"/>
 
                 <label class="check-container">LPG?
                     <input type="checkbox" name="LPG" th:checked="${car.LPG}">
@@ -36,7 +36,7 @@
                 <div>
                     <p>Снимка:</p>
                     <div>
-                        <img th:src="${car.imgURL}"/>
+                        <img th:src="${car.imgUrl}"/>
                     </div>
                 </div>
 

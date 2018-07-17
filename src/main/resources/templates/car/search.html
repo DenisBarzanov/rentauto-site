@@ -2,7 +2,7 @@
 <div class="container" id="search">
     <div class="bformBox">
         <h3>РЕЗЕРВИРАЙТЕ КОЛА ДНЕС!</h3>
-        <form id="searchForm" th:action="@{/car/search}" method="POST" onsubmit="return submission()">
+        <form id="searchForm" th:action="@{/car/search}" method="POST"> 
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
@@ -16,10 +16,12 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
-                        <div class="input-group date form_datetime" data-date="2018-02-22T05:25:07Z" data-date-format="dd MM yyyy" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Изберете дата" name="datetime_pick" id="datetime_pick" required="required" />
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
+                        <div class='input-group date' id='datetime_pick'>
+						  <input type='text' name='datetime_pick' class="form-control" placeholder="Взимане дата" required="required" />
+						  <span class="input-group-addon">
+								        <span class="glyphicon glyphicon-calendar"></span>
+						  </span>
+						</div>
                     </div>
                 </div>
             </div>
@@ -36,18 +38,15 @@
                 </div>
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
-                        <div class="input-group date form_datetime" data-date="2018-02-22T05:25:07Z" data-date-format="dd MM yyyy" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" readonly placeholder="Изберете дата" name="datetime_off" id="datetime_off" required="required" />
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
+						<div class='input-group date' id='datetime_off'>
+						  <input type='text' class="form-control" name='datetime_off' placeholder="Връщане дата" required="required" />
+						  <span class="input-group-addon">
+								        <span class="glyphicon glyphicon-calendar"></span>
+						  </span>
+						</div>
                     </div>
                 </div>
             </div>
-            <!--<div class="row">
-                <div class="col-md-12 col-sm-12">
-                    <button type="button" class="btn btn-block" onclick="location.href = '/#map'">Вижте адреса</button>
-                </div>
-            </div>-->
             <div>
                 <p style="color: red; font-size: 20px; text-align: center;" id="error"></p>
             </div>
@@ -57,31 +56,19 @@
         </form>
     </div>
 </div>
-
 <script>
-	let startDateId = '#datetime_pick';
-	let endDateId = '#datetime_off';
-	function checkDates() {
-        let isOk = true;
-		if (!$(startDateId).val()) {
-			$(startDateId).addClass('invalid');
-            isOk = false;
-	  	} else {
-			$(startDateId).removeClass('invalid')
-	  	}
-		
-		if (!$(endDateId).val()) {
-			$(endDateId).addClass('invalid');
-            isOk = false;
-	  	} else {
-			$(endDateId).removeClass('invalid')
-	  	}
-        return isOk;
-	}
-
-   	function submission() {
-        let filled = checkDates();
-        if (!filled) $("#error").text("Моля попълнете и двете дати!");
-        return filled;
-    }
+$(document).ready(function(){
+	/*==== Date Picker ====*/
+    $('.date').datetimepicker({
+		useCurrent: false,
+		minDate: moment(),
+        format: "DD-MM-YYYY"
+    });
+	$("#datetime_pick").on("dp.change", function (e) {
+    	$('#datetime_off').data("DateTimePicker").minDate(e.date.add(1, 'days'));
+    });
+   	$("#datetime_off").on("dp.change", function (e) {
+    	$('#datetime_pick').data("DateTimePicker").maxDate(e.date.add(1, 'days'));
+    });
+});
 </script>
