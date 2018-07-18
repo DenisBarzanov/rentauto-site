@@ -23,6 +23,11 @@ Table Of Index
 13. Footer css
 14. Media Quries css
 ------------------------------------------*/
+
+.date input.invalid {
+    border: 2px solid red !important; 
+}
+
 #paypal_btn {
     margin: 10px 5px 0 5px;
     color: white;

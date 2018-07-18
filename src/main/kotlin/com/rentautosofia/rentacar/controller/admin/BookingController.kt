@@ -23,10 +23,10 @@ data class BookedCarForView(
         var earnest: Int? = 0,
         var id: Int = 0)
 
-enum class Action {
+enum class Action { // Correct order
+    TAKE_EARNEST,
     GIVE,
-    TAKE_BACK,
-    TAKE_EARNEST
+    TAKE_BACK
 }
 
 data class ScheduledBooking(
@@ -134,7 +134,8 @@ constructor(private val carRepository: CarRepository,
 
         scheduledBookingsList.sortWith(Comparator(fun(b1: ScheduledBooking?, b2: ScheduledBooking?): Int {
             return when {
-                b1!!.date.before(b2!!.date) -> -1
+                b1!!.date.before(b2!!.date)-> -1
+                b1.action.ordinal < b2.action.ordinal -> -1 // the "smallest" booking
                 else -> 1
             }
         }))

@@ -2,7 +2,7 @@
 <div class="container" id="search">
     <div class="bformBox">
         <h3>РЕЗЕРВИРАЙТЕ КОЛА ДНЕС!</h3>
-        <form id="searchForm" th:action="@{/car/search}" method="POST"> 
+        <form id="searchForm" th:action="@{/car/search}" method="POST" onsubmit="return submission()" > 
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
@@ -17,7 +17,7 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
                         <div class='input-group date' id='datetime_pick'>
-						  <input type='text' name='datetime_pick' class="form-control" placeholder="Взимане дата" required="required" />
+						  <input type='text' name='datetime_pick' class="form-control" readonly="readonly" placeholder="Взимане дата" required="required" />
 						  <span class="input-group-addon">
 								        <span class="glyphicon glyphicon-calendar"></span>
 						  </span>
@@ -39,7 +39,7 @@
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
 						<div class='input-group date' id='datetime_off'>
-						  <input type='text' class="form-control" name='datetime_off' placeholder="Връщане дата" required="required" />
+						  <input type='text' class="form-control" name='datetime_off' readonly="readonly" placeholder="Връщане дата" required="required" />
 						  <span class="input-group-addon">
 								        <span class="glyphicon glyphicon-calendar"></span>
 						  </span>
@@ -57,18 +57,52 @@
     </div>
 </div>
 <script>
+
+let startDateId = '#datetime_pick';
+let endDateId = '#datetime_off';
+
 $(document).ready(function(){
 	/*==== Date Picker ====*/
     $('.date').datetimepicker({
 		useCurrent: false,
 		minDate: moment(),
-        format: "DD-MM-YYYY"
+        format: "DD-MM-YYYY",
+        ignoreReadonly: true
     });
-	$("#datetime_pick").on("dp.change", function (e) {
-    	$('#datetime_off').data("DateTimePicker").minDate(e.date.add(1, 'days'));
+	$(startDateId).on("dp.change", function (e) {
+        checkDates();
+    	$(endDateId).data("DateTimePicker").minDate(e.date.add(1, 'days'));
     });
-   	$("#datetime_off").on("dp.change", function (e) {
-    	$('#datetime_pick').data("DateTimePicker").maxDate(e.date.add(1, 'days'));
+   	$(endDateId).on("dp.change", function (e) {
+        checkDates();
+    	$(startDateId).data("DateTimePicker").maxDate(e.date.add(1, 'days'));
     });
 });
+
+function checkDates() {
+    let startDateInput = startDateId + " > input";
+    let endDateInput = endDateId + " > input";
+
+    let isOk = true;
+    if (!$(startDateInput).val()) {
+        $(startDateInput).addClass('invalid');
+        isOk = false;
+    } else {
+        $(startDateInput).removeClass('invalid')
+    }
+
+    if (!$(endDateInput).val()) {
+        $(endDateInput).addClass('invalid');
+        isOk = false;
+    } else {
+        $(endDateInput).removeClass('invalid')
+    }
+    return isOk;
+}
+function submission() {
+    let filled = checkDates();
+    $("#error").text(filled ? "" : "Моля попълнете и двете дати!");
+    return filled;
+}
+
 </script>
