@@ -85,14 +85,6 @@ constructor(private val carRepository: CarRepository,
 
         val allBookings =
                 this.rentedCarRepository.findAll()
-//        allBookings.sortWith(Comparator(fun (b1: BookedCar, b2: BookedCar): Int {
-//            return when {
-//                with(b1.startDate) { before(b2.startDate) and before(b2.endDate) }
-//                    or with(b1.endDate) { before(b2.startDate) and before(b2.endDate)}
-//                    -> -1
-//                else -> 1
-//            }
-//        })) FOR NEW BOOKINGS MAYBE
         allBookings.sortWith(Comparator(fun(b1: BookedCar, b2: BookedCar): Int {
             return when {
                 b1.startDate.before(b2.startDate) -> -1
@@ -133,11 +125,19 @@ constructor(private val carRepository: CarRepository,
         }.toMutableList()
 
         scheduledBookingsList.sortWith(Comparator(fun(b1: ScheduledBooking?, b2: ScheduledBooking?): Int {
-            return when {
-                b1!!.date.before(b2!!.date)-> -1
-                b1.action.ordinal < b2.action.ordinal -> -1 // the "smallest" booking
-                else -> 1
-            }
+	    if (b1!!.date.before(b2!!.date)) return -1;
+	    else if (b1.date.after(b2.date)) return 1;
+	    // they are equal
+            if (b1.car?.id == b2.car?.id) {
+		// always GIVE and TAKE_EARNEST
+		return if (b1.action == Action.GIVE) 1 else -1
+	    }
+	    return 0;
+//            return when {
+  //              b1!!.date.before(b2!!.date)-> -1
+    //            b1.action.ordinal < b2.action.ordinal -> -1 // the "smallest" booking
+      //          else -> 1
+        //    }
         }))
         model.addAttribute("scheduledBookings", scheduledBookingsList.toList())
         return "base-layout"
