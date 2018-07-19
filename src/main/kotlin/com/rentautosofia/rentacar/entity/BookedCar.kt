@@ -10,6 +10,8 @@ data class BookedCar(override var carId: Int = 0,
                      override var endDate: Date = Date(),
                      @Column
                      var earnest: Int = 0,
+                     @Column
+                     var deposit: Int = 0,
                      override var id: Int = 0) : BaseBooking(carId, customerId, startDate, endDate)
 
 

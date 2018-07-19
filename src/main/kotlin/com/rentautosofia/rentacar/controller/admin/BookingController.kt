@@ -69,13 +69,8 @@ constructor(private val carRepository: CarRepository,
                             customer = customer,
                             date = this.endDate,
                             action = Action.TAKE_BACK,
-                            id = this.id),
-                    if (this.earnest > 0) null else ScheduledBooking(
-                            car = car,
-                            customer = customer,
-                            date = this.startDate,
-                            action = Action.TAKE_EARNEST,
-                            id = this.id))
+                            id = this.id)
+                    )
 
     }
                     
@@ -126,9 +121,7 @@ constructor(private val carRepository: CarRepository,
                 scheduledBookingsList.add(it)
             }
         }
-        scheduledBookingsList = scheduledBookingsList.filter {
-            it != null
-        }.filter {
+        scheduledBookingsList = scheduledBookingsList.filter { 
             it!!.date.after(Date())
         }.toMutableList()
 
