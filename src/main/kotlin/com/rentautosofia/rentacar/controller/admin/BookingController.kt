@@ -21,10 +21,10 @@ data class BookedCarForView(
         var startDate: Date = Date(),
         var endDate: Date = Date(),
         var earnest: Int? = 0,
+        var deposit: Int? = 0,
         var id: Int = 0)
 
 enum class Action { // Correct order
-    TAKE_EARNEST,
     GIVE,
     TAKE_BACK
 }
@@ -51,6 +51,7 @@ constructor(private val carRepository: CarRepository,
                     startDate = this.startDate,
                     endDate = this.endDate,
                     earnest = this.earnest,
+                    deposit = this.deposit,
                     id = this.id)
 
     fun BookedCar.toScheduledBookingsList(): List<ScheduledBooking?> {
@@ -121,16 +122,10 @@ constructor(private val carRepository: CarRepository,
 	    if (b1!!.date.before(b2!!.date)) return -1;
 	    else if (b1.date.after(b2.date)) return 1;
 	    // they are equal
-            if (b1.car?.id == b2.car?.id) {
-		// always GIVE and TAKE_EARNEST
-		return if (b1.action == Action.GIVE) 1 else -1
+        if (b1.car?.id == b2.car?.id) {
+            return if (b1.action == Action.GIVE) 1 else -1
 	    }
 	    return 0;
-//            return when {
-  //              b1!!.date.before(b2!!.date)-> -1
-    //            b1.action.ordinal < b2.action.ordinal -> -1 // the "smallest" booking
-      //          else -> 1
-        //    }
         }))
         model.addAttribute("scheduledBookings", scheduledBookingsList.toList())
         return "base-layout"
@@ -150,7 +145,7 @@ constructor(private val carRepository: CarRepository,
     @PostMapping("/{id}/edit")
     fun editProcess(model: Model, @PathVariable id: Int, newBooking: BookedCar): String {
         val oldBooking = this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
-        this.rentedCarRepository.saveAndFlush(oldBooking.copy(startDate = newBooking.startDate, endDate = newBooking.endDate, earnest = newBooking.earnest))
+        this.rentedCarRepository.saveAndFlush(oldBooking.copy(startDate = newBooking.startDate, endDate = newBooking.endDate, earnest = newBooking.earnest, deposit = newBooking.deposit))
         return "redirect:/$PATH_ADMIN_BOOKING/all"
     }
 

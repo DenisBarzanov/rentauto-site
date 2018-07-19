@@ -5,7 +5,8 @@
             <th>Снимка</th>
             <th>Начална дата</th>
             <th>Крайна дата</th>
-            <th>Платил Капаро</th>
+            <th>Капаро</th>
+            <th>Депозит</th>
             <th>Опция</th>
         </tr>
 
@@ -17,13 +18,21 @@
                 <td>[[${#dates.format(booking.startDate, 'dd-MM-yyyy')}]]</td>
                 <td>[[${#dates.format(booking.endDate, 'dd-MM-yyyy')}]]</td>
                 <td>
-			<div th:if="${booking.earnest == 0}" >
-                <img style="height: 100px;" src="http://ws.cadcorp.com/WebMapLayers/mobile/img/presales/cross2.png"/>
-			</div>
-			<div th:unless="${booking.earnest == 0}" >
-				[[${booking.earnest}]]
-			</div>
-		        </td>
+                    <div th:if="${booking.earnest == 0}" >
+                        <img style="height: 100px;" src="http://ws.cadcorp.com/WebMapLayers/mobile/img/presales/cross2.png"/>
+                    </div>
+                    <div th:unless="${booking.earnest == 0}" >
+                        [[${booking.earnest}]]
+                    </div>
+                </td>
+                <td>
+                    <div th:if="${booking.deposit == 0}" >
+                        <img style="height: 100px;" src="http://ws.cadcorp.com/WebMapLayers/mobile/img/presales/cross2.png"/>
+                    </div>
+                    <div th:unless="${booking.deposit == 0}" >
+                        [[${booking.deposit}]]
+                    </div>
+                </td>
                 <td>
                     <div>
                         <button th:onclick="'location.href = ' + '\'' + @{/admin/booking/{id}/delete(id=${booking.id})} + '\''">Виж</button>

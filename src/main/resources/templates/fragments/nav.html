@@ -60,7 +60,9 @@
         <div class="modal-body" style="text-align: center">
             <form th:action="@{/pay}" method="POST">
                 <label for="orderId">ID на поръчка</label>
-                <input type="number" class="custom-input" id="orderId" name="orderId" th:value="${orderId}" required="required" />
+				<input type="number" class="custom-input" id="orderId" name="orderId" th:value="${orderId}" required="required" />
+				<div><input type="radio" name="payment" value="earnest" checked="checked" />Малко капаро от &euro; 50</div>
+				<div><input type="radio" name="payment" value="all" />Цялата сума</div>
                 <button type="submit" class="btn btn-success" style="background-color: #3b7bbf; border-color: #3b7bbf;">Плати</button>
             </form>
         </div>

@@ -15,7 +15,7 @@ import com.rentautosofia.rentacar.util.findOne
 import org.springframework.util.MultiValueMap
 import com.rentautosofia.rentacar.repository.CarRepository
 import org.springframework.web.bind.annotation.*
-
+import java.lang.IllegalArgumentException
 
 @Controller
 class PaymentController(@Autowired
@@ -42,8 +42,15 @@ class PaymentController(@Autowired
         val cancelUrl = URLUtils.getBaseURl(request) + PAYPAL_CANCEL_URL
         val successUrl = URLUtils.getBaseURl(request) + PAYPAL_SUCCESS_URL
 
+        val amount = when (params["payment"]) {
+            "earnest" -> 50
+            "all" -> booking.totalPrice
+            else -> throw IllegalArgumentException("Unrecognized option: ${params["payment"]}")
+        }
+    
+        print("\n\n\nPayPal payment about to happen: $amount euro\n\n\n");
+
         try {
-            val amount = 100
             val payment = paypalService.createPayment(
 //                    depositAmount.toDouble(),
                     amount.toFloat(),
