@@ -1,6 +1,6 @@
 package com.rentautosofia.rentacar.util
 
-import com.rentautosofia.rentacar.entity.RequestedCar
+import com.rentautosofia.rentacar.entity.BookingRequest
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,9 +18,9 @@ class ManagerInformer {
     @Autowired
     lateinit var customerRepository: CustomerRepository
 
-    fun informManagerWith(requestedCar: RequestedCar) {
-        val car = carRepository.findOne(requestedCar.carId)!!
-        val customer = customerRepository.findOne(requestedCar.customerId)!!
+    fun informManagerWith(BookingRequest: BookingRequest) {
+        val car = carRepository.findOne(BookingRequest.carId)!!
+        val customer = customerRepository.findOne(BookingRequest.customerId)!!
         val mimeMessage = emailSender.createMimeMessage()
         val helper = MimeMessageHelper(mimeMessage, false, "UTF-8")
 
@@ -74,24 +74,24 @@ class ManagerInformer {
                                             </tr>
                                             <tr>
                                                 <td>Дата на взимане</td>
-                                                <td><strong>'${requestedCar.startDate.getProperFormat()}'</strong></td>
+                                                <td><strong>'${BookingRequest.startDate.getProperFormat()}'</strong></td>
                                             </tr>
                                             <tr>
                                                 <td>Дата на връщане</td>
-                                                <td><strong>'${requestedCar.endDate.getProperFormat()}'</strong></td>
+                                                <td><strong>'${BookingRequest.endDate.getProperFormat()}'</strong></td>
                                             </tr>
                                             <tr>
                                                 <td>Телефон на клиент</td>
                                                 <td><strong>'${customer.phoneNumber}'</strong></td>
-                                                <td><strong>'${customer.phoneNumber}'</strong></td>
-                                            </tr>                                            <tr>
+                                            </tr>                                            
+                                            <tr>
                                                 <td>Email на клиент</td>
                                                 <td><strong>'${customer.email}'</strong></td>
                                             </tr>
 
                                             <tr>
                                                 <td>TOTAL сума + намаления</td>
-                                                <td><strong>&euro;'${requestedCar.totalPrice}'</strong></td>
+                                                <td><strong>&euro;'${BookingRequest.totalPrice}'</strong></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -121,7 +121,7 @@ class ManagerInformer {
                                 </tr>
                                 <tr>
                                     <td align="center">
-                                        <a href="http://rentauto-sofia.com/admin/bookRequest/${requestedCar.id}/accept"
+                                        <a href="http://rentauto-sofia.com/admin/bookRequest/${BookingRequest.id}/accept"
                                          style="color:#fff; margin:0; font-weight:normal; line-height:20px;background-color: #000;
                                             border: none;
                                             color: white;
@@ -173,9 +173,9 @@ class ManagerInformer {
         emailSender.send(mimeMessage)
     }
 
-    fun informClientWith(requestedCar: RequestedCar) {
-        val car = carRepository.findOne(requestedCar.carId)!!
-        val customer = customerRepository.findOne(requestedCar.customerId)!!
+    fun informClientWith(BookingRequest: BookingRequest) {
+        val car = carRepository.findOne(BookingRequest.carId)!!
+        val customer = customerRepository.findOne(BookingRequest.customerId)!!
 
         val mimeMessage = emailSender.createMimeMessage()
         val helper = MimeMessageHelper(mimeMessage, false, "UTF-8")
@@ -230,11 +230,11 @@ class ManagerInformer {
                                             </tr>
                                             <tr>
                                                 <td>Дата на взимане</td>
-                                                <td><strong>'${requestedCar.startDate.getProperFormat()}'</strong></td>
+                                                <td><strong>'${BookingRequest.startDate.getProperFormat()}'</strong></td>
                                             </tr>
                                             <tr>
                                                 <td>Дата на връщане</td>
-                                                <td><strong>'${requestedCar.endDate.getProperFormat()}'</strong></td>
+                                                <td><strong>'${BookingRequest.endDate.getProperFormat()}'</strong></td>
                                             </tr>
                                             <tr>
                                                 <td>Телефон</td>
@@ -246,7 +246,7 @@ class ManagerInformer {
 
                                             <tr>
                                                 <td>TOTAL сума</td>
-                                                <td><strong>&euro;'${requestedCar.totalPrice}'</strong></td>
+                                                <td><strong>&euro;'${BookingRequest.totalPrice}'</strong></td>
                                             </tr>
                                             <tr>
 						<td>

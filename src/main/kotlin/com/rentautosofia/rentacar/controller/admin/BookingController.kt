@@ -5,7 +5,7 @@ import com.rentautosofia.rentacar.entity.Car
 import com.rentautosofia.rentacar.entity.Customer
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
-import com.rentautosofia.rentacar.repository.RentedCarRepository
+import com.rentautosofia.rentacar.repository.BookedCarRepository
 import com.rentautosofia.rentacar.util.findOne
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -42,7 +42,7 @@ data class ScheduledBooking(
 class BookingController @Autowired
 constructor(private val carRepository: CarRepository,
             private val customerRepository: CustomerRepository,
-            private val rentedCarRepository: RentedCarRepository) {
+            private val bookedCarRepository: BookedCarRepository) {
 
     fun BookedCar.toBookedCarForView(): BookedCarForView =
             BookedCarForView(
@@ -59,28 +59,28 @@ constructor(private val carRepository: CarRepository,
         val customer = this@BookingController.customerRepository.findOne(this.customerId)!!
 
         return listOf(
-                    ScheduledBooking(
-                            car = car,
-                            customer = customer,
-                            date = this.startDate,
-                            action = Action.GIVE,
-                            id = this.id),
-                    ScheduledBooking(
-                            car = car,
-                            customer = customer,
-                            date = this.endDate,
-                            action = Action.TAKE_BACK,
-                            id = this.id)
-                    )
+                ScheduledBooking(
+                        car = car,
+                        customer = customer,
+                        date = this.startDate,
+                        action = Action.GIVE,
+                        id = this.id),
+                ScheduledBooking(
+                        car = car,
+                        customer = customer,
+                        date = this.endDate,
+                        action = Action.TAKE_BACK,
+                        id = this.id)
+        )
 
     }
-                    
+
     @GetMapping("/all")
     fun bookings(model: Model): String {
         model.addAttribute("view", "$PATH_ADMIN_BOOKING/all")
 
         val allBookings =
-                this.rentedCarRepository.findAll()
+                this.bookedCarRepository.findAll()
         allBookings.sortWith(Comparator(fun(b1: BookedCar, b2: BookedCar): Int {
             return when {
                 b1.startDate.before(b2.startDate) -> -1
@@ -107,25 +107,23 @@ constructor(private val carRepository: CarRepository,
     @GetMapping("/toDoNext")
     fun toDoNext(model: Model): String {
         model.addAttribute("view", "$PATH_ADMIN_BOOKING/toDoNext")
-        val allBookings = this.rentedCarRepository.findAll()
-        var scheduledBookingsList = mutableListOf<ScheduledBooking?>()
+        val allBookings = this.bookedCarRepository.findAll()
+        val scheduledBookingsList = mutableListOf<ScheduledBooking?>()
+
         allBookings.forEach { booking ->
-            booking.toScheduledBookingsList().forEach { 
+            booking.toScheduledBookingsList().forEach {
                 scheduledBookingsList.add(it)
             }
         }
-        scheduledBookingsList = scheduledBookingsList.filter { 
-            it!!.date.after(Date())
-        }.toMutableList()
 
         scheduledBookingsList.sortWith(Comparator(fun(b1: ScheduledBooking?, b2: ScheduledBooking?): Int {
-	    if (b1!!.date.before(b2!!.date)) return -1;
-	    else if (b1.date.after(b2.date)) return 1;
-	    // they are equal
-        if (b1.car?.id == b2.car?.id) {
-            return if (b1.action == Action.GIVE) 1 else -1
-	    }
-	    return 0;
+            if (b1!!.date.before(b2!!.date)) return -1
+            else if (b1.date.after(b2.date)) return 1
+            // they are equal
+            if (b1.car.id == b2.car.id) {
+                return if (b1.action == Action.GIVE) 1 else -1
+            }
+            return 0
         }))
         model.addAttribute("scheduledBookings", scheduledBookingsList.toList())
         return "base-layout"
@@ -134,7 +132,7 @@ constructor(private val carRepository: CarRepository,
 
     @GetMapping("/{id}/edit")
     fun edit(model: Model, @PathVariable id: Int): String {
-        val booking = this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
+        val booking = this.bookedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
         with(model) {
             addAttribute("booking", booking)
             addAttribute("view", "$PATH_ADMIN_BOOKING/edit")
@@ -144,8 +142,8 @@ constructor(private val carRepository: CarRepository,
 
     @PostMapping("/{id}/edit")
     fun editProcess(model: Model, @PathVariable id: Int, newBooking: BookedCar): String {
-        val oldBooking = this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
-        this.rentedCarRepository.saveAndFlush(oldBooking.copy(startDate = newBooking.startDate, endDate = newBooking.endDate, earnest = newBooking.earnest, deposit = newBooking.deposit))
+        val oldBooking = this.bookedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
+        this.bookedCarRepository.saveAndFlush(oldBooking.copy(startDate = newBooking.startDate, endDate = newBooking.endDate, earnest = newBooking.earnest, deposit = newBooking.deposit))
         return "redirect:/$PATH_ADMIN_BOOKING/all"
     }
 
@@ -153,7 +151,7 @@ constructor(private val carRepository: CarRepository,
     fun delete(model: Model, @PathVariable id: Int): String {
         model.addAttribute("view", "$PATH_ADMIN_BOOKING/delete")
         val booking =
-                this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
+                this.bookedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
         val car =
                 this.carRepository.findOne(booking.carId)
         val customer =
@@ -173,9 +171,9 @@ constructor(private val carRepository: CarRepository,
     @PostMapping("/{id}/delete")
     fun deleteProcess(@PathVariable id: Int): String {
         val booking =
-                this.rentedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
-        this.rentedCarRepository.delete(booking)
-        this.rentedCarRepository.flush()
+                this.bookedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
+        this.bookedCarRepository.delete(booking)
+        this.bookedCarRepository.flush()
         return "redirect:/$PATH_ADMIN_BOOKING/all"
     }
 }

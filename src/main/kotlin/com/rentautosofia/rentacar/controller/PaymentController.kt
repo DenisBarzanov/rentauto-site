@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller
 import com.paypal.base.rest.PayPalRESTException
 import com.rentautosofia.rentacar.config.PaypalPaymentIntent
 import com.rentautosofia.rentacar.config.PaypalPaymentMethod
-import com.rentautosofia.rentacar.repository.RentedCarRepository
+import com.rentautosofia.rentacar.repository.BookedCarRepository
 import com.rentautosofia.rentacar.service.PaypalService
 import com.rentautosofia.rentacar.util.URLUtils
 import com.rentautosofia.rentacar.util.findOne
@@ -24,7 +24,7 @@ class PaymentController(@Autowired
     private val log = LoggerFactory.getLogger(javaClass)
 
     @Autowired
-    private lateinit var rentedCarRepository: RentedCarRepository
+    private lateinit var bookedCarRepository: BookedCarRepository
     @Autowired
     private lateinit var carRepository: CarRepository
 
@@ -35,7 +35,7 @@ class PaymentController(@Autowired
         //depositAmount = //if (params["deposit"] != null) {
             //params["deposit"]!!.toInt()
         //} else {
-        val booking = rentedCarRepository.findOne(params["orderId"]!!.toInt())!!
+        val booking = bookedCarRepository.findOne(params["orderId"]!!.toInt())!!
         val car = carRepository.findOne(booking.carId)!!
 //        depositAmount = car.getPricePerDayFor(booking.startDate daysTill booking.endDate)
         //}
@@ -48,7 +48,7 @@ class PaymentController(@Autowired
             else -> throw IllegalArgumentException("Unrecognized option: ${params["payment"]}")
         }
     
-        print("\n\n\nPayPal payment about to happen: $amount euro\n\n\n");
+        print("\n\n\nPayPal payment about to happen: $amount euro\n\n\n")
 
         try {
             val payment = paypalService.createPayment(
@@ -85,9 +85,9 @@ class PaymentController(@Autowired
             if (payment.state == "approved") {
 
                 print("\n\n\nDEPOSIT PAYED for id: $orderId\n\n\n")
-                val booking = rentedCarRepository.findOne(orderId)!!
+                val booking = bookedCarRepository.findOne(orderId)!!
                 booking.earnest += amount
-                rentedCarRepository.saveAndFlush(booking) // Make it paid
+                bookedCarRepository.saveAndFlush(booking) // Make it paid
 
                 model.addAttribute("view", "success")
                 return "client-base-layout"

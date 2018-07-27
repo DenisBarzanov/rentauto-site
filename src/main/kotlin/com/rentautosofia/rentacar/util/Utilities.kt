@@ -1,10 +1,10 @@
 package com.rentautosofia.rentacar.util
 
 import com.rentautosofia.rentacar.entity.BaseBooking
-import com.rentautosofia.rentacar.entity.RequestedCar
+import com.rentautosofia.rentacar.entity.BookingRequest
 import com.rentautosofia.rentacar.repository.CarRepository
-import com.rentautosofia.rentacar.repository.RentedCarRepository
-import com.rentautosofia.rentacar.repository.RequestedCarRepository
+import com.rentautosofia.rentacar.repository.BookedCarRepository
+import com.rentautosofia.rentacar.repository.BookingRequestRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Component
@@ -25,7 +25,7 @@ infix fun Date.daysTill(otherDate: Date): Int {
 //            this.before(endDate)
 //}
 
-fun RentedCarRepository.findAllIdsOfBookedCarsBetween(startDate: Date, endDate: Date): List<Int> {
+fun BookedCarRepository.findAllIdsOfBookedCarsBetween(startDate: Date, endDate: Date): List<Int> {
     val allBookedCars = this.findAll()
     val bookedInPeriod = allBookedCars.filter {
 //        !it.endDate.before(startDate) && !it.startDate.after(endDate)
@@ -51,7 +51,7 @@ fun <T> CrudRepository<T, Int>.findOne(id: Int): T? {
     return if (entity.isPresent) entity.get() else null
 }
 
-fun RequestedCarRepository.hasBooking(booking: RequestedCar): Boolean {
+fun BookingRequestRepository.hasBooking(booking: BookingRequest): Boolean {
     val allBookings = this.findAll()
     for (current_booking in allBookings) {
         if (current_booking == booking) {
@@ -64,13 +64,13 @@ fun RequestedCarRepository.hasBooking(booking: RequestedCar): Boolean {
 @Component
 class DataAccessUtils {
     companion object {
-        lateinit var rentedCarRepository: RentedCarRepository
+        lateinit var bookedCarRepository: BookedCarRepository
         lateinit var carRepository: CarRepository
     }
 
     @Autowired
-    private fun setRentedCarRepository(rentedCarRepository: RentedCarRepository) {
-        DataAccessUtils.rentedCarRepository = rentedCarRepository
+    private fun setRentedCarRepository(bookedCarRepository: BookedCarRepository) {
+        DataAccessUtils.bookedCarRepository = bookedCarRepository
     }
 
     @Autowired

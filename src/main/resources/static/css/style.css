@@ -1783,7 +1783,7 @@ ul.orderlist li {
 
 ul.orderlist li:before {
     content: '\f00c';
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome\ 5 Free';
     position: absolute;
     left: 0;
     vertical-align: middle;
@@ -1791,7 +1791,7 @@ ul.orderlist li:before {
     background: #f9c200;
     padding: 4px 8px;
     line-height: 24px;
-    font-weight: 400;
+    font-weight: 900;
 }
 
 /*********************************************

@@ -1,10 +1,10 @@
 package com.rentautosofia.rentacar.controller
 
 import com.rentautosofia.rentacar.entity.*
-import com.rentautosofia.rentacar.repository.RentedCarRepository
+import com.rentautosofia.rentacar.repository.BookedCarRepository
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
-import com.rentautosofia.rentacar.repository.RequestedCarRepository
+import com.rentautosofia.rentacar.repository.BookingRequestRepository
 import com.rentautosofia.rentacar.util.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -17,9 +17,9 @@ import org.springframework.util.MultiValueMap
 @Controller
 class FrontCarController @Autowired
 constructor(private val carRepository: CarRepository,
-            private val rentedCarRepository: RentedCarRepository,
+            private val bookedCarRepository: BookedCarRepository,
             private val customerRepository: CustomerRepository,
-            private val requestedCarRepository: RequestedCarRepository) {
+            private val bookingRequestRepository: BookingRequestRepository) {
 
     @Autowired
     private lateinit var managerInformer: ManagerInformer
@@ -47,7 +47,7 @@ constructor(private val carRepository: CarRepository,
 
         val days = startDate daysTill endDate
 
-        val rentedCarIdsInPeriod = this.rentedCarRepository.findAllIdsOfBookedCarsBetween(startDate, endDate)
+        val rentedCarIdsInPeriod = this.bookedCarRepository.findAllIdsOfBookedCarsBetween(startDate, endDate)
 
         val availableCars : MutableList<Car> = allCars.asSequence().filter {
             it.id !in rentedCarIdsInPeriod
@@ -106,20 +106,20 @@ constructor(private val carRepository: CarRepository,
         val endDate = getDateFrom(endDateString)
         val car = this.carRepository.findOne(id) ?: return "redirect:/"
 
-        val requestedCar = RequestedCar(car.id, customer.id, startDate, endDate)
+        val bookingRequest = BookingRequest(car.id, customer.id, startDate, endDate)
 
-        if (!this.requestedCarRepository.hasBooking(requestedCar)) {
+        if (!this.bookingRequestRepository.hasBooking(bookingRequest)) {
             // No such booking yet
-            this.requestedCarRepository.saveAndFlush(requestedCar)
-            this.managerInformer.informManagerWith(requestedCar)
-            this.managerInformer.informClientWith(requestedCar)
+            this.bookingRequestRepository.saveAndFlush(bookingRequest)
+            this.managerInformer.informManagerWith(bookingRequest)
+            this.managerInformer.informClientWith(bookingRequest)
         }
 
-        val willPayDepositNow = params["payDepositNow"].toString() == "on"
+        //val willPayDepositNow = params["payDepositNow"].toString() == "on"
 
-        return if (willPayDepositNow)
+        return /*if (willPayDepositNow)
             "forward:/pay"
-        else "redirect:/cancel"
+        else*/ "redirect:/cancel"
     }
 
     @GetMapping("/success")

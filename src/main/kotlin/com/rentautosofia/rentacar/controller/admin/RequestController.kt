@@ -1,10 +1,10 @@
 package com.rentautosofia.rentacar.controller.admin
 
 import com.rentautosofia.rentacar.entity.bookedCar
-import com.rentautosofia.rentacar.repository.RentedCarRepository
+import com.rentautosofia.rentacar.repository.BookedCarRepository
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
-import com.rentautosofia.rentacar.repository.RequestedCarRepository
+import com.rentautosofia.rentacar.repository.BookingRequestRepository
 import com.rentautosofia.rentacar.util.getIds
 import com.rentautosofia.rentacar.util.findOne
 import org.springframework.stereotype.Controller
@@ -19,14 +19,14 @@ const val PATH_ADMIN_REQUEST = "admin/bookRequest"
 class CustomerRequestController @Autowired
 constructor(private val carRepository: CarRepository,
             private val customerRepository: CustomerRepository,
-            private val rentedCarRepository: RentedCarRepository,
-            private val requestedCarRepository: RequestedCarRepository) {
+            private val bookedCarRepository: BookedCarRepository,
+            private val bookingRequestRepository: BookingRequestRepository) {
 
     @GetMapping("/all")
     fun requests(model: Model): String {
         with(model) {
             addAttribute("view", "$PATH_ADMIN_REQUEST/all")
-            addAttribute("requestIds", this@CustomerRequestController.requestedCarRepository.findAll().getIds())
+            addAttribute("requestIds", this@CustomerRequestController.bookingRequestRepository.findAll().getIds())
         }
         return "base-layout"
     }
@@ -35,7 +35,7 @@ constructor(private val carRepository: CarRepository,
     fun accept(model: Model, @PathVariable id: Int): String {
         model.addAttribute("view", "$PATH_ADMIN_REQUEST/accept")
         val requested =
-                this.requestedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_REQUEST/all"
+                this.bookingRequestRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_REQUEST/all"
         val car =
                 this.carRepository.findOne(requested.carId)
         val customer =
@@ -50,19 +50,19 @@ constructor(private val carRepository: CarRepository,
 
     @PostMapping("/{id}/accept")
     fun acceptProcess(model: Model, @PathVariable id: Int, @RequestParam isAccepted: Boolean): String {
-        val requestedCar =
-                this.requestedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_REQUEST/all"
+        val bookingRequest =
+                this.bookingRequestRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_REQUEST/all"
         if (isAccepted) {
             val nowRentedCar = bookedCar {
-                carId = requestedCar.carId
-                customerId = requestedCar.customerId
-                startDate = requestedCar.startDate
-                endDate = requestedCar.endDate
+                carId = bookingRequest.carId
+                customerId = bookingRequest.customerId
+                startDate = bookingRequest.startDate
+                endDate = bookingRequest.endDate
             }
-            this.rentedCarRepository.saveAndFlush(nowRentedCar)
+            this.bookedCarRepository.saveAndFlush(nowRentedCar)
         }
-        this.requestedCarRepository.delete(requestedCar)
-        this.requestedCarRepository.flush()
+        this.bookingRequestRepository.delete(bookingRequest)
+        this.bookingRequestRepository.flush()
 
         return "redirect:/$PATH_ADMIN_REQUEST/all"
     }

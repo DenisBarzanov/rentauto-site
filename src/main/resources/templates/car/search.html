@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
-                        <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i> Място на взимане</span>
+                        <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker-alt" aria-hidden="true"></i> Място на взимане</span>
                             <select class="form-control" data-live-search="true" name="pickup" id="pickup" required="required" >
                                 <option value="">Mясто на взимане</option>
                                 <option>Sofia</option>
@@ -28,7 +28,7 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6">
                     <div class="formrow">
-                        <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker" aria-hidden="true"></i> Място на връщане</span>
+                        <div class="input-group"> <span class="input-group-addon"><i class="fa fa-map-marker-alt" aria-hidden="true"></i> Място на връщане</span>
                             <select class="form-control" data-live-search="true" name="dropoff" id="drop" required="required">
                                 <option value="" >Mясто на връщане</option>
                                 <option>Sofia</option>
@@ -65,7 +65,7 @@ $(document).ready(function(){
 	/*==== Date Picker ====*/
     $('.date').datetimepicker({
 		useCurrent: false,
-		minDate: moment(),
+		minDate: moment().startOf('day'),
         format: "DD-MM-YYYY",
         ignoreReadonly: true
     });
