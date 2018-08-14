@@ -58,6 +58,7 @@ constructor(private val carRepository: CarRepository,
                 customerId = bookingRequest.customerId
                 startDate = bookingRequest.startDate
                 endDate = bookingRequest.endDate
+                pricePerDay = bookingRequest.pricePerDay // saving with overriding option later
             }
             this.bookedCarRepository.saveAndFlush(nowRentedCar)
         }

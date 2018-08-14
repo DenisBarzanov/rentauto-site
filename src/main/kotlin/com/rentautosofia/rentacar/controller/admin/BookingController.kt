@@ -143,7 +143,16 @@ constructor(private val carRepository: CarRepository,
     @PostMapping("/{id}/edit")
     fun editProcess(model: Model, @PathVariable id: Int, newBooking: BookedCar): String {
         val oldBooking = this.bookedCarRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_BOOKING/all"
-        this.bookedCarRepository.saveAndFlush(oldBooking.copy(startDate = newBooking.startDate, endDate = newBooking.endDate, earnest = newBooking.earnest, deposit = newBooking.deposit))
+
+        this.bookedCarRepository.saveAndFlush(
+                oldBooking.copy(startDate = newBooking.startDate,
+                        endDate = newBooking.endDate,
+                        earnest = newBooking.earnest,
+                        deposit = newBooking.deposit,
+                        pricePerDay = newBooking.pricePerDay,
+                        notes = newBooking.notes)
+        )
+
         return "redirect:/$PATH_ADMIN_BOOKING/all"
     }
 
@@ -161,8 +170,6 @@ constructor(private val carRepository: CarRepository,
             addAttribute("booking", booking)
             addAttribute("car", car)
             addAttribute("customer", customer)
-            addAttribute("pricePerDay", booking.pricePerDay)
-            addAttribute("totalPrice", booking.totalPrice)
         }
 
         return "base-layout"

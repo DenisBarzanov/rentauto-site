@@ -52,8 +52,8 @@
                 <th>Цяла цена</th>
             </tr>
             <tr>
-                <td>[[${pricePerDay}]]</td>
-                <td>[[${totalPrice}]]</td>
+                <td>[[${booking.pricePerDay}]]</td>
+                <td>[[${booking.totalPrice}]]</td>
             </tr>
         </table>
     </div>
@@ -70,6 +70,18 @@
                 <td>[[${booking.id}]]</td>
                 <td>[[${booking.earnest}]]</td>
                 <td>[[${booking.deposit}]]</td>
+            </tr>
+        </table>
+    </div>
+</section>
+<section>
+    <div>
+        <table>
+            <tr>
+                <th>Бележки</th>
+            </tr>
+            <tr>
+                <td>[[${booking.notes}]]</td>
             </tr>
         </table>
     </div>
