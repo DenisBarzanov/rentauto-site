@@ -1,7 +1,7 @@
 package com.rentautosofia.rentacar.controller.admin
 
-import com.rentautosofia.rentacar.entity.bookedCar
-import com.rentautosofia.rentacar.repository.BookedCarRepository
+import com.rentautosofia.rentacar.entity.booking
+import com.rentautosofia.rentacar.repository.BookingRepository
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import com.rentautosofia.rentacar.repository.BookingRequestRepository
@@ -19,7 +19,7 @@ const val PATH_ADMIN_REQUEST = "admin/bookRequest"
 class CustomerRequestController @Autowired
 constructor(private val carRepository: CarRepository,
             private val customerRepository: CustomerRepository,
-            private val bookedCarRepository: BookedCarRepository,
+            private val bookingRepository: BookingRepository,
             private val bookingRequestRepository: BookingRequestRepository) {
 
     @GetMapping("/all")
@@ -53,14 +53,14 @@ constructor(private val carRepository: CarRepository,
         val bookingRequest =
                 this.bookingRequestRepository.findOne(id) ?: return "redirect:/$PATH_ADMIN_REQUEST/all"
         if (isAccepted) {
-            val nowRentedCar = bookedCar {
+            val nowRentedCar = booking {
                 carId = bookingRequest.carId
                 customerId = bookingRequest.customerId
                 startDate = bookingRequest.startDate
                 endDate = bookingRequest.endDate
                 pricePerDay = bookingRequest.pricePerDay // saving with overriding option later
             }
-            this.bookedCarRepository.saveAndFlush(nowRentedCar)
+            this.bookingRepository.saveAndFlush(nowRentedCar)
         }
         this.bookingRequestRepository.delete(bookingRequest)
         this.bookingRequestRepository.flush()

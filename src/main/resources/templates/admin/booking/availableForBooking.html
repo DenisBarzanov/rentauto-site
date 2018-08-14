@@ -1,0 +1,21 @@
+<h1>Всички записи</h1>
+<section>
+    <table>
+        <tr>
+            <th>Снимка</th>
+            <th>Име на кола</th>
+            <th>Период</th>
+        </tr>
+
+        <th:block th:each="forBooking : ${availableForBooking}">
+            <tr>
+                <td>
+                    <img th:src="${forBooking.car.imgUrl}"/>
+                </td>
+                <td>[[${forBooking.car.name}]]</td>
+                <td>[[${#dates.format(forBooking.startDate, 'dd-MM-yyyy')}]] &nbsp;&nbsp; - &nbsp;&nbsp;
+                    [[${forBooking.endDate} ? ${#dates.format(forBooking.endDate, 'dd-MM-yyyy')} : '...']]</td>
+            </tr>
+        </th:block>
+    </table>
+</section>

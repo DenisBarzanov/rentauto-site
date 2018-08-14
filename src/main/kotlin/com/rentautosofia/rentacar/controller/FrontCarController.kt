@@ -1,7 +1,7 @@
 package com.rentautosofia.rentacar.controller
 
 import com.rentautosofia.rentacar.entity.*
-import com.rentautosofia.rentacar.repository.BookedCarRepository
+import com.rentautosofia.rentacar.repository.BookingRepository
 import com.rentautosofia.rentacar.repository.CarRepository
 import com.rentautosofia.rentacar.repository.CustomerRepository
 import com.rentautosofia.rentacar.repository.BookingRequestRepository
@@ -17,7 +17,7 @@ import org.springframework.util.MultiValueMap
 @Controller
 class FrontCarController @Autowired
 constructor(private val carRepository: CarRepository,
-            private val bookedCarRepository: BookedCarRepository,
+            private val bookingRepository: BookingRepository,
             private val customerRepository: CustomerRepository,
             private val bookingRequestRepository: BookingRequestRepository) {
 
@@ -47,7 +47,7 @@ constructor(private val carRepository: CarRepository,
 
         val days = startDate daysTill endDate
 
-        val rentedCarIdsInPeriod = this.bookedCarRepository.findAllIdsOfBookedCarsBetween(startDate, endDate)
+        val rentedCarIdsInPeriod = this.bookingRepository.findAllIdsOfBookingsBetween(startDate, endDate)
 
         val availableCars : MutableList<Car> = allCars.asSequence().filter {
             it.id !in rentedCarIdsInPeriod
@@ -112,7 +112,7 @@ constructor(private val carRepository: CarRepository,
             // No such booking yet
             this.bookingRequestRepository.saveAndFlush(bookingRequest)
             this.managerInformer.informManagerWith(bookingRequest)
-            this.managerInformer.informClientWith(bookingRequest)
+            if (!customer.email.isEmpty()) this.managerInformer.informClientWith(bookingRequest)
         }
 
         //val willPayDepositNow = params["payDepositNow"].toString() == "on"

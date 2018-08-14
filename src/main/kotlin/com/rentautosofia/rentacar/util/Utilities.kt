@@ -3,7 +3,7 @@ package com.rentautosofia.rentacar.util
 import com.rentautosofia.rentacar.entity.BaseBooking
 import com.rentautosofia.rentacar.entity.BookingRequest
 import com.rentautosofia.rentacar.repository.CarRepository
-import com.rentautosofia.rentacar.repository.BookedCarRepository
+import com.rentautosofia.rentacar.repository.BookingRepository
 import com.rentautosofia.rentacar.repository.BookingRequestRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.CrudRepository
@@ -33,9 +33,9 @@ infix fun Date.daysTill(otherDate: Date): Int {
     //return cal.getTime();
 //}
 
-fun BookedCarRepository.findAllIdsOfBookedCarsBetween(startDate: Date, endDate: Date): List<Int> {
-    val allBookedCars = this.findAll()
-    val bookedInPeriod = allBookedCars.filter {
+fun BookingRepository.findAllIdsOfBookingsBetween(startDate: Date, endDate: Date): List<Int> {
+    val allBookings = this.findAll()
+    val bookedInPeriod = allBookings.filter {
 //        !it.endDate.before(startDate) && !it.startDate.after(endDate)
         it.endDate.after(startDate) and it.startDate.before(endDate)
 //        startDate.after(it.endDate) and endDate.before(it.startDate)
@@ -74,13 +74,13 @@ fun BookingRequestRepository.hasBooking(booking: BookingRequest): Boolean {
 @Component
 class DataAccessUtils {
     companion object {
-        lateinit var bookedCarRepository: BookedCarRepository
+        lateinit var bookingRepository: BookingRepository
         lateinit var carRepository: CarRepository
     }
 
     @Autowired
-    private fun setRentedCarRepository(bookedCarRepository: BookedCarRepository) {
-        DataAccessUtils.bookedCarRepository = bookedCarRepository
+    private fun setRentedCarRepository(bookingRepository: BookingRepository) {
+        DataAccessUtils.bookingRepository = bookingRepository
     }
 
     @Autowired

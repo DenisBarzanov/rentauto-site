@@ -73,6 +73,14 @@ class ManagerInformer {
                                                 <td><strong>'${car.name}'</strong></td>
                                             </tr>
                                             <tr>
+                                                <td>
+                                                    Снимка на кола
+                                                </td>
+                                                <td>
+                                                    <img style="width: 300px;" src="${car.imgUrl}" />
+                                                </td>
+                                            <tr>
+                                            <tr>
                                                 <td>Дата на взимане</td>
                                                 <td><strong>'${BookingRequest.startDate.getProperFormat()}'</strong></td>
                                             </tr>
@@ -225,37 +233,37 @@ class ManagerInformer {
                                            style="font-size:14px; color:#888;">
 
                                         <tr>
-                                                <td>Име на кола</td>
-                                                <td><strong>'${car.name}'</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Дата на взимане</td>
-                                                <td><strong>'${BookingRequest.startDate.getProperFormat()}'</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Дата на връщане</td>
-                                                <td><strong>'${BookingRequest.endDate.getProperFormat()}'</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Телефон</td>
-                                                <td><strong>'${customer.phoneNumber}'</strong></td>
-                                            </tr>                                            <tr>
-                                                <td>Email</td>
-                                                <td><strong>'${customer.email}'</strong></td>
-                                            </tr>
+                                            <td>Име на кола</td>
+                                            <td><strong>'${car.name}'</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Дата на взимане</td>
+                                            <td><strong>'${BookingRequest.startDate.getProperFormat()}'</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Дата на връщане</td>
+                                            <td><strong>'${BookingRequest.endDate.getProperFormat()}'</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Телефон</td>
+                                            <td><strong>'${customer.phoneNumber}'</strong></td>
+                                        </tr>                                            <tr>
+                                            <td>Email</td>
+                                            <td><strong>'${customer.email}'</strong></td>
+                                        </tr>
 
-                                            <tr>
-                                                <td>TOTAL сума</td>
-                                                <td><strong>&euro;'${BookingRequest.totalPrice}'</strong></td>
-                                            </tr>
-                                            <tr>
-						<td>
-						    Снимка на кола
-						</td>
-						<td>
-						    <img style="width: 300px;" src="${car.imgUrl}" />
-						</td>
-					    <tr>
+                                        <tr>
+                                            <td>TOTAL сума</td>
+                                            <td><strong>&euro;'${BookingRequest.totalPrice}'</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Снимка на кола
+                                            </td>
+                                            <td>
+                                                <img style="width: 300px;" src="${car.imgUrl}" />
+                                            </td>
+                                        <tr>
                                     </table>
                                 </td>
                             </tr>

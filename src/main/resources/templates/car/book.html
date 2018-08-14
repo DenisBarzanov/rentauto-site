@@ -32,12 +32,12 @@
                                                 <input type="hidden" id="deposit" name="deposit" th:value="${deposit}"/>
 
 
-                                                <label for="email">Email</label>
-                                                <input type="email" class="custom-input" id="email" name="email" th:value="${customer.email}" required="required" />
+                                                <label for="email">Email (незадължителен)</label>
+                                                <input type="text" class="custom-input" id="email" name="email" th:value="${customer.email}" required="required" />
 
                                                 <br/>
 
-                                                <label for="phoneNumber">Телефон</label>
+                                                <label for="phoneNumber">Телефон<span style="color: red">*</span></label>
                                                 <input type="tel" id="phoneNumber" name="phoneNumber" th:value="${customer.phoneNumber}" class="custom-input" required="required"/>
                                                 <script th:src="@{/intl-tel-input-12.1.0/build/js/intlTelInput.js}" type="text/javascript"></script>
 
@@ -93,7 +93,7 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
         $("form[id='confirmForm']").validate({
             rules: {
                 email: {
-                    required: true,
+                    required: false,
                     email: true
                 },
                 phoneNumber: {
