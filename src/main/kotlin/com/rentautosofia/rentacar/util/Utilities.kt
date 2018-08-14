@@ -25,6 +25,14 @@ infix fun Date.daysTill(otherDate: Date): Int {
 //            this.before(endDate)
 //}
 
+//infix fun Date.addDays(days: Int): Date
+//{
+  //  Calendar cal = Calendar.getInstance();
+//    cal.setTime(this);
+  //  cal.add(Calendar.DATE, days); //minus number would decrement the days
+    //return cal.getTime();
+//}
+
 fun BookedCarRepository.findAllIdsOfBookedCarsBetween(startDate: Date, endDate: Date): List<Int> {
     val allBookedCars = this.findAll()
     val bookedInPeriod = allBookedCars.filter {
@@ -45,6 +53,8 @@ fun getDateFrom(dateString: String) : Date{
 fun Date.getProperFormat(): String {
     return format.format(this)
 }
+
+fun Date.truncateDay(): Date = getDateFrom(this.getProperFormat())
 
 fun <T> CrudRepository<T, Int>.findOne(id: Int): T? {
     val entity = this.findById(id)
