@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import java.util.Date
+import java.util.*
+import com.rentautosofia.rentacar.util.*
 
 const val PATH_ADMIN_BOOKING = "admin/booking"
 
@@ -88,7 +89,6 @@ constructor(private val carRepository: CarRepository,
             }
         }))
 
-
         val viewBookings = allBookings.map { it.toBookedCarForView() }
 
         val bookedCarIds = viewBookings.map { it.car!!.id }.distinct()
@@ -108,13 +108,17 @@ constructor(private val carRepository: CarRepository,
     fun toDoNext(model: Model): String {
         model.addAttribute("view", "$PATH_ADMIN_BOOKING/toDoNext")
         val allBookings = this.bookedCarRepository.findAll()
-        val scheduledBookingsList = mutableListOf<ScheduledBooking?>()
+        var scheduledBookingsList = mutableListOf<ScheduledBooking?>()
 
         allBookings.forEach { booking ->
             booking.toScheduledBookingsList().forEach {
                 scheduledBookingsList.add(it)
             }
         }
+	val today = Date().truncateDay()
+	scheduledBookingsList = scheduledBookingsList.filter {
+		!it!!.date.before(today)
+	}.toMutableList()
 
         scheduledBookingsList.sortWith(Comparator(fun(b1: ScheduledBooking?, b2: ScheduledBooking?): Int {
             if (b1!!.date.before(b2!!.date)) return -1
