@@ -27,14 +27,16 @@ constructor(private val bookingRepository: BookingRepository,
             val forDeletion = it.findAll().filter { booking ->
                 today.after(booking.endDate) // endDate has already passed
             }
-            logger.warn("Deleted obsolete booking records: $forDeletion")
+            if (forDeletion.isNotEmpty()) 
+                logger.warn("Deleted obsolete booking records: $forDeletion")
             it.deleteAll(forDeletion)
         }
         bookingRequestRepository.let {
             val forDeletion = it.findAll().filter { booking ->
                 today.after(booking.endDate) // endDate has already passed
             }
-            logger.warn("Deleted obsolete bookingRequest records: $forDeletion")
+            if (forDeletion.isNotEmpty()) 
+                logger.warn("Deleted obsolete bookingRequest records: $forDeletion")
             it.deleteAll(forDeletion)
         }
         customerRepository.let {
@@ -42,7 +44,8 @@ constructor(private val bookingRepository: BookingRepository,
                 (customer.id !in bookingRequestRepository.findAll().map { it.customerId }) and
                         (customer.id !in bookingRepository.findAll().map { it.customerId })
             }
-            logger.warn("Deleted customers: $forDeletion")
+            if (forDeletion.isNotEmpty()) 
+                logger.warn("Deleted customers: $forDeletion")
             it.deleteAll(forDeletion)
         }
     }
