@@ -16,13 +16,18 @@ data class Car(@Column var name: String = "",
                @GeneratedValue(strategy = GenerationType.IDENTITY)
                var id: Int = 0) {
 
-    fun getPricePerDayFor(days: Int) = when (days) {
-        in 1 .. 3 -> this.price
-        in 4 .. 8 -> this.price - 7
-        in 9 .. 15 -> this.price - 15
-        in 16 .. Int.MAX_VALUE -> this.price - 20
-        else -> throw IllegalArgumentException("Cannot get get price per day for $days (NON-POSITIVE) days!!")
-    }
+    /**
+     * @param days - for backwards compatibility
+     * The price was supposed to change for a different
+     * rental duration
+     */
+    fun getPricePerDayFor(days: Int) = this.price //when (days) {
+//        in 1 .. 3 -> this.price
+//        in 4 .. 8 -> this.price - 7
+//        in 9 .. 15 -> this.price - 15
+//        in 16 .. Int.MAX_VALUE -> this.price - 20
+//        else -> throw IllegalArgumentException("Cannot get get price per day for $days (NON-POSITIVE) days!!")
+//    }
 }
 //
 //fun car(function: Car.() -> Unit): Car {
