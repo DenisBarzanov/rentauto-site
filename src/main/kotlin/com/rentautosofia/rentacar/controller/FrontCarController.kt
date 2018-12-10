@@ -76,6 +76,7 @@ constructor(private val carRepository: CarRepository,
                 endDate = getDateFrom(endDateString),
                 carId = car.id)
 
+        model.addAttribute("days", booking.startDate daysTill booking.endDate)
         model.addAttribute("totalPrice", booking.totalPrice)
 
         return "client-base-layout"

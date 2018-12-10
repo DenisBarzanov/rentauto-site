@@ -19,8 +19,9 @@ open class BaseBooking(@Column open var carId: Int = 0,
     @Transient // hibernate will ignore it
     var totalPrice: Int = 0
         get() {
+            val car = DataAccessUtils.carRepository.findOne(this.carId)!!
             val days = startDate daysTill endDate
-            return pricePerDay * days
+            return pricePerDay * days + car.depositAmount
         }
         private set
 

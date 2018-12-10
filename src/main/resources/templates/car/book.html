@@ -21,7 +21,8 @@
                                         <h1><a>[[${car.name}]]</a></h1>
                                         <div style="font-size: 25px" class="date"><i class="fa fa-calendar" aria-hidden="true"></i> Дата на взимане: [[${param.datetime_pick[0]}]]</div>
                                         <div style="font-size: 25px" class="date"><i class="fa fa-calendar" aria-hidden="true"></i> Дата на връщане: [[${param.datetime_off[0]}]]</div>
-                                        <div style="font-size: 25px" class="date"><i class="fa fa-money-bill-alt" aria-hidden="true"></i> TOTAL: &euro;[[${totalPrice}]]</div>
+                                        <div style="font-size: 25px" class="date">Deposit: +&euro;[[${car.deposit}]]</div>
+                                        <div style="font-size: 25px" class="date"><i class="fa fa-money-bill-alt" aria-hidden="true"></i> TOTAL: &euro;[[${car.price}]] * [[${days}]]d + &euro;[[${car.deposit}]] = &euro;[[${totalPrice}]]</div>
                                     </div>
                                     <div>
                                         <form th:action="@{/car/{id}/book(id=${car.id})}" id="confirmForm" method="POST" >
