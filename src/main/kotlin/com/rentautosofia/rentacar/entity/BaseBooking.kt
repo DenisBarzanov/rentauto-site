@@ -21,7 +21,7 @@ open class BaseBooking(@Column open var carId: Int = 0,
         get() {
             val car = DataAccessUtils.carRepository.findOne(this.carId)!!
             val days = startDate daysTill endDate
-            return pricePerDay * days + car.depositAmount
+            return pricePerDay * days + car.deposit
         }
         private set
 

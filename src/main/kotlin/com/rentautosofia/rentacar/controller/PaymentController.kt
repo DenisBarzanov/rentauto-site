@@ -31,13 +31,13 @@ class PaymentController(@Autowired
     @PostMapping("/pay")
     fun pay(model: Model, request: HttpServletRequest, @RequestBody multiParams: MultiValueMap<String, String>): String {
         val params = multiParams.toSingleValueMap()
-//        val depositAmount: Int
-        //depositAmount = //if (params["deposit"] != null) {
+//        val deposit: Int
+        //deposit = //if (params["deposit"] != null) {
             //params["deposit"]!!.toInt()
         //} else {
         val booking = bookingRepository.findOne(params["orderId"]!!.toInt())!!
         val car = carRepository.findOne(booking.carId)!!
-//        depositAmount = car.getPricePerDayFor(booking.startDate daysTill booking.endDate)
+//        deposit = car.getPricePerDayFor(booking.startDate daysTill booking.endDate)
         //}
         val cancelUrl = URLUtils.getBaseURl(request) + PAYPAL_CANCEL_URL
         val successUrl = URLUtils.getBaseURl(request) + PAYPAL_SUCCESS_URL
@@ -52,7 +52,7 @@ class PaymentController(@Autowired
 
         try {
             val payment = paypalService.createPayment(
-//                    depositAmount.toDouble(),
+//                    deposit.toDouble(),
                     amount.toFloat(),
                     "EUR",
                     PaypalPaymentMethod.paypal,

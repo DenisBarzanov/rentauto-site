@@ -15,7 +15,7 @@ data class Car(@Column var name: String = "",
                @Id
                @GeneratedValue(strategy = GenerationType.IDENTITY)
                var id: Int = 0,
-               @Column var depositAmount: Int = 0) {
+               @Column var deposit: Int = 0) {
 
     /**
      * @param days - for backwards compatibility
